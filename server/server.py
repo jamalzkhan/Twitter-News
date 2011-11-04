@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route("/")
 # This is where we need to setup the main UI
 def index():
-  return "Index Page!"
+  return "Index Page 1!"
 
 @app.route("/story/<int:story_id>")
 # This is where we need to setup the story UI. It doesn't have to be an ID, maybe we can use story name.
