@@ -12,6 +12,7 @@ class KeywordExtractor:
     self.keyword_limit_option = 'maxRetrieve={0}'.format(limit)
 
   def getKeywordsByURL(self, url):
+    """Gets Keywords given a particular URL in JSON format which is then put into a list"""
     # Building Alchemy API call
     call = self.stream +  '?' + self.apikey_option + "&" + 'url=' + url + "&" + self.output_option + '&' + self.keyword_limit_option
     data = urllib.urlopen(call)

@@ -1,12 +1,15 @@
 import time
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
+import db
 
 app = Flask(__name__)
+database = db.Database()
 
 @app.route("/")
 # This is where we need to setup the main UI
 def index():
-  return "Index Page 3!"
+  #For testing purposes, stub
+  return render_template('index.html')
 
 @app.route("/story/<int:story_id>")
 # This is where we need to setup the story UI. It doesn't have to be an ID, maybe we can use story name.
@@ -14,34 +17,32 @@ def index():
 def show_story(story_id):
   return "This is story {}".format(story_id)
 
-
 # API
-@app.route("/api/1/news")
-def api_main_news():
-  return jsonify({'news' : [1,2,3,4,5], 'timestamp': time.time()})
+# The API returns mainly json objects
+# If there is an error in your request then the json object with contain an 'error' field with a relevant message
 
-@app.route("/api/1/news/<int:timestamp>")
+@app.route("/api/news")
+def api_main_news():
+  """Returns the top news story summaries in the following format {'news':[array_of_stories_as_strings]}"""
+  return jsonify(database.getRecentStories(10), 'timestamp': time.time())
+
+@app.route("/api/news/<int:timestamp>")
 def api_main_news_since(timestamp):
   return jsonify({'news': [0], 'timestamp': time.time()})
 
-@app.route("/api/1/story/<int:story_id>")
-@app.route("/api/1/story/<int:story_id>/short")
-def api_story_short(story_id):
-  title = "News Story {}".format(story_id)
-  return jsonify({'title': title, 'short_summary': 'Lorem ipsum itae interdum metus cursus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubili'})
-
-
-@app.route("/api/1/story/<int:story_id>/long")
-def api_story_long(story_id):
-  title = "News Story {}".format(story_id)
-  return jsonify({'title': title, 'short_summary': 'Lorem ipsum itae interdum metus cursus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubili',
-                  'long_summary': 'Lorem ipsum itae interdum metus cursus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubili Lorem ipsum itae interdum metus cursus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubili Lorem ipsum itae interdum metus cursus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubili'})
-
-
+@app.route("/api/story/<story_id>")
+def api_story(story_id):
+  story = database.getStory(story_id)
+  if "error" in story:
+    return jsonify(story)
+  else:
+    title = "News Story {}".format(story["title"])
+    return jsonify({'title': title, 'summary': story["summary"]})
 
 if __name__ == "__main__":
   # Setting up debugging environment (server reloads itself and provides better error messages)
   app.debug = True
   app.run()
+  
   # This is, so that the website is externally visible
   #app.run(host='0.0.0.0')
