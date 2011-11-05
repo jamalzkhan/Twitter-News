@@ -1,4 +1,4 @@
-import datetime, json
+import datetime, json, time
 from pymongo import Connection
 from pymongo import objectid
 
@@ -23,7 +23,7 @@ class Database:
     stories_array = []
     for story in self.stories.find().sort('date', 1).limit(no_of_stories): 
       stories_array.append(str(story["_id"]))
-    stories = {'news': stories_array}
+    stories = {'news': stories_array, 'timestamp' : time.time()}
     return stories
     
   def getStory(self, story_id):

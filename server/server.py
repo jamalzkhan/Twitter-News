@@ -24,7 +24,7 @@ def show_story(story_id):
 @app.route("/api/news")
 def api_main_news():
   """Returns the top news story summaries in the following format {'news':[array_of_stories_as_strings]}"""
-  return jsonify(database.getRecentStories(10), 'timestamp': time.time())
+  return jsonify(database.getRecentStories(10));
 
 @app.route("/api/news/<int:timestamp>")
 def api_main_news_since(timestamp):
