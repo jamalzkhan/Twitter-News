@@ -69,7 +69,7 @@ class RssFetcher(threading.Thread):
       news_story["link"] = RssFetcher.gNews_get_link(entry["description"])
       news_story["summary"] = RssFetcher.gNews_get_summary(entry["description"])
       news_story["date"] = parser.parse(entry["updated"])
-      news_story["keywords"] = self.extractor.getKeywordsByURL(news_story["link"])
+      news_story["keywords"] = self.extractor.getKeywordsByURL(news_story["link_main_story"])
       news_stories.append(news_story)
     
     if self.verbose:
