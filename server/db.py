@@ -34,7 +34,7 @@ class Database:
       return {'error' : 'Invalid Id'}
     story = self.stories.find_one({'_id':id})  
     if story != None:
-      return {'title': story["title"], 'summary': story["summary"]}
+      return {'title': story["title"], 'summary': story["summary"], 'wordcloud': story["periods"][-1]["wordcloud"]}
     else:
       return {'error' : 'Story does not exist'}
       

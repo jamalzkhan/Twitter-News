@@ -36,8 +36,15 @@ def api_story(story_id):
   if "error" in story:
     return jsonify(story)
   else:
-    title = "News Story {}".format(story["title"])
-    return jsonify({'title': title, 'summary': story["summary"]})
+    return jsonify({'title': story["title"], 'summary': story["summary"], 'wordcloud': prepareWordCloud(story["wordcloud"])})
+
+
+def prepareWordCloud(cloud):
+  cloud = cloud.copy()
+  min_v = float(cloud[min(cloud, key=cloud.get)])
+  for w in cloud:
+    cloud[w] = cloud[w]/min_v
+  return cloud
 
 if __name__ == "__main__":
   # Setting up debugging environment (server reloads itself and provides better error messages)
