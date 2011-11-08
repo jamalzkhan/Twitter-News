@@ -18,7 +18,7 @@ class Database:
     self.database = self.connection[self.database_name]
     self.stories = self.database[self.story_collection_name]
   
-  def getRecentStories(self, no_of_stories):
+  def getRecentStories(self, no_of_stories=10):
     """Used to get the most recent stories in json format {news: [story_1, story_2,..,story_number_of_stories]}"""
     stories_array = []
     for story in self.stories.find().sort('date', 1).limit(no_of_stories): 
