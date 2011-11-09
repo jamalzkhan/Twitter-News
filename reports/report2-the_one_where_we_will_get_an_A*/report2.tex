@@ -33,6 +33,59 @@
 	\maketitle
 	
 	\section{Report I Amendment}
+  After submitting our first report we realised the Iteration plan we proposed was flawed. In many parts instead of focusing on the user facing features we have reported on the technical aspects of what we will do. One whole iteration was dedicated to ``Debugging, refactoring and optimisation''. That is not in the spirit of Agile Programming and, we believe, may incline the team to focus on less important things. WIth this in mind we've decided it would be very advisable if we revised our iteration plan rather quickly and followed that one, instead of the one submitted in Report One.
+
+  We've also realised the product and feature descriptions given in the first report suffered from similar misconceptions. We all knew what we wanted to build, but when tasked with putting our thoughts on paper we again focused on less relevant technical details, rather then overarching user facing features.
+
+  This section will detail the new iteration plan and describe what the project goals are in a more feature oriented manner. Bare in mind this is the iteration timeline and feature list we've agreed on soon after submitting the first report and there have been some changes to this detailed in the \emph{Progress} section. 
+
+  \subsection{Project Description and Key Requirements}
+  In this project we want to create a website that will allow people to see an aggregated public Twitter reaction to top news stories emerging around the world. We want people to be able to glance at our UI, se what's happening right now and what are the dominant trends on Twitter related to that story.
+
+  The key requirements of our project are:
+  \begin{itemize}
+   \item Displaying top news stories from Google News
+   \item Displaying relevant most influential tweets next to the stories
+   \item Displaying aggregated wordclouds next to the stories. This means analysing which words appear most often with relation to the news story.
+   \item The UI needs to be fluid and updating in real-time and on its own - the user should not be force to hit a refresh button at all. It should also be fun to look at.
+  \end{itemize}
+
+  The extensions we want to implement are:
+  \begin{itemize}
+   \item Attaching pictures related to the news story. These would be aggregated from Twitter and news articles.
+   \item Attaching a general category to news stories (art, politics, etc.). This would be based on the tweets related to the story, not the story itself. We want to know what people think the news is about, not what news editors tell them.
+   \item Displaying the general approval of the story. We can measure wether a tweet is positive or negative towards the topic (this is called \emph{sentiment analysis}) and we want to use these measurements to tell users wether the reaction to the news story is positive or negative.
+  \end{itemize}
+
+  \subsection{Iteration Details and Timeline}
+  This iteration timeline starts at the week of our initial report. Previous weeks were utilised to decide on the goals of our project and coordinate with our project supervisor.
+  \begin{description}
+   \item[Iteration 1] \emph{Weeks 1-2}\\
+   This iteration will also require us to do all of the initial setup. Find a way to fetch tweets relevant to news stories, etc. Hence the longer time period required.
+   \begin{itemize}
+     \item First attempt at the UI. It will be polished and new features will be added throughout iterations.
+     \item Display current news stories.
+     \item Generate keywords from news stories and fetch relevant tweets.
+   \end{itemize}
+   \item[Iteration 2] \emph{Week 3}
+   \begin{itemize}
+     \item Wordclouds generated from tweets related to news stories added to UI.
+     \item Top tweets related to news stories added to UI.
+   \end{itemize}
+   \item[Iteration 3] \emph{Week 4}
+   \begin{itemize}
+     \item Add the ability to analyse wether the tweets are positive or negative and present the aggregated result in the UI.
+     \item Fetch pictures relevant to news stories and present them in the UI.
+   \end{itemize}
+   \item[Iteration 4] \emph{Week 5}
+   \begin{itemize}
+     \item Categorise tweets and based on these categories categorise the news stories themselves. Add that to UI.
+   \end{itemize}
+   \item[Iteration 5] \emph{Week 6}
+   \begin{itemize}
+     \item Final application polish and validating if everything is \textbf{really really} working before final submission.
+   \end{itemize}
+  \end{description}
 	
 	\section{Progress}
 	
