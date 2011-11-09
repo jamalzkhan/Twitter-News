@@ -32,7 +32,7 @@
 \begin{document} 
 	\maketitle
 	
-	\section{Report I Amendment}
+	\section{Report I Amendments}
   After submitting our first report we realised the Iteration plan we proposed was flawed. In many parts instead of focusing on the user facing features we have reported on the technical aspects of what we will do. One whole iteration was dedicated to ``Debugging, refactoring and optimisation''. That is not in the spirit of Agile Programming and, we believe, may incline the team to focus on less important things. WIth this in mind we've decided it would be very advisable if we revised our iteration plan rather quickly and followed that one, instead of the one submitted in Report One.
 
   We've also realised the product and feature descriptions given in the first report suffered from similar misconceptions. We all knew what we wanted to build, but when tasked with putting our thoughts on paper we again focused on less relevant technical details, rather then overarching user facing features.
@@ -88,7 +88,17 @@
   \end{description}
 	
 	\section{Progress}
+	We are at the end of week three of the iteration schedule. We are more or less on schedule but our iteration plan needed some changes. We'll talk about the revised iteration plan in the next section, for now let's focus on what we've accomplished and what problems we have had.
 	
+	\subsection{Iteration 1}
+	We have completed this iteration, but some parts of it were finished long after the other parts. To start with we had to do all of initial setup (continuos integration, basic database, deciding on and writing the basic architecture), which took us about a week to complete and we consider that part a success.
+	
+	One of the decisions we've made was to have the analysis part and the UI part of the application as separate as possible. We still think it was a good decision (it is going to make extending the application much easier), but it created a bit of a disconnect between the team responsible for the backend and the frontend team. We believe that this caused us to put off connecting the UI to the API and the API to the database for too long. It ended up being a part of the second iteration and there were some unforeseen problems that meant we had to put off implementing top tweets in the UI for later. The UI and the analysis were good on their own, but connecting them together proved to be more difficult. In the future we plan to diminish the results of this disconnect by properly utilising continuos integration (so far we haven't been able to see all the changes live, but it should change soon) and shifting people between the UI and the analysis teams.
+	
+	The other problem we've encountered was of a technical nature. We tried to design our own keyword generator, but it turned out to be challenging and started to take quite a lot of time. Since generating keywords was not a goal of our project we decided to use an external API\footnote{\url{http://www.alchemyapi.com/}} to perform that task. It works, but unfortunately the quality of keywords is quite low (we get keywords such as \emph{video}, or \emph{news} which make for a lot of irrelevant tweets). We provisionally added improving the keyword generation as part of one of the next iterations.
+	
+	\subsection{Iteration 2}
+	Most of the iteration has been completed. Wordclouds are being generated and displayed in the UI, and we have the backend part done for displaying top tweets. Unfortunately for reasons outlined in the previous section we have not been able to implement the UI part responsible for displaying them. Part of the integration between the UI and the backend analysis thread has been moved here and has been completed.
 	\section{Revisions}
 	
 	\section{People Management}
