@@ -1,0 +1,56 @@
+<link rel="stylesheet" href="style.css"/>
+
+<script src="js/jquery-1.6.2.min.js"></script>
+<script src="jquery.masonry.min.js"></script>
+
+<div id="container" class="centered">
+<!--
+  <div id='b0' class='box col' onclick='boxClick(0);'>
+    <div id='bt0' class='boxw' style='width:190px; height:130px;'><h2>Title</h2><p>Summary</p></div>
+    <div class='boxw' style='width:190px; height:130px; float:right; overflow:hidden;'><img style='width:inherit;' src='http://blog.impcanada.com/wp-content/uploads/2010/12/new_twitter_bird_vector_by_eagl0r-d2yth6g.png'></div>
+    <div class='boxw' style='width:190px; height:115px;'>Sentiment</div>
+    <div id='btw0' class='boxw' style='width:190px; height:250px; float:right;'>Tweets</div>
+    <div class='boxw' style='width:190px; height:115px;'>Word Cloud</div>
+  </div>
+-->
+</div>
+
+<script type="text/javascript">
+
+function addBox(id) {
+  box = "<div id='b" + id + "' class='box col' onclick='boxClick(0);'><div id='bt" + id + "' class='boxw' style='width:190px; height:130px;'><h2>Title</h2><p>Summary</p></div><div class='boxw' style='width:190px; height:130px; float:right; overflow:hidden;'><img style='width:inherit;' src='http://blog.impcanada.com/wp-content/uploads/2010/12/new_twitter_bird_vector_by_eagl0r-d2yth6g.png'></div><div class='boxw' style='width:190px; height:115px;'>Sentiment</div><div id='btw" + id + "' class='boxw' style='width:190px; height:250px; float:right;'>Tweets</div><div class='boxw' style='width:190px; height:115px;'>Word Cloud</div></div>";
+  $("#container").append(box);
+}
+
+function changeBox(boxnum) {
+    return function(data) {
+      if (!document.getElementById("b" + boxnum)) { 
+        addBox(boxnum);
+        $('#container').masonry('reload');
+      }
+      summary = data.short_summary;
+      if(data.long_summary != null) summary = data.long_summary;
+      $("#bt"+boxnum).html("<h2>" + data.title + "</h2><p>" + summary + "</p>");
+    }
+}
+
+function boxClick(boxnum) {
+  console.log($("#bt"+boxnum).height());
+}
+
+$(document).ready(function() {
+  $('#container').masonry({
+    // options
+    itemSelector : '.box',
+    isAnimated: true,
+    isFitWidth: true
+  });
+  
+  $.getJSON("proxy.php?url=api/news", function(data) {
+  for(i = 0; i < data.news.length; i++) {
+    $.getJSON("proxy.php?url=api/story/"+data.news[i]+"/short", changeBox(i));
+  }
+});
+});
+
+</script>
