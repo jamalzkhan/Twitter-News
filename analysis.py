@@ -44,8 +44,8 @@ class Analysis(threading.Thread):
         tweet_text_list.append(self.tweet_collection.find_one({"_id" : tweet_id}, {"text" : 1})['text'])
 
       text = " ".join([k for k in tweet_text_list]).lower()
-      words = [w for w in re.findall("\w{4,20}",text) if w not in self.blacklist]
-      count_data = dict(col.Counter(words).most_common(5))
+      words = [w for w in re.findall("\w{3,20}",text) if w not in self.blacklist]
+      count_data = dict(col.Counter(words).most_common(30))
       print count_data
 
       self.stories_collection.update({"title":story["title"],"periods.period" : period_data['periods'][0]['period']},{"$set": {"periods.$.wordcloud": count_data}},True)
