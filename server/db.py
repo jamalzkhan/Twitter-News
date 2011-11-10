@@ -52,5 +52,7 @@ class Database:
 
 if __name__ == "__main__":
   d = Database()
-  print d.getRecentStories(10)
-  print d.getStory("4eb428e91786f0117a000003")
+  #print d.getRecentStories(10)
+  #print d.getStory("4eb428e91786f0117a000003")
+  print d.getStoriesByTimeStamp()
+  
