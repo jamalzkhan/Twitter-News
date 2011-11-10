@@ -99,11 +99,20 @@
 	
 	\subsection{Iteration 2}
 	Most of the iteration has been completed. Wordclouds are being generated and displayed in the UI, and we have the backend part done for displaying top tweets. Unfortunately for reasons outlined in the previous section we have not been able to implement the UI part responsible for displaying them. Part of the integration between the UI and the backend analysis thread has been moved here and has been completed.
+	
 	\section{Revisions}
+	
+	Our key requirements have not changed, but rather we have made a few extensions that have been mentioned in the first section of this report. The main ones include having pictures for each news story and also seeing the general public reaction to the particular news story by using sentiment analysis. We have discussed the proposed changes with our supervisor, who has approved.
+  
+  There have been no infrastructure changes to our project. We are still using a Python backend, with a JavaScript (jQuery) front end, so we can still use our computers for the testing stage. Having said this, we have also set up continuous integration on a VPS where we push code.
+  
+  We initially though that our progress would be measured by getting visible results. As our project is web based these results would be seeing news stories on a web page and relevant tweets. However our view on this has changed, we have been writing a lot of code and testing its functionality. Although we do value that we need to have a good looking and working web app, we are also focussing on making all the backend functionality perfect so that we do not face any problems in the next few week as we pursue making a good looking interface.
+	
+	
 	
 	\section{People Management}
 	
-	As it often happens with group projects, problems relating group interactions and dynamics surface. Firstly, in our group, everyone knows each other well and is good friends with everyone else, which reduces the authoritative attitude of any one group member towards others. In a real life project, you have a manager with an authoritative position to do things such as lay you off, which certainly induces at least a little bit of motivation. In a university project where all the members are good friends, it is harder to establish an authority that is able to motivate others, especially during a time where everyone has a lot of other personal tasks at hand.
+	As it often happens with group projects, problems relating group interactions and dynamics surface. Firstly, in our group, everyone knows each other well and is good friends with everyone else, which reduces the authoritative attitude of any one group member towards others. In a real life project, you have a manager with an authoritative position to do things such as lay you off, which certainly induces at least a little bit of motivation. In a university project where all the members are good friends, it is harder to establish an authority that is able to motivate others, especially during a time where everyone has a lot of other personal tasks at hand, motivation has to come from within the group members.
 	
 	During this term all of us have lot of other personal responsibilities, including a lot of coursework for other subjects, setting up and studying for internship interviews for next year, and teaching PMT classes, among many others. Considering every one of us has so many personal tasks that directly affect just him and not the group, we are seeing decreased motivation towards the project from all group members. We are directly experiencing \emph{Social Loafing}\footnote{\url{http://en.wikipedia.org/wiki/Social_loafing}}, which is ``the phenomenon of people exerting less effort to achieve a goal when they work in a group than when they work alone.'' It still seems that we are having problems keeping to the iteration task assignment on Trello\footnote{\url{http://trello.com}}, ie we are not completing the iteration subtasks within the timeline. The root cause of this is mostly likely related to the above explained \emph{social loathing}, and diffusion of responsibility within a group without a clear authoritative figure.
 	
@@ -114,5 +123,16 @@
 	We try to establish fair contribution by everyone by assigning to everyone tasks on Trello. We have planned to have frequent scrum meetings regarding the completion of this tasks, but instead, since we all see each other during lectures anyways, we usually discuss the progress without having a dedicated meeting. What we need to do is actually get into the habit of having a dedicated progress meeting more frequently, where everyone has to showcase what they achieved in the previous 2 or 3 days.
 	
 	\section{Ethical and Environmental Impact}	
+	
+	The ethical issues we have to address are as follows:
+	
+	\begin{itemize}
+	  
+	  \item All technologies that we are using are open source. Python has an OSI-approved license\footnote{\url {http://docs.python.org/license.html}}, our server is written using Flask which is BSD Licenced\footnote{\url{http://flask.pocoo.org/docs/license/}} and MongoDB is also open source\footnote{\url{http://www.mongodb.org/display/DOCS/Licensing}}.
+	  
+	  \item We will eventually want to store Twitter usernames and passwords of our users, one way of doing this is storing the password in our database, which is risky. If our database is infiltrated then we will be compromising our users Twitter credentials. A way to get over this is to make an OAuth Twitter App and in this way the password remains a credential only shared between the user and Twitter and not us. 
+	  
+  \end{itemize}
+  
 
 \end{document}
