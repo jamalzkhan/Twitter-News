@@ -40,6 +40,8 @@ def api_story(story_id):
 
 
 def prepareWordCloud(cloud):
+  if len(cloud) == 0:
+    return {}
   cloud = cloud.copy()
   min_v = float(cloud[min(cloud, key=cloud.get)])
   for w in cloud:
