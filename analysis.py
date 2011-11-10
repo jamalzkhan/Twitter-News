@@ -62,11 +62,15 @@ class Analysis(threading.Thread):
       if not in_db:
         if self.verbose:
           print "[INFO] Analysis Thread: Story {0} is not in db. Adding...".format(story["title"])
+        story["update_time"] = time.time()
         self.stories_collection.insert(story)
       else:
         if self.verbose:
           print "[INFO] Analysis Thread: Story {0} is in db. Updating date.".format(story["title"])
         in_db.update({"$set": {"date": story["date"]}})
+        if self.verbose:
+          print "[INFO] Analysis Thread: Story {0} is in db. Updating update_time.".format(story["title"])
+        in_db.update({"$set": {"update_time": time.time()}})
         if self.verbose:
           print "[INFO] Analysis Thread: Story {0} is in db. Updating keywords.".format(story["title"])
         in_db.update({"$set": {"keywords": story["keywords"]}})

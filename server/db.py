@@ -24,7 +24,7 @@ class Database:
   def getRecentStories(self, no_of_stories=10):
     """Used to get the most recent stories in json format {news: [story_1, story_2,..,story_number_of_stories]}"""
     stories_array = []
-    for story in self.stories.find().sort('date', 1).limit(no_of_stories): 
+    for story in self.stories.find().sort('update_date', -1).limit(no_of_stories): 
       stories_array.append(str(story["_id"]))
     stories = {'news': stories_array, 'timestamp' : time.time()}
     return stories
