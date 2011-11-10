@@ -19,7 +19,14 @@ class Database:
     self.stories = self.database[self.story_collection_name]
     
     
-
+  def getStoriesByTimeStamp(self, time_stamp, no_of_stories=10):
+    """Used to get the most recent stories since the given timestamp"""
+    stories_array = []
+    stories = {}
+    for story in self.stories.find({'created_at' : { '$gte': time_stamp }}).sort('created_at', -1).limit(no_of_stories):
+      stories_array.append(str(story["_id"]))
+    stories = {'news': stories_array, 'timestamp' : time.time()}
+    return stories
   
   def getRecentStories(self, no_of_stories=10):
     """Used to get the most recent stories in json format {news: [story_1, story_2,..,story_number_of_stories]}"""
@@ -54,5 +61,5 @@ if __name__ == "__main__":
   d = Database()
   #print d.getRecentStories(10)
   #print d.getStory("4eb428e91786f0117a000003")
-  print d.getStoriesByTimeStamp()
+  print d.getStoriesByTimeStamp(time)
   

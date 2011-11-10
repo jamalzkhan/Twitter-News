@@ -63,6 +63,7 @@ class Analysis(threading.Thread):
         if self.verbose:
           print "[INFO] Analysis Thread: Story {0} is not in db. Adding...".format(story["title"])
         story["update_time"] = time.time()
+        story["created_at"] = time.time()
         self.stories_collection.insert(story)
       else:
         if self.verbose:
