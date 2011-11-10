@@ -7,7 +7,7 @@ class Twitinfo:
   def start(self):
     self.r = rss_fetcher.RssFetcher().start()
     self.s = stream_reader.StreamReader().start()
-    self.a = analysis.Analysis(verbose=True,sleeptime=30).start()
+    self.a = analysis.Analysis().start()
   
 if __name__ == "__main__":
   Twitinfo().start()
