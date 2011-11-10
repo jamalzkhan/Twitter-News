@@ -18,6 +18,16 @@ class Database:
     self.database = self.connection[self.database_name]
     self.stories = self.database[self.story_collection_name]
   
+  
+  def getStoriesByTimeStamp(self, no_of_stories=10, time_stamp=time.time()):
+    """Used to get the most recent stories since the given timestamp"""
+    stories_array = []
+    for story in self.stories.find({'api_time' : { '$lte': time_stamp }}).sort('api_time'):
+      stories_array.append(str(story["_id"]))
+      stories = {'news': stories_array}
+      return stories
+    
+  
   def getRecentStories(self, no_of_stories=10):
     """Used to get the most recent stories in json format {news: [story_1, story_2,..,story_number_of_stories]}"""
     stories_array = []
@@ -50,4 +60,5 @@ class Database:
 if __name__ == "__main__":
   d = Database()
   print d.getRecentStories(10)
-  print d.getStory("4eb428e91786f0117a000003")
+  #print d.getStory("4eb428e91786f0117a000003")
+  print d.getStoriesByTimeStamp()

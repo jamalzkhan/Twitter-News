@@ -63,6 +63,9 @@ class Analysis(threading.Thread):
         if self.verbose:
           print "[INFO] Analysis Thread: Story {0} is not in db. Adding...".format(story["title"])
         self.stories_collection.insert(story)
+        if self.verbose:
+          print "[INFO] Analysis Thread: Story {0} is in db. Updating API time.".format(story["title"])
+        in_db.update({"$set": {"api_time": time.time()}})
       else:
         if self.verbose:
           print "[INFO] Analysis Thread: Story {0} is in db. Updating date.".format(story["title"])
