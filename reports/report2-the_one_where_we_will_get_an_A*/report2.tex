@@ -33,7 +33,49 @@
 	\maketitle
 	
 	\section{Report I Amendments}
-  After submitting our first report we realised the Iteration plan we proposed was flawed. In many parts instead of focusing on the user facing features we have reported on the technical aspects of what we will do. One whole iteration was dedicated to ``Debugging, refactoring and optimisation''. That is not in the spirit of Agile Programming and, we believe, may incline the team to focus on less important things. With this in mind we've decided it would be very advisable if we revised our iteration plan rather quickly and followed that one, instead of the one submitted in Report One.
+  After submitting our first report we realised the Iteration plan we proposed was flawed. 
+%Original plan: 	
+	% \begin{description}
+	%   \item[First Iteration] MVP - basic news augmenting functionality and live updates.
+	%     \begin{itemize}
+	%       
+	%       \item Setup DB and server to receive Tweets and RSS
+	%       
+	%       \begin{itemize}
+	%         \item Research suitable DB (MongoDB)
+	%         \item Select frameworks and architecture
+	%         \item digging into twitter API \& RSS
+	%       \end{itemize}
+	%       
+	%       \item Design algorithms to generate keywords (Look into using natural language processing libraries, there are a lot available for Python)
+	%       \item UI Mockups and UX Research
+	%       \item UI Implementation: Framework and plugins to use (eg jQuery, jQuery plugins, Twitter Bootstrap, etc)
+	%       \item Getting the web app hosted
+	%     \end{itemize}
+	%     \item[Second Iteration] 
+	%     Polished and Efficient implementation including Debugging, refactoring and optimisation
+	%     \item[Third Iteration] 
+	%     Extensions including:
+	%       \begin{itemize}
+	%         \item Sentiment Analysis algorithm
+	%         \item Categorization algorithm    
+	%       \end{itemize}
+	%       
+	%     \item[Fourth Iteration] 
+	%     Final Product
+	%   
+	%   
+	% \end{description}
+	% 
+	% \begin{itemize}
+	% 	\item Week 1: Setup DB and server to receive Tweets and RSS, UI Mockups
+	% 	\item Week 2: UI Implementation, Design algorithms to generate keywords
+	% 	\item Week 3: Getting the web app online (Beta, Iteration 1)
+	% 	\item Week 4: Debugging, refactoring and optimization (Iteration 2)
+	% 	\item Week 5: Work on Extensions, Sentiment analysis algorithm, Categorization algorithm (Iteration 3)
+	% 	\item Week 6: Final polishing of app (Iteration 4)
+	% \end{itemize}
+In many parts instead of focusing on the user facing features we have reported on the technical aspects of what we will do. One whole iteration was dedicated to ``Debugging, refactoring and optimisation''. That is not in the spirit of Agile Programming and, we believe, may incline the team to focus on less important things. With this in mind we've decided it would be very advisable if we revised our iteration plan rather quickly and followed that one, instead of the one submitted in Report One.
 
   We've also realised the product and feature descriptions given in the first report suffered from similar misconceptions. We all knew what we wanted to build, but when tasked with putting our thoughts on paper we again focused on less relevant technical details, rather then overarching user facing features.
 
@@ -97,7 +139,10 @@
 	We have completed this iteration, but some parts of it were finished long after the other parts. To start with we had to do all of initial setup (continuos integration, basic database, deciding on and writing the basic architecture), which took us about a week to complete and we consider that part a success.
 	
 	One of the decisions we've made was to have the analysis part and the UI part of the application as separate as possible. We still think it was a good decision (it is going to make extending the application much easier), but it created a bit of a disconnect between the team responsible for the backend and the frontend team. We believe that this caused us to put off connecting the UI to the API and the API to the database for too long. It ended up being a part of the second iteration and there were some unforeseen problems that meant we had to put off implementing top tweets in the UI for later. The UI and the analysis were good on their own, but connecting them together proved to be more difficult. In the future we plan to diminish the results of this disconnect by properly utilising continuos integration (so far we haven't been able to see all the changes live, but it should change soon) and shifting people between the UI and the analysis teams.
+	% Mention we have set up our private git repo? From report1:
+	% We will be using git for version control. Currently the project is hosted on github\footnote{\url{https://github.com/radicality/Twitter-News}}, but we will probably move it soon to our own VPS to set up continuos integration, and instant deployment.
 	
+	%	'Failure to develop keyword algorithm in time' was a potential risk
 	The other problem we've encountered was of a technical nature. We tried to design our own keyword generator, but it turned out to be challenging and started to take quite a lot of time. Since generating keywords was not a goal of our project we decided to use an external API\footnote{\url{http://www.alchemyapi.com/}} to perform that task. It works, but unfortunately the quality of keywords is quite low (we get keywords such as \emph{video}, or \emph{news} which make for a lot of irrelevant tweets). We provisionally added improving the keyword generation as part of one of the next iterations.
 	
 	We've also implicitly assumed that the UI should be live updating from the start. This is not the case right now however, as we've realised implementing it would take a lot of valuable time and we pushed that forward in our revised schedule.
@@ -136,6 +181,8 @@
 	
 	Neither our key requirements, nor the extensions have changed. We have had a little bit of problems with implementing some of the features, but we believe we are on track to implement everything now.
   
+	%	FYI only... from report1,
+	%	We have decided to use Python as the core programming language, along with MongoDB as the persistent datastore for keeping news and tweet information. MongoDB is particularly useful, as it allows easy saving and retrieval of tweets that come in json format and as opposed to a rigid SQL database it allows us to store `documents'. For the UI we'll be using HTML5 and JavaScript.
   There have been no infrastructure changes to our project. We are still using a Python backend, a JavaScript (jQuery) front end and a python web framework called Flask to provide a RESTful\footnote{\url{http://en.wikipedia.org/wiki/Representational_state_transfer}} API for our UI, so we can still use our computers for the testing stage. Having said this, we have also set up continuous integration on a VPS where we push code.
 
  On the outer layer resides Nginx, which proxies requests to the lower level uwsgi process that serves the api and the main page. Static content, such as javascript files or images, are directly handled by Nginx. Whenever a code push occurs, we have a git post-receive hook that copies the static files appropriately, and restarts the uwsgi process. This means that as soon as a code push occurs, the new version is live.
@@ -145,6 +192,8 @@
 	From now on, we will strive to concentrate on the holistic effort, and make sure new and working user visible features are frequent.
 	
 	\subsection{Testing}
+	%	We said we are using PyUnit, is that still true?
+	%	We will be using a unit testing framework to check that the code we are writing meets its specification. This will be done using the PyUnit\footnote{\url{http://pyunit.sourceforge.net/}} testing framework.
 	
 	In the previous report we wanted to use unit tests as a primary way of testing various functional parts of the project. 
 	
@@ -157,10 +206,15 @@
 	
 	During this term all of us have lot of other personal responsibilities, including a lot of coursework for other subjects, setting up and studying for internship interviews for next year, and teaching PMT classes, among many others. Considering every one of us has so many personal tasks that directly affect just him and not the group, we are seeing decreased motivation towards the project from all group members. We are directly experiencing \emph{Social Loafing}\footnote{\url{http://en.wikipedia.org/wiki/Social_loafing}}, which is ``the phenomenon of people exerting less effort to achieve a goal when they work in a group than when they work alone.'' It still seems that we are having problems keeping to the iteration task assignment on Trello\footnote{\url{http://trello.com}}, ie we are not completing the iteration subtasks within the timeline. The root cause of this is mostly likely related to the above explained \emph{social loathing}, and diffusion of responsibility within a group without a clear authoritative figure.
 	
+	%The first line is... erm....
 	Our current proposed solution is rationalising to everyone the relative importance of this project compared to all other coursework - $440/1700$ points. Receiving a \textbf{C} for our first report was disappointing and a blow to our motivation, as none of us had gotten a C in Imperial before, but on the other hand it was a sign we need increase the quality of our work and approach the project more seriously.
 	
+	% Quotable stuff from report1
+	% For development itself we will try to utilise \emph{paired programming} as much as possible. We believe this will allow all members of the team to understand major parts of the application in detail and help to even out different levels of expertise between team members. We also believe it will boost the team's productivity.
 	We have separated our group of five people as follows: 2 for UI, and 3 for backend, so everyone is doing what they are more comfortable with. Both of these subteams do pair programming. Many times one of us knows something useful, for example a specific MongoDB query syntax, and can help the other without having to resolve to Google. This ensures a good flow of information between the team, and levels out our knowledge. Nevertheless, what we still thrive to have is a \emph{bus count}\footnote{\url{bit.ly/j1zquA} - quite interesting article.}\footnote{Bus count - ``how many people in your team have to get hit by a bus before you’re all dead in the water''} of the size of our group - we want everyone to understand, and if needed, to work on any part of our stack.
 	
+	% Quotable stuff from report1
+	% We shall have scrum meetings either daily, or every two days, where we will discuss the progress of the task everyone has been assigned to for that week. We aim to successfully complete the required tasks at the end of each iteration period. This is how we will measure our velocity. If we are not getting everything done from the current period, it means we have not achieved proper velocity.
 	We try to establish fair contribution by everyone by assigning to everyone tasks on Trello. We have planned to have frequent scrum meetings regarding the completion of this tasks, but instead, since we all see each other during lectures anyways, we usually discuss the progress without having a dedicated meeting. What we need to do is actually get into the habit of having a dedicated progress meeting more frequently, where everyone has to showcase what they achieved in the previous 2 or 3 days.
 	
 	\section{Ethical and Environmental Impact}	
@@ -177,6 +231,7 @@
 		
 		\item In addition, the news stories we are aggregating from Google News may be biased as it is based on what Google believes to be the top stories in the US, and other peoples point of view as to what news is top may differ around the world.
 		
+		%'Small amount of tweets for a news story' & 'DB grows too quickly / run out of space / efficiency problems.' were potential risks in report1
 		\item Our project currently only works for just top 10 stories from google news, and the volume of tweets is already quite high (can be as high as 50 a second). This means that the database is growing large quite quickly. If this project were to be extended to support many more news services, it would have to be distributed over more machines, along with more database instances to support the larger volume of data. This would be something to consider if machines or EC2 instances were to be bought. This could be classified as an environmental issue.
 	  
 	  
