@@ -1,6 +1,7 @@
 config.conf
 *.pyc
 out/
+mongo/
 *.pickle
 *.aux
 *.log
