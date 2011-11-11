@@ -105,8 +105,12 @@
 	Our key requirements have not changed, but rather we have made a few extensions that have been mentioned in the first section of this report. The main ones include having pictures for each news story and also seeing the general public reaction to the particular news story by using sentiment analysis. We have discussed the proposed changes with our supervisor, who has approved.
   
   There have been no infrastructure changes to our project. We are still using a Python backend, with a JavaScript (jQuery) front end, so we can still use our computers for the testing stage. Having said this, we have also set up continuous integration on a VPS where we push code.
+
+	We have also set up continuous integration on a VPS. On the outer layer resides Nginx, which proxies requests to the lower level uwsgi process that serves the api and the main page. Static content, such as javascript files or images, are directly handled by Nginx. Whenever a code push occurs, we have a git post-receive hook that copies the static files appropriately, and restarts the uwsgi process. This means that as soon as a code push occurs, the new version is live.
   
-  Our progress is measured by seeing if we are satisfying the requirements that we have set out for each one of our iterations and hitting the deadline we have set out for it. In this sense we have not changed the way in which we measure progress.
+	In our previous report, we failed to realise that progress should be measured by user-visible features, instead of things like backend work that doesn't bring user-visible usable features. We now think our progress should be measured by visible results to the end user. As our project is web based, these results would include seeing news stories on a web page along with relevant tweets. Nevertheless, our progress with user visible features has been rather slow as we have concentrated more on the backend, which is not a user visible feature.
+
+	From now on, we will strive to concentrate on the holistic effort, and make sure new and working user visible features are frequent.
 	
 	
 	\section{People Management}
@@ -123,13 +127,17 @@
 	
 	\section{Ethical and Environmental Impact}	
 	
-	The ethical issues we have to address are as follows:
+	The ethical issues we have thought about addressing are as follows:
 	
 	\begin{itemize}
 	  
-	  \item All technologies that we are using are open source. Python has an OSI-approved license\footnote{\url {http://docs.python.org/license.html}}, our server is written using Flask which is BSD Licenced\footnote{\url{http://flask.pocoo.org/docs/license/}} and MongoDB is also open source\footnote{\url{http://www.mongodb.org/display/DOCS/Licensing}}.
+	  \item All technologies that we are using are open source. Python has an OSI-approved license\footnote{\url {http://docs.python.org/license.html}}, our server is written using Flask which is BSD Licenced\footnote{\url{http://flask.pocoo.org/docs/license/}} and MongoDB is also open source\footnote{\url{http://www.mongodb.org/display/DOCS/Licensing}}. The server is the widely used Nginx, which has a BSD-like license.
 	  
-	  \item We will eventually want to store Twitter usernames and passwords of our users, one way of doing this is storing the password in our database, which is risky. If our database is infiltrated then we will be compromising our users Twitter credentials. A way to get over this is to make an OAuth Twitter App and in this way the password remains a credential only shared between the user and Twitter and not us. 
+		\item We are storing tweets, which are not our property. We copy the whole tweet to our database, which originally is the property of the original author and of Twitter. This is not exactly a compromising situation, but it nevertheless should be considered from an ethical standpoint.
+		
+		\item We are possibly aggregating information and presenting it in such a fashion that could reveal new and interesting patterns - patterns that might be surprising or ones that others don't agree with. We would also probably need to state that the results are merely the results of our algorithmic analysis, and not our personal viewpoint regarding the current news story.
+		
+		\item Our project currently only works for just top 10 stories from google news, and the volume of tweets is already quite high (can be as high as 50 a second). This means that the database is growing large quite quickly. If this project were to be extended to support many more news services, it would have to be distributed over more machines, along with more database instances to support the larger volume of data. This would be something to consider if machines or EC2 instances were to be bought. This could be classified as an environmental issue.
 	  
   \end{itemize}
   
