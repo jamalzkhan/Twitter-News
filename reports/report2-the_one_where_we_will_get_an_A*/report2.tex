@@ -187,7 +187,10 @@ In many parts instead of focusing on the user facing features we have reported o
  
 	Infrastructure-wise, on the outer layer resides Nginx, which proxies requests to the lower level uwsgi process that serves the api and the main page. Static content, such as javascript files or images, are directly handled by Nginx.
 	
-	  Other than internal things to help us work with the project, there have been no infrastructural changes. We are still using a Python backend, a JavaScript (jQuery) front end and a python web framework called Flask to provide a RESTful\footnote{\url{http://en.wikipedia.org/wiki/Representational_state_transfer}} API for our UI. For data storage, we are using MongoDB, which proving very useful and easy to use. After deploying and running the application for a couple of hours, we noticed rather high disk IO - we are planning to look over this and see how we can restructure our database queries, or lower their complexity, in order to reduce disk IO. For testing, we are using our personal computers.
+	  Other than internal things to help us work with the project, there have been no infrastructural changes. We are still using a Python backend, a JavaScript (jQuery) front end and a python web framework called Flask to provide API for our UI. For data storage, we are using MongoDB, which proving very useful and easy to use. After deploying and running the application for a couple of hours, we noticed rather high disk IO - we are planning to look over this and see how we can restructure our database queries, or lower their complexity, in order to reduce disk IO. For testing, we are using our personal computers.
+	  
+	  This is an information flow diagram that shows a high level view of our entire system:
+	  \includegraphics[scale=0.5]{infrastructure.png}
 	
 	\section{Revisions}
 	
