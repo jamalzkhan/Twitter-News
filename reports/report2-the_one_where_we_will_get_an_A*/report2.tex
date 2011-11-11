@@ -3,7 +3,7 @@
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{graphicx}
-\usepackage{polski}
+%\usepackage{polski}
 \usepackage[utf8]{inputenc}
 
 \setlength{\parindent}{0pt}
@@ -145,12 +145,24 @@ In many parts instead of focusing on the user facing features we have reported o
 	% We will be using git for version control. Currently the project is hosted on github\footnote{\url{https://github.com/radicality/Twitter-News}}, but we will probably move it soon to our own VPS to set up continuos integration, and instant deployment.
 	
 	%	'Failure to develop keyword algorithm in time' was a potential risk
-	The other problem we've encountered was of a technical nature. We tried to design our own keyword generator, but it turned out to be challenging and started to take quite a lot of time. In report one, we said "Failure to develop keyword algorithm in time" was a potential risk. Since generating keywords was not a goal of our project we decided to use an external API\footnote{\url{http://www.alchemyapi.com/}} to perform that task. It works, but unfortunately the quality of keywords is quite low (we get keywords such as \emph{video}, or \emph{news} which make for a lot of irrelevant tweets). We provisionally added improving the keyword generation as part of one of the next iterations.
+	The other problem we've encountered was of a technical nature. We tried to design our own keyword generator, but it turned out to be challenging and started to take quite a lot of time. In report one, we said ``Failure to develop keyword algorithm in time was a potential risk''. Since generating keywords was not a goal of our project we decided to use an external API\footnote{\url{http://www.alchemyapi.com/}} to perform that task. It works, but unfortunately the quality of keywords is quite low (we get keywords such as \emph{video}, or \emph{news} which make for a lot of irrelevant tweets). We provisionally added improving the keyword generation as part of one of the next iterations.
 	
-	We've also implicitly assumed that the UI should be live updating from the start. This is not the case right now however, as we've realised implementing it would take a lot of valuable time and we pushed that forward in our revised schedule.
+	We've also implicitly assumed that the UI should be live updating from the start. This is not the case right now however, as we've realised implementing it would take a lot of valuable time and we pushed that forward in our revised schedule. Burn down chart for this iteration is visible in Figure~\ref{burndown1}. According to it we haven;t been able to complete all the features in this iteration. Most of it due to some unforeseen technical difficulties and some people management issues. We talk about those in more detail in \emph{People Management}. Due to these problems we pushed some of the development to next iteration.
+	\begin{figure}
+	  \begin{center}
+	  \caption{\label{burndown1} Burn Down Chart for Iteration 1}
+		\includegraphics[scale=0.4]{burndown1.png}
+    \end{center}
+	\end{figure}
 	
 	\subsection{Iteration 2}
-	Most of the iteration has been completed. Wordclouds are being generated and displayed in the UI, and we have the backend part done for displaying top tweets. Unfortunately for reasons outlined in the previous section we have not been able to implement the UI part responsible for displaying them. Part of the integration between the UI and the backend analysis thread has been moved here and has been completed.
+	Most of the iteration has been completed. Wordclouds are being generated and displayed in the UI, and we have the backend part done for displaying top tweets. Unfortunately for reasons outlined in the previous section we have not been able to implement the UI part responsible for displaying them. Part of the integration between the UI and the backend analysis thread has been moved here and has been completed. Burn down chart for this iteration is visible in Figure~\ref{burndown2}. This shows we again had some problems with finishing all the features. We think the main reasons for that are the problems we had with \emph{People Management} which we outline in the appropriate section. We believe these will be fixed and next iteration should be right on track.
+	\begin{figure}
+	  \begin{center}
+	    \caption{\label{burndown2} Burn Down Chart for Iteration 2}
+		\includegraphics[scale=0.6]{burndown2.png}
+	  \end{center}
+	\end{figure}
 	
 	\subsection{Iteration 5}
 	When developing the UI we've realised how easy it was to attach relevant pictures to news stories. We've managed to incorporate that into the work done during Iteration 2, and moved it out of Iteration 5 in the revised schedule. 
@@ -234,11 +246,11 @@ In many parts instead of focusing on the user facing features we have reported o
 	
 	% Quotable stuff from report1
 	% For development itself we will try to utilise \emph{paired programming} as much as possible. We believe this will allow all members of the team to understand major parts of the application in detail and help to even out different levels of expertise between team members. We also believe it will boost the team's productivity.
-	We have separated our group of five people as follows: 2 for UI, and 3 for backend, so everyone is doing what they are more comfortable with. Both of these subteams do pair programming. Many times one of us knows something useful, for example a specific MongoDB query syntax, and can help the other without having to resolve to Google. This ensures a good flow of information between the team, and levels out our knowledge. Nevertheless, what we still thrive to have is a \emph{bus count}\footnote{\url{bit.ly/j1zquA} - quite interesting article.}\footnote{Bus count - ``how many people in your team have to get hit by a bus before you’re all dead in the water''} of the size of our group - we want everyone to understand, and if needed, to work on any part of our stack. This development technique follows with what we stated in report 1 - \emph{"For development itself we will try to utilise \emph{paired programming} as much as possible. We believe this will allow all members of the team to understand major parts of the application in detail and help to even out different levels of expertise between team members. We also believe it will boost the team's productivity."} Th
+	We have separated our group of five people as follows: 2 for UI, and 3 for backend, so everyone is doing what they are more comfortable with. Both of these subteams do pair programming. Many times one of us knows something useful, for example a specific MongoDB query syntax, and can help the other without having to resolve to Google. This ensures a good flow of information between the team, and levels out our knowledge. Nevertheless, what we still thrive to have is a \emph{bus count}\footnote{\url{bit.ly/j1zquA} - quite interesting article.}\footnote{Bus count - ``how many people in your team have to get hit by a bus before you’re all dead in the water''} of the size of our group - we want everyone to understand, and if needed, to work on any part of our stack. This development technique follows with what we stated in report 1 - ``For development itself we will try to utilise \emph{paired programming} as much as possible. We believe this will allow all members of the team to understand major parts of the application in detail and help to even out different levels of expertise between team members. We also believe it will boost the team's productivity.''
 	
 	% Quotable stuff from report1
 
-	We try to establish fair contribution by everyone by assigning to everyone tasks on Trello. In report one we said "We shall have scrum meetings either daily, or every two days, where we will discuss the progress of the task everyone has been assigned to for that week. We aim to successfully complete the required tasks at the end of each iteration period." We have planned to have frequent scrum meetings regarding the completion of tasks, but instead, since we all see each other during lectures anyways, we usually discuss the progress without having a dedicated meeting. What we need to do is actually get into the habit of having a dedicated progress meeting more frequently, where everyone has to showcase what they achieved in the previous 2 or 3 days.
+	We try to establish fair contribution by everyone by assigning to everyone tasks on Trello. In report 1 we said \emph{We shall have scrum meetings either daily, or every two days, where we will discuss the progress of the task everyone has been assigned to for that week. We aim to successfully complete the required tasks at the end of each iteration period.} We have planned to have frequent scrum meetings regarding the completion of tasks, but instead, since we all see each other during lectures anyways, we usually discuss the progress without having a dedicated meeting. What we need to do is actually get into the habit of having a dedicated progress meeting more frequently, where everyone has to showcase what they achieved in the previous 2 or 3 days.
 	
 	\section{Ethical and Environmental Impact}	
 	
