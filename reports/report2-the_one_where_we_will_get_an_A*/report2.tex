@@ -136,16 +136,24 @@
      \item Final application polish and validating if everything is \textbf{really really} working before final submission.
    \end{itemize}
   \end{description}
+  
+  \subsection{Notes on the revised schedule}
 	
 	Neither our key requirements, nor the extensions have changed. We have had a little bit of problems with implementing some of the features, but we believe we are on track to implement everything now.
   
-  There have been no infrastructure changes to our project. We are still using a Python backend, with a JavaScript (jQuery) front end, so we can still use our computers for the testing stage. Having said this, we have also set up continuous integration on a VPS where we push code.
+  There have been no infrastructure changes to our project. We are still using a Python backend, a JavaScript (jQuery) front end and a python web framework called Flask to provide a RESTful\footnote{\url{http://en.wikipedia.org/wiki/Representational_state_transfer}} API for our UI, so we can still use our computers for the testing stage. Having said this, we have also set up continuous integration on a VPS where we push code.
 
-	We have also set up continuous integration on a VPS. On the outer layer resides Nginx, which proxies requests to the lower level uwsgi process that serves the api and the main page. Static content, such as javascript files or images, are directly handled by Nginx. Whenever a code push occurs, we have a git post-receive hook that copies the static files appropriately, and restarts the uwsgi process. This means that as soon as a code push occurs, the new version is live.
+ On the outer layer resides Nginx, which proxies requests to the lower level uwsgi process that serves the api and the main page. Static content, such as javascript files or images, are directly handled by Nginx. Whenever a code push occurs, we have a git post-receive hook that copies the static files appropriately, and restarts the uwsgi process. This means that as soon as a code push occurs, the new version is live.
   
 	In our previous report, we failed to realise that progress should be measured by user-visible features, instead of things like backend work that doesn't bring user-visible usable features. We now think our progress should be measured by visible results to the end user. As our project is web based, these results would include seeing news stories on a web page along with relevant tweets. Nevertheless, our progress with user visible features has been rather slow as we have concentrated more on the backend, which is not a user visible feature.
 
 	From now on, we will strive to concentrate on the holistic effort, and make sure new and working user visible features are frequent.
+	
+	\subsection{Testing}
+	
+	In the previous report we wanted to use unit tests as a primary way of testing various functional parts of the project. 
+	
+	Whilst we will endeavor to continue with this, we also have quite a bit of interaction with the database and this database feeds directly to our API server for the UI. We want to test the end to end interaction between these two components. In order to accomplish this, we will insert dummy information in the database and test whether the API returns the correct JSON output we want.
 	
 	
 	\section{People Management}
