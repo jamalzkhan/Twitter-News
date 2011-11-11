@@ -55,7 +55,6 @@ class Database:
     for story in self.stories.find():
       stories.append(story["title"])
     return stories
-    
 
 if __name__ == "__main__":
   d = Database()
