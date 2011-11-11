@@ -100,12 +100,40 @@
 	
 	The other problem we've encountered was of a technical nature. We tried to design our own keyword generator, but it turned out to be challenging and started to take quite a lot of time. Since generating keywords was not a goal of our project we decided to use an external API\footnote{\url{http://www.alchemyapi.com/}} to perform that task. It works, but unfortunately the quality of keywords is quite low (we get keywords such as \emph{video}, or \emph{news} which make for a lot of irrelevant tweets). We provisionally added improving the keyword generation as part of one of the next iterations.
 	
-	We've also implicitly assumed that the UI should be live updating from the start. This is not the case right now however, as we've realised implementing it would take a lot of valuable time and we pushed that forward in our revision schedule.
+	We've also implicitly assumed that the UI should be live updating from the start. This is not the case right now however, as we've realised implementing it would take a lot of valuable time and we pushed that forward in our revised schedule.
 	
 	\subsection{Iteration 2}
 	Most of the iteration has been completed. Wordclouds are being generated and displayed in the UI, and we have the backend part done for displaying top tweets. Unfortunately for reasons outlined in the previous section we have not been able to implement the UI part responsible for displaying them. Part of the integration between the UI and the backend analysis thread has been moved here and has been completed.
 	
 	\section{Revisions}
+	
+	\subsection{Revised schedule}
+	\begin{description}
+   \item[Iteration 2] \emph{Week 6}
+   \begin{itemize}
+     \item Wordclouds generated from tweets related to news stories.
+     \item Influential tweets related to news stories.
+   \end{itemize}
+   \item[Iteration 3] \emph{Week 7}
+   \begin{itemize}
+     \item Add the ability to analyse whether the tweets are positive or negative and present the aggregated result in the UI.
+     \item Display most influential tweets relevant to the story.
+   \end{itemize}
+   \item[Iteration 4] \emph{Week 8}
+   \begin{itemize}
+     \item Categorise tweets and based on these categories categorise the news stories themselves. Add that to UI.
+     \item Improve keyword generation and thus the relevancy of information displayed to the end user.
+   \end{itemize}
+   \item[Iteration 5] \emph{Week 9}
+   \begin{itemize}
+     \item Make the UI update on it's without the need to refresh the browser.
+   \end{itemize}
+   \item[Iteration 6] \emph{Week 10}
+   \begin{itemize}
+     \item Final application polish and validating if everything is \textbf{really really} working before final submission.
+   \end{itemize}
+  \end{description}
+	
 	Neither our key requirements, nor the extensions have changed. We have had a little bit of problems with implementing some of the features, but we believe we are on track to implement everything now.
   
   There have been no infrastructure changes to our project. We are still using a Python backend, with a JavaScript (jQuery) front end, so we can still use our computers for the testing stage. Having said this, we have also set up continuous integration on a VPS where we push code.
