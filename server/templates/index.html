@@ -47,9 +47,16 @@ function addBox(id) {
   +       "<div class='dragger_container'><div class='dragger'></div></div>"
   +     "</div>"
   +   "</div>"
-  +   "<div class='boxw' style='width:190px; height:130px; float:right;'><div style='width:190px; height:130px; overflow:hidden;'><img id='bp" + id + "' style='width:190px; min-height:130px' src='http://blog.impcanada.com/wp-content/uploads/2010/12/new_twitter_bird_vector_by_eagl0r-d2yth6g.png'></div></div>"
+  +   "<div class='boxw' style='width:190px; height:130px; float:right;'><div style='width:190px; height:130px; overflow:hidden;'><img id='bp" + id + "' style='width:190px; min-height:130px' src='static/images/twitter.png'></div></div>"
   +   "<div class='boxw' style='width:190px; height:60px;'>Sentiment</div>"
-  +   "<div id='btw" + id + "' class='boxw' style='width:190px; height:250px; float:right;'>Tweets</div>"
+  +   "<div id='btwc" + id + "' class='boxw scrollbox2' style='width:190px; height:250px; float:right'>"
+  +     "<h2>Recent Tweets:</h2><div class='customScrollBox'>"
+  +       "<div class='container'>"
+  +         "<div id='btw" + id + "' class='content'></div>"
+  +       "</div>"
+  +       "<div class='dragger_container'><div class='dragger'></div></div>"
+  +     "</div>"
+  +   "</div>"
   +   "<div class='boxw' style='width:190px; height:170px;'><canvas id='bwc" + id + "' width='190' height='170'></div>"
   + "</div>";
   $("#container").append(box);
@@ -78,7 +85,20 @@ function changeBox(boxnum) {
       imageSearch.setSearchCompleteCallback(this, boxSearch(boxnum), [imageSearch]);
 
       imageSearch.execute('"' + data.title + '"');
+
+      if(data.keywords.length > 0)
+        $.ajax({type: "GET", url: "http://search.twitter.com/search.json?q="+data.keywords[0]+"&rpp=10&result_type=mixed", dataType: "jsonp", success: parseTweets(boxnum)});
     }
+}
+
+function parseTweets(boxnum) {
+  return function(data) {
+    for(i = 0; i < data.results.length; i++) {
+      var box = "<p style='width:inherit;'><strong>" + data.results[i].from_user + ":</strong> " + data.results[i].text + "</p>"
+      $("#btw"+boxnum).append(box);
+    }
+    setTimeout($("#btwc"+boxnum).mCustomScrollbar("vertical",300,"easeOutCirc",1.05,"fixed","yes","no",1),1000);
+  }
 }
 
 function boxClick(boxnum) {
