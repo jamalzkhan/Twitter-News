@@ -8,8 +8,6 @@ class WordStatistics:
     self.word_limit = limit
     self.tweet_collection = tweet_collection
     self.blacklist = [line.strip() for line in open('word_blacklist.txt')]
-    print self.blacklist
-
   
   def get_word_statistics_for_tweets(self, tweets):
     """Returns word statistics for the array of tweet ids supplied"""
@@ -20,4 +18,3 @@ class WordStatistics:
     words = [w for w in re.findall("\w{3,20}",text) if w not in self.blacklist]
     return dict(collections.Counter(words).most_common(self.word_limit))
     
-  
