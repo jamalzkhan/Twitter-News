@@ -2,21 +2,21 @@
 <html>
 <head>
 	<title>Twitter News</title>
-	<link rel="stylesheet" href="static/css/original.css"/>
-	<link rel="stylesheet" href="static/css/sam.css"/>
+	<link rel="stylesheet" href="http://localhost/~wongsam/twitter_news/static/css/original.css"/>
+	<link rel="stylesheet" href="http://localhost/~wongsam/twitter_news/static/css/sam.css"/>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
-	<script type="text/javascript" src="static/js/jquery-ui-1.8.16.custom.min.js"></script>
-	<script type="text/javascript" src="static/js/jquery.masonry.min.js"></script>
-	<script type="text/javascript" src="static/js/jquery.wordcloud.js"></script>
-	<script type="text/javascript" src="static/js/jquery.easing.1.3.js"></script>
-	<script type="text/javascript" src="static/js/jquery.mousewheel.min.js"></script>
+	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.masonry.min.js"></script>
+	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.wordcloud.js"></script>
+	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.easing.1.3.js"></script>
+	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.mousewheel.min.js"></script>
 	
 	<script src="https://www.google.com/jsapi?key=ABQIAAAAVq_ezpCP6r9ct3n9o8VV4hRqSHJGvvNPApRNCRW5oia_vxvJeRS6Bcd_ACwcm1qSmZcU7cSDOrqt6Q" type="text/javascript"></script>
 	
 	<!-- Scrolling -->
-	<link type="text/css" href="static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+	<link type="text/css" href="http://localhost/~wongsam/twitter_news/static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
 	<!-- Also uses Mousewheel -->
-	<script type="text/javascript" src="static/js/jquery.jscrollpane.min.js"></script>
+	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.jscrollpane.min.js"></script>
 		
 	<!-- endScrolling -->
 
@@ -30,10 +30,6 @@
 
 	function boxSearch(boxnum) {
 		return function(searcher) {
-							if(boxnum==1){
-								for(var i=0; i<searcher.results.length; i++)
-									console.log(searcher.results[i].url);
-							} 
 			if(searcher.results && searcher.results.length > 0){
 				box_images[boxnum] = searcher.results;
 				if (searcher.results && searcher.results.length > 0) {
@@ -53,6 +49,7 @@
 	}
 
 	function imgExist(boxnum,url){
+		console.log(boxnum + " is set to use " + url);
 		$("#box"+boxnum).css('background-image', 'url(' + url + ')');
 	}
 	
@@ -199,7 +196,7 @@
 	<div id="container" class="centered">
 	</div>
 
-	<script type="text/javascript" src="static/js/jquery.mCustomScrollbar.js"></script>
+	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.mCustomScrollbar.js"></script>
 
 </body>
 </html>
