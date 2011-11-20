@@ -55,6 +55,8 @@
 	}
 	
 	function useNextBestImg(boxnum){
+		console.log(boxnum + "is looking for another image.");
+		console.log(box_images[boxnum]);
 		if (box_images[boxnum] && box_images[boxnum].length > 0) {
 			// guarenteed: length > 0
 			while(
@@ -65,12 +67,13 @@
 			}	
 			//Post: we ran out / we have sufficiently large img
 			if(box_images[boxnum].length > 0){
-				//we have big img!
+				//we have sufficiently large img
 				imgCheck(boxnum, box_images[boxnum][0].url);
 				box_images[boxnum].shift();
 			}else{
-				if(imageSeachersPage[boxnum] > 10){
-					// Damn, just load the thumb, it's equally shit
+				//we ran out
+				if(imageSeachersPage[boxnum] > 13){
+					// Damn, nothing useful after 13 pages / 104 images. Just load the thumb, it's equally shit
 					console.log("box" + boxnum + " has no suitable img, using thumb " + best_match_tb[boxnum]);
 					$("#box"+boxnum).css('background-image', 'url(' + best_match_tb[boxnum] + ')');
 				}else{
