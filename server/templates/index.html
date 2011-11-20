@@ -11,7 +11,11 @@
 	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.easing.1.3.js"></script>
 	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.mousewheel.min.js"></script>
 	
-	<script src="https://www.google.com/jsapi?key=ABQIAAAAVq_ezpCP6r9ct3n9o8VV4hRqSHJGvvNPApRNCRW5oia_vxvJeRS6Bcd_ACwcm1qSmZcU7cSDOrqt6Q" type="text/javascript"></script>
+	<!--	<script src="https://www.google.com/jsapi?key=ABQIAAAAVq_ezpCP6r9ct3n9o8VV4hRqSHJGvvNPApRNCRW5oia_vxvJeRS6Bcd_ACwcm1qSmZcU7cSDOrqt6Q" type="text/javascript"></script>	-->
+
+	<!--This key is registered to twitter.rafal.io-->
+		<script src="https://www.google.com/jsapi?key=ABQIAAAAUNr1ui41kSiUfappfALFIBRqSHJGvvNPApRNCRW5oia_vxvJeRQ9FKL9VrNCGjMZDsP8oZ7S50XAJQ" type="text/javascript"></script>
+	
 	
 	<!-- Scrolling -->
 	<link type="text/css" href="http://localhost/~wongsam/twitter_news/static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
@@ -28,13 +32,16 @@
 	var imageSeachersPage = new Array();
 	google.load("search", "1");
 
+	//boxSearch is a function that assign image to a box
 	function boxSearch(boxnum) {
 		return function(searcher) {
 			if(searcher.results && searcher.results.length > 0){
 				box_images[boxnum] = searcher.results;
-				if (searcher.results && searcher.results.length > 0) {
+				if (searcher.results && searcher.results.length > 0 && !best_match_tb[boxnum]) {
 					best_match_tb[boxnum] = box_images[boxnum][0].tbUrl;	//save the best thumbnail
 				}
+				console.log('received results for ' + boxnum);
+				console.log(box_images);
 				useNextBestImg(boxnum);
 			}
 		}
@@ -55,13 +62,14 @@
 	}
 	
 	function useNextBestImg(boxnum){
-		console.log(boxnum + "is looking for another image.");
+		console.log(boxnum + "is looking for a image in page " + imageSeachersPage[boxnum]);
 		if (box_images[boxnum] && box_images[boxnum].length > 0) {
 			// guarenteed: length > 0
 			while(
 				box_images[boxnum].length > 0	//there's more
 				&& (box_images[boxnum][0].height < 300 || box_images[boxnum][0].width < 300)	//and img too small (used to check 140 200)
 			){
+				console.log(boxnum + " dumped a img");
 				box_images[boxnum].shift();	//throw the head away
 			}	
 			//Post: we ran out / we have sufficiently large img
@@ -71,29 +79,34 @@
 				box_images[boxnum].shift();
 			}else{
 				//we ran out
-				if(imageSeachersPage[boxnum] > 13){
-					// Damn, nothing useful after 13 pages / 104 images. Just load the thumb, it's equally shit
+				if(imageSeachersPage[boxnum] > 8){
+					// Damn, nothing useful after 8 pages / 64 images. Just load the thumb, it's equally shit
 					console.log("box" + boxnum + " has no suitable img, using thumb " + best_match_tb[boxnum]);
 					$("#box"+boxnum).css('background-image', 'url(' + best_match_tb[boxnum] + ')');
 				}else{
 					imageSeachersPage[boxnum]++;
 					console.log("box" + boxnum + " is looking at page " + imageSeachersPage[boxnum]);
 					imageSeachers[boxnum].gotoPage(imageSeachersPage[boxnum]);
-					useNextBestImg(boxnum);
+					// box_images[boxnum] = imageSeachers[boxnum].results;
+					// console.log(imageSeachers[boxnum].results);
+					// console.log(box_images[boxnum]);
 					// That's the best we are going to do
 				}
 			}       
 		}else{
 			//we need more image search results.
-			if(imageSeachersPage[boxnum] > 13){
-				// Damn, nothing useful after 13 pages / 104 images. Just load the thumb, it's equally shit
+			if(imageSeachersPage[boxnum] > 8){
+				// Damn, nothing useful after 8 pages / 64 images. Just load the thumb, it's equally shit
 				console.log("box" + boxnum + " has no suitable img, using thumb " + best_match_tb[boxnum]);
 				$("#box"+boxnum).css('background-image', 'url(' + best_match_tb[boxnum] + ')');
 			}else{
 				imageSeachersPage[boxnum]++;
 				console.log("box" + boxnum + " is looking at page " + imageSeachersPage[boxnum]);
 				imageSeachers[boxnum].gotoPage(imageSeachersPage[boxnum]);
-				useNextBestImg(boxnum);
+				// box_images[boxnum] = imageSeachers[boxnum].results;
+				// console.log(imageSeachers[boxnum].results);
+				// console.log(box_images[boxnum]);
+				// useNextBestImg(boxnum);
 				// That's the best we are going to do
 			}
 		}
@@ -150,6 +163,7 @@
 			imageSeachers[boxnum] = imageSearch;
 			imageSeachersPage[boxnum] = 0;
 			imageSearch.setNoHtmlGeneration();
+			imageSearch.setResultSetSize(8);
 			imageSearch.setRestriction(
 			  google.search.Search.RESTRICT_SAFESEARCH,
 			  google.search.Search.SAFESEARCH_OFF
