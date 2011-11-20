@@ -41,6 +41,7 @@
 	}
 
 	function imgCheck(boxnum, url){
+		console.log(boxnum + " is checking " + url);
 		var img = new Image();
 		img.onload=function() {imgExist(boxnum,url);};
 		img.onerror=function() {useNextBestImg(boxnum);};
