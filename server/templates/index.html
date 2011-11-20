@@ -56,7 +56,6 @@
 	
 	function useNextBestImg(boxnum){
 		console.log(boxnum + "is looking for another image.");
-		console.log(box_images[boxnum]);
 		if (box_images[boxnum] && box_images[boxnum].length > 0) {
 			// guarenteed: length > 0
 			while(
@@ -77,13 +76,26 @@
 					console.log("box" + boxnum + " has no suitable img, using thumb " + best_match_tb[boxnum]);
 					$("#box"+boxnum).css('background-image', 'url(' + best_match_tb[boxnum] + ')');
 				}else{
-					console.log("box" + boxnum + " is looking at page " + imageSeachersPage[boxnum]);
 					imageSeachersPage[boxnum]++;
+					console.log("box" + boxnum + " is looking at page " + imageSeachersPage[boxnum]);
 					imageSeachers[boxnum].gotoPage(imageSeachersPage[boxnum]);
 					useNextBestImg(boxnum);
 					// That's the best we are going to do
 				}
 			}       
+		}else{
+			//we need more image search results.
+			if(imageSeachersPage[boxnum] > 13){
+				// Damn, nothing useful after 13 pages / 104 images. Just load the thumb, it's equally shit
+				console.log("box" + boxnum + " has no suitable img, using thumb " + best_match_tb[boxnum]);
+				$("#box"+boxnum).css('background-image', 'url(' + best_match_tb[boxnum] + ')');
+			}else{
+				imageSeachersPage[boxnum]++;
+				console.log("box" + boxnum + " is looking at page " + imageSeachersPage[boxnum]);
+				imageSeachers[boxnum].gotoPage(imageSeachersPage[boxnum]);
+				useNextBestImg(boxnum);
+				// That's the best we are going to do
+			}
 		}
 	}
 
