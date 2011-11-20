@@ -1,0 +1,9 @@
+OSX:
+get python
+pip install {missing stuff}
+	note for dateutil, use: pip install 'python-dateutil < 2.0'
+	else it crashes and burns
+run server.py
+run mainprocess.py
+goto localhost:5000
+

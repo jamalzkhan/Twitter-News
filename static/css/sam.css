@@ -1,0 +1,194 @@
+/*.scrollable
+{
+overflow-y: scroll;
+}*/
+
+body{
+	margin-top: 20px;
+}
+
+/* Style for each tile */
+.centered { margin: 0 auto; }
+
+.titlecard{  
+    position:absolute; /* absolute position (so we can position it where we want)*/  
+    bottom:0px; /* position will be on bottom */  
+    left:0px;  
+    width:100%;  
+    /* styling bellow */  
+    background-color:black;  
+    color:white;  
+    opacity:0.6; /* transparency */  
+    filter:alpha(opacity=60); /* IE transparency */  
+	-webkit-border-bottom-left-radius: 15px;
+	-moz-border-bottom-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+	-webkit-border-bottom-right-radius: 15px;
+	-moz-border-bottom-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+}
+
+.titlecard h1{
+	margin: 0px 15px 0px 15px;
+    font-size: 30px;  
+}
+
+.box {
+	overflow: hidden;
+	margin: 5px;
+	padding: 5px;
+/*	background: #D8D5D2;*/
+	border: solid 1px #D8D5D2;
+	background-image: url(http://localhost/~wongsam/twitter_news/static/images/ajax-loader.gif);
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+	font-size: 11px;
+	line-height: 1.4em;
+	/*  float: left;*/
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.boxw {
+	margin: 5px;
+	padding: 5px;
+	background: #FFFFFF;
+	font-size: 11px;
+	line-height: 1.4em;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.box h2 {
+	font-size: 14px;
+	font-weight: 200;
+}
+/*
+.box img,
+#tumblelog img {
+display: block;
+width: 100%;
+}
+*/
+
+.rtl .box {
+	float: right;
+	text-align: right; 
+	direction: rtl;
+}
+
+/*	Hover Effects from http://tympanus.net/codrops/2011/11/02/original-hover-effects-with-css3/	*/
+	
+.details{
+/*    background: rgba(0,0,0,0.9);*/
+    height: 0px;
+    opacity: 0.5;
+    width: 420px;
+    overflow: hidden;
+	-webkit-transform: rotate(-33.5deg) translate(-112px,166px);  /* Saf3.1+, Chrome */
+	   -moz-transform: rotate(-33.5deg) translate(-112px,166px);  /* FF3.5+ */
+	    -ms-transform: rotate(-33.5deg) translate(-112px,166px);  /* IE9 */
+	     -o-transform: rotate(-33.5deg) translate(-112px,166px);  /* Opera 10.5 */
+	        transform: rotate(-33.5deg) translate(-112px,166px);
+	-webkit-transform-origin: 0% 100%;  /* Saf3.1+, Chrome */
+	   -moz-transform-origin: 0% 100%;  /* FF3.5+ */
+	    -ms-transform-origin: 0% 100%;  /* IE9 */
+	     -o-transform-origin: 0% 100%;  /* Opera 10.5 */
+	        transform-origin: 0% 100%;
+	-webkit-transition: all 0.4s ease-in-out 0.3s;  /* Saf3.2+, Chrome */
+	   -moz-transition: all 0.4s ease-in-out 0.3s;  /* FF4+ */
+	    -ms-transition: all 0.4s ease-in-out 0.3s;  /* IE10? */
+	     -o-transition: all 0.4s ease-in-out 0.3s;  /* Opera 10.5+ */
+	        transition: all 0.4s ease-in-out 0.3s;
+}
+
+.box:hover .details{
+    height: 420px;
+    width: 420px;
+    opacity: 0.9;
+    top: 40px;
+	-webkit-transform: rotate(0deg) translate(0px,0px);  /* Saf3.1+, Chrome */
+	   -moz-transform: rotate(0deg) translate(0px,0px);  /* FF3.5+ */
+	    -ms-transform: rotate(0deg) translate(0px,0px);  /* IE9 */
+	     -o-transform: rotate(0deg) translate(0px,0px);  /* Opera 10.5 */
+	        transform: rotate(0deg) translate(0px,0px);
+}
+
+.box:hover .titlecard{
+	display:none;
+}
+
+.mask-1,
+.mask-2{
+	overflow: hidden;
+	position: absolute;
+    height: 593px;
+    width: 300px;
+/*	background: rgba(119,0,36,0.5);*/
+	background: rgba(255,255,255,0.5);
+	opacity: 1;
+	-webkit-transition: all 0.3s ease-in-out 0.6s;  /* Saf3.2+, Chrome */
+	   -moz-transition: all 0.3s ease-in-out 0.6s;  /* FF4+ */
+	    -ms-transition: all 0.3s ease-in-out 0.6s;  /* IE10? */
+	     -o-transition: all 0.3s ease-in-out 0.6s;  /* Opera 10.5+ */
+	        transition: all 0.3s ease-in-out 0.6s;
+}
+.mask-1 {
+    left: auto;
+    right: 0px;
+	-webkit-transform: rotate(45deg) translateX(-300px);  /* Saf3.1+, Chrome */
+	   -moz-transform: rotate(45deg) translateX(-300px);  /* FF3.5+ */
+	    -ms-transform: rotate(45deg) translateX(-300px);  /* IE9 */
+	     -o-transform: rotate(45deg) translateX(-300px);  /* Opera 10.5 */
+	        transform: rotate(45deg) translateX(-300px);
+	-webkit-transform-origin: 100% 0%;  /* Saf3.1+, Chrome */
+	   -moz-transform-origin: 100% 0%;  /* FF3.5+ */
+	    -ms-transform-origin: 100% 0%;  /* IE9 */
+	     -o-transform-origin: 100% 0%;  /* Opera 10.5 */
+	        transform-origin: 100% 0%;
+}
+.mask-2 {
+    top: auto;
+    bottom: 0px;
+	-webkit-transform: rotate(45deg) translateX(300px);  /* Saf3.1+, Chrome */
+	   -moz-transform: rotate(45deg) translateX(300px);  /* FF3.5+ */
+	    -ms-transform: rotate(45deg) translateX(300px);  /* IE9 */
+	     -o-transform: rotate(45deg) translateX(300px);  /* Opera 10.5 */
+	        transform: rotate(45deg) translateX(300px);
+	-webkit-transform-origin: 0% 100%;  /* Saf3.1+, Chrome */
+	   -moz-transform-origin: 0% 100%;  /* FF3.5+ */
+	    -ms-transform-origin: 0% 100%;  /* IE9 */
+	     -o-transform-origin: 0% 100%;  /* Opera 10.5 */
+	        transform-origin: 0% 100%;
+}
+
+.box:hover .mask-1,
+.box:hover .mask-2{
+	-webkit-transition-delay: 0s;  /* Saf3.1+, Chrome */
+	   -moz-transition-delay: 0s;  /* FF3.5+ */
+	    -ms-transition-delay: 0s;  /* IE9 */
+	     -o-transition-delay: 0s;  /* Opera 10.5 */
+	        transition-delay: 0s;
+}
+.box:hover .mask-1{
+	-webkit-transform: rotate(45deg) translateX(0.4px);  /* Saf3.1+, Chrome */
+	   -moz-transform: rotate(45deg) translateX(0.4px);  /* FF3.5+ */
+	    -ms-transform: rotate(45deg) translateX(0.4px);  /* IE9 */
+	     -o-transform: rotate(45deg) translateX(0.4px);  /* Opera 10.5 */
+	        transform: rotate(45deg) translateX(0.4px);
+}
+.box:hover .mask-2 {
+	-webkit-transform: rotate(45deg) translateX(0px);  /* Saf3.1+, Chrome */
+	   -moz-transform: rotate(45deg) translateX(0px);  /* FF3.5+ */
+	    -ms-transform: rotate(45deg) translateX(0px);  /* IE9 */
+	     -o-transform: rotate(45deg) translateX(0px);  /* Opera 10.5 */
+	        transform: rotate(45deg) translateX(0px);
+}
+

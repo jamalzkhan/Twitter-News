@@ -1,134 +1,205 @@
 <!doctype html>
 <html>
 <head>
-<title>Twitter News</title>
+	<title>Twitter News</title>
+	<link rel="stylesheet" href="static/css/original.css"/>
+	<link rel="stylesheet" href="static/css/sam.css"/>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+	<script type="text/javascript" src="static/js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="static/js/jquery.masonry.min.js"></script>
+	<script type="text/javascript" src="static/js/jquery.wordcloud.js"></script>
+	<script type="text/javascript" src="static/js/jquery.easing.1.3.js"></script>
+	<script type="text/javascript" src="static/js/jquery.mousewheel.min.js"></script>
+	
+	<script src="https://www.google.com/jsapi?key=ABQIAAAAVq_ezpCP6r9ct3n9o8VV4hRqSHJGvvNPApRNCRW5oia_vxvJeRS6Bcd_ACwcm1qSmZcU7cSDOrqt6Q" type="text/javascript"></script>
+	
+	<!-- Scrolling -->
+	<link type="text/css" href="static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+	<!-- Also uses Mousewheel -->
+	<script type="text/javascript" src="static/js/jquery.jscrollpane.min.js"></script>
+		
+	<!-- endScrolling -->
 
-<link rel="stylesheet" href="static/css/original.css"/>
 
-<script type="text/javascript" src="static/js/jquery-1.6.4.min.js"></script>
-<script type="text/javascript" src="static/js/jquery-ui-1.8.16.custom.min.js"></script>
-<script type="text/javascript" src="static/js/jquery.masonry.min.js"></script>
-<script type="text/javascript" src="static/js/jquery.wordcloud.js"></script>
-<script type="text/javascript" src="static/js/jquery.easing.1.3.js"></script>
-<script type="text/javascript" src="static/js/jquery.mousewheel.min.js"></script>
+	<script type="text/javascript">
+	var box_images = new Array();	//saves the array of images for each box
+	var best_match_tb = new Array(); //saves the array of best match thumbnail
+	var imageSeachers = new Array();
+	var imageSeachersPage = new Array();
+	google.load("search", "1");
 
-<script src="https://www.google.com/jsapi?key=ABQIAAAAVq_ezpCP6r9ct3n9o8VV4hRqSHJGvvNPApRNCRW5oia_vxvJeRS6Bcd_ACwcm1qSmZcU7cSDOrqt6Q" type="text/javascript"></script>
+	function boxSearch(boxnum) {
+		return function(searcher) {
+							if(boxnum==1){
+								for(var i=0; i<searcher.results.length; i++)
+									console.log(searcher.results[i].url);
+							} 
+			if(searcher.results && searcher.results.length > 0){
+				box_images[boxnum] = searcher.results;
+				if (searcher.results && searcher.results.length > 0) {
+					best_match_tb[boxnum] = box_images[boxnum][0].tbUrl;	//save the best thumbnail
+				}
+				useNextBestImg(boxnum);
+			}
+		}
+	}
 
-<script type="text/javascript">
+	function imgCheck(boxnum, url){
+		var img = new Image();
+		img.onload=function() {imgExist(boxnum,url);};
+		img.onerror=function() {useNextBestImg(boxnum);};
+		img.src=url;
+		
+	}
 
-google.load("search", "1");
-function boxSearch(boxnum) {
-  return function(searcher) {
-    if (searcher.results && searcher.results.length > 0) {
-      var results = searcher.results;
-      var i = 0;
-      
-        var result = results[i];
-        var src = result.url;
-        
-      $("#bp"+boxnum).attr('src',src);
-      $("#bp"+boxnum).attr('onError', 'backupUrl('+boxnum+',"'+result.tbUrl+'");');
-    }
-  }
-}
+	function imgExist(boxnum,url){
+		$("#box"+boxnum).css('background-image', 'url(' + url + ')');
+	}
+	
+	function useNextBestImg(boxnum){
+		if (box_images[boxnum] && box_images[boxnum].length > 0) {
+			// guarenteed: length > 0
+			while(
+				box_images[boxnum].length > 0	//there's more
+				&& (box_images[boxnum][0].height < 300 || box_images[boxnum][0].width < 300)	//and img too small (used to check 140 200)
+			){
+				box_images[boxnum].shift();	//throw the head away
+			}	
+			//Post: we ran out / we have sufficiently large img
+			if(box_images[boxnum].length > 0){
+				//we have big img!
+				imgCheck(boxnum, box_images[boxnum][0].url);
+				box_images[boxnum].shift();
+			}else{
+				if(imageSeachersPage[boxnum] > 10){
+					// Damn, just load the thumb, it's equally shit
+					console.log("box" + boxnum + " has no suitable img, using thumb " + best_match_tb[boxnum]);
+					$("#box"+boxnum).css('background-image', 'url(' + best_match_tb[boxnum] + ')');
+				}else{
+					console.log("box" + boxnum + " is looking at page " + imageSeachersPage[boxnum]);
+					imageSeachersPage[boxnum]++;
+					imageSeachers[boxnum].gotoPage(imageSeachersPage[boxnum]);
+					useNextBestImg(boxnum);
+					// That's the best we are going to do
+				}
+			}       
+		}
+	}
 
-function backupUrl(boxnum, url) {
-  $("#bp"+boxnum).attr('src',url);
-}
+	function addBox(id) {
+		box = ""
+		+ "<div id='box" + id + "' class='box col' onClick='boxClick(" + id + ");'>"
+		+	"<div id='description" + id + "' class='titlecard'>"
+		+   "</div>"		
+		+	"<div class='mask mask-1'></div>	    <div class='mask mask-2'></div>"
+		+ 	"<div class='details' style=''>"
+		+		"<div class='left' style='width:200px; height:100%; float:left'>"
+		+   		"<div class='boxw' style='margin-bottom: 10px;height:50%'>"
+		+     			"<div id='article" + id + "' class='scrollable' style=''>"
+		+				"</div>"
+		+   		"</div>"		
+		+   		"<div id='wordcloud" + id + "' class='boxw' style='height:165px'></div>"
+		+	   "</div>"		
+		+		"<div class='right' style='width:200px; height:400px; float:left;'>"
+		+   		"<div id='tweets" + id + "' class='boxw scrollable' style='height:100%'>"
+		// +     			"<h2>Recent Tweets:</h2>"
+		+				"<span id='addtweet" + id + "'/>";
+		+   	  	"</div>"
+		+   	"</div>"		
+		+   "</div>"		
+		+ "</div>";
+		$("#container").append(box);
+		var canvasDivWidth = $("#wordcloud" + id).width();
+		var canvasDivHeight = $("#wordcloud" + id).height();
+		$("#wordcloud" + id).append("<canvas id='wordcloudcanvas" + id + "' width='" + canvasDivWidth + "' height='" + canvasDivHeight + "'>");
+	}
 
-function addBox(id) {
-  box = ""
-  + "<div id='b" + id + "' class='box col' onClick='boxClick(" + id + ");'>"
-  +   "<div id='btc" + id + "' class='boxw scrollbox' style='width:190px; height:130px;'>"
-  +     "<div class='customScrollBox'>"
-  +       "<div class='container'>"
-  +         "<div id='bt" + id + "' class='content'><h2>Title</h2><p>Summary</p></div>"
-  +       "</div>"
-  +       "<div class='dragger_container'><div class='dragger'></div></div>"
-  +     "</div>"
-  +   "</div>"
-  +   "<div class='boxw' style='width:190px; height:130px; float:right;'><div style='width:190px; height:130px; overflow:hidden;'><img id='bp" + id + "' style='width:190px; min-height:130px' src='static/images/twitter.png'></div></div>"
-  +   "<div class='boxw' style='width:190px; height:60px;'>Sentiment</div>"
-  +   "<div id='btwc" + id + "' class='boxw scrollbox2' style='width:190px; height:250px; float:right'>"
-  +     "<h2>Recent Tweets:</h2><div class='customScrollBox'>"
-  +       "<div class='container'>"
-  +         "<div id='btw" + id + "' class='content'></div>"
-  +       "</div>"
-  +       "<div class='dragger_container'><div class='dragger'></div></div>"
-  +     "</div>"
-  +   "</div>"
-  +   "<div class='boxw' style='width:190px; height:170px;'><canvas id='bwc" + id + "' width='190' height='170'></div>"
-  + "</div>";
-  $("#container").append(box);
-}
+	function changeBox(boxnum) {
+		return function(data) {
+			if (!document.getElementById("box" + boxnum)) { 
+				addBox(boxnum);
+				$('#container').masonry('reload');
+			}
+			$("#description"+boxnum).html("<h1>" + data.title + "</h1>");
+			$("#article"+boxnum).html("<h2>" + data.title + "</h2><p>" + data.summary + "</p>");
+			// $("#btc"+boxnum).mCustomScrollbar("vertical",300,"easeOutCirc",1.05,"fixed","yes","no",1);
 
-function changeBox(boxnum) {
-    return function(data) {
-      if (!document.getElementById("b" + boxnum)) { 
-        addBox(boxnum);
-        $('#container').masonry('reload');
-      }
-      $("#bt"+boxnum).html("<h2>" + data.title + "</h2><p>" + data.summary + "</p>");
-      $("#btc"+boxnum).mCustomScrollbar("vertical",300,"easeOutCirc",1.05,"fixed","yes","no",1);
-      
-      var cloud = new Array();
-      for(var i in data.wordcloud) {
-        cloud.push([i, data.wordcloud[i]*12]);
-      }
-      if(cloud.length == 0) {
-        cloud.push(['none', 30]);
-      }
-      $("#bwc"+boxnum).wordCloud({wordList: cloud});
-      
-      var imageSearch = new google.search.ImageSearch();
-      //imageSearch.setRestriction(google.search.ImageSearch.RESTRICT_IMAGESIZE, google.search.ImageSearch.IMAGESIZE_MEDIUM);
-      imageSearch.setSearchCompleteCallback(this, boxSearch(boxnum), [imageSearch]);
+			var cloud = new Array();
+			for(var i in data.wordcloud) {
+				cloud.push([i, data.wordcloud[i]*12]);
+			}
+			if(cloud.length == 0) {
+				cloud.push(['none', 30]);
+			}
+			$("#wordcloudcanvas"+boxnum).wordCloud({wordList: cloud});
 
-      imageSearch.execute('"' + data.title + '"');
+			var imageSearch = new google.search.ImageSearch();
+			imageSeachers[boxnum] = imageSearch;
+			imageSeachersPage[boxnum] = 0;
+			imageSearch.setNoHtmlGeneration();
+			imageSearch.setRestriction(
+			  google.search.Search.RESTRICT_SAFESEARCH,
+			  google.search.Search.SAFESEARCH_OFF
+			);	//Will we ever get porn? ;)
+			
+			// imageSearch.setRestriction(
+			// 	google.search.ImageSearch.RESTRICT_IMAGESIZE, 
+			// 	google.search.ImageSearch.IMAGESIZE_LARGE
+			// );
+			
+			// var searcher = new google.search.ImageSearch();
+			// searcher.setRestriction(google.search.ImageSearch.RESTRICT_RIGHTS,
+			//                         google.search.ImageSearch.RIGHTS_MODIFICATION
+			// );	// Remove comments to be Ethicial 
+			
+			imageSearch.setSearchCompleteCallback(this, boxSearch(boxnum), [imageSearch]);
+			imageSearch.execute('"' + data.title + '"');
 
-      if(data.keywords.length > 0)
-        $.ajax({type: "GET", url: "http://search.twitter.com/search.json?q="+data.keywords[0]+"&rpp=10&result_type=mixed", dataType: "jsonp", success: parseTweets(boxnum)});
-    }
-}
+			if(data.keywords.length > 0)
+				$.ajax({type: "GET", url: "http://search.twitter.com/search.json?q="+data.keywords[0]+"&rpp=10&result_type=mixed", dataType: "jsonp", success: parseTweets(boxnum)});
+		}
+	}
 
-function parseTweets(boxnum) {
-  return function(data) {
-    for(i = 0; i < data.results.length; i++) {
-      var box = "<p style='width:inherit;'><strong>" + data.results[i].from_user + ":</strong> " + data.results[i].text + "</p>"
-      $("#btw"+boxnum).append(box);
-    }
-    setTimeout($("#btwc"+boxnum).mCustomScrollbar("vertical",300,"easeOutCirc",1.05,"fixed","yes","no",1),1000);
-  }
-}
+	function parseTweets(boxnum) {
+		return function(data) {
+			for(i = 0; i < data.results.length; i++) {
+				var box = "<p style='width:inherit;'><strong>" + data.results[i].from_user + ":</strong> " + data.results[i].text + "</p>"
+				$("#addtweet"+boxnum).append(box);
+			}
+			$('.scrollable').jScrollPane({});
+		}
+	}
 
-function boxClick(boxnum) {
-  console.log("Goto Full Story: "+boxnum);
-}
+	function boxClick(boxnum) {
+		console.log("Clicked box"+boxnum);
+		// $('#box' + boxnum + ' .details').toggle();
+		$('#box' + boxnum + ' .titlecard').toggle();
+	}
 
-$(document).ready(function() {
-  $('#container').masonry({
-    // options
-    itemSelector : '.box',
-    isAnimated: true,
-    isFitWidth: true
-  });
-  
-  $.getJSON("api/news", function(data) {
-    for(i = 0; i < data.news.length; i++) {
-      $.getJSON("api/story/"+data.news[i], changeBox(i));
-    }
-  });
-});
+	$(document).ready(function() {
+		$('#container').masonry({
+			// options
+			itemSelector : '.box',
+			isAnimated: true,
+			isFitWidth: true
+		});
 
-</script>
+		$.getJSON("api/news", function(data) {
+			for(i = 0; i < data.news.length; i++) {
+				$.getJSON("api/story/"+data.news[i], changeBox(i));
+			}
+		});
+	});
+
+	</script>
 
 </head>
 <body>
 
-<div id="container" class="centered">
-</div>
+	<div id="container" class="centered">
+	</div>
 
-<script type="text/javascript" src="static/js/jquery.mCustomScrollbar.js"></script>
+	<script type="text/javascript" src="static/js/jquery.mCustomScrollbar.js"></script>
 
 </body>
 </html>
