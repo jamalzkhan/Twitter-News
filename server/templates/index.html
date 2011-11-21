@@ -5,11 +5,11 @@
 	<link rel="stylesheet" href="http://localhost/~wongsam/twitter_news/static/css/original.css"/>
 	<link rel="stylesheet" href="http://localhost/~wongsam/twitter_news/static/css/sam.css"/>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
-	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery-ui-1.8.16.custom.min.js"></script>
+	<!--	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery-ui-1.8.16.custom.min.js"></script> -->
 	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.masonry.min.js"></script>
 	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.wordcloud.js"></script>
 	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.easing.1.3.js"></script>
-	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.mousewheel.min.js"></script>
+	<!--	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.mCustomScrollbar.js"></script>	-->
 	
 	<!--	<script src="https://www.google.com/jsapi?key=ABQIAAAAVq_ezpCP6r9ct3n9o8VV4hRqSHJGvvNPApRNCRW5oia_vxvJeRS6Bcd_ACwcm1qSmZcU7cSDOrqt6Q" type="text/javascript"></script>	-->
 
@@ -19,7 +19,7 @@
 	
 	<!-- Scrolling -->
 	<link type="text/css" href="http://localhost/~wongsam/twitter_news/static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
-	<!-- Also uses Mousewheel -->
+	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.mousewheel.min.js"></script>
 	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.jscrollpane.min.js"></script>
 		
 	<!-- endScrolling -->
@@ -30,6 +30,7 @@
 	var best_match_tb = new Array(); //saves the array of best match thumbnail
 	var imageSeachers = new Array();
 	var imageSeachersPage = new Array();
+	var verbose = 0;
 	google.load("search", "1");
 
 	//boxSearch is a function that assign image to a box
@@ -40,15 +41,15 @@
 				if (searcher.results && searcher.results.length > 0 && !best_match_tb[boxnum]) {
 					best_match_tb[boxnum] = box_images[boxnum][0].tbUrl;	//save the best thumbnail
 				}
-				console.log('received results for ' + boxnum);
-				console.log(box_images);
+				if(verbose) console.log('received results for ' + boxnum);
+				if(verbose) console.log(box_images);
 				useNextBestImg(boxnum);
 			}
 		}
 	}
 
 	function imgCheck(boxnum, url){
-		console.log(boxnum + " is checking " + url);
+		if(verbose) console.log(boxnum + " is checking " + url);
 		var img = new Image();
 		img.onload=function() {imgExist(boxnum,url);};
 		img.onerror=function() {useNextBestImg(boxnum);};
@@ -57,19 +58,19 @@
 	}
 
 	function imgExist(boxnum,url){
-		console.log(boxnum + " is set to use " + url);
+		if(verbose) console.log(boxnum + " is set to use " + url);
 		$("#box"+boxnum).css('background-image', 'url(' + url + ')');
 	}
 	
 	function useNextBestImg(boxnum){
-		console.log(boxnum + "is looking for a image in page " + imageSeachersPage[boxnum]);
+		if(verbose) console.log(boxnum + "is looking for a image in page " + imageSeachersPage[boxnum]);
 		if (box_images[boxnum] && box_images[boxnum].length > 0) {
 			// guarenteed: length > 0
 			while(
 				box_images[boxnum].length > 0	//there's more
 				&& (box_images[boxnum][0].height < 300 || box_images[boxnum][0].width < 300)	//and img too small (used to check 140 200)
 			){
-				console.log(boxnum + " dumped a img");
+				if(verbose) console.log(boxnum + " dumped a img");
 				box_images[boxnum].shift();	//throw the head away
 			}	
 			//Post: we ran out / we have sufficiently large img
@@ -81,15 +82,15 @@
 				//we ran out
 				if(imageSeachersPage[boxnum] > 8){
 					// Damn, nothing useful after 8 pages / 64 images. Just load the thumb, it's equally shit
-					console.log("box" + boxnum + " has no suitable img, using thumb " + best_match_tb[boxnum]);
+					if(verbose) console.log("box" + boxnum + " has no suitable img, using thumb " + best_match_tb[boxnum]);
 					$("#box"+boxnum).css('background-image', 'url(' + best_match_tb[boxnum] + ')');
 				}else{
 					imageSeachersPage[boxnum]++;
-					console.log("box" + boxnum + " is looking at page " + imageSeachersPage[boxnum]);
+					if(verbose) console.log("box" + boxnum + " is looking at page " + imageSeachersPage[boxnum]);
 					imageSeachers[boxnum].gotoPage(imageSeachersPage[boxnum]);
 					// box_images[boxnum] = imageSeachers[boxnum].results;
-					// console.log(imageSeachers[boxnum].results);
-					// console.log(box_images[boxnum]);
+					// if(verbose) console.log(imageSeachers[boxnum].results);
+					// if(verbose) console.log(box_images[boxnum]);
 					// That's the best we are going to do
 				}
 			}       
@@ -97,15 +98,15 @@
 			//we need more image search results.
 			if(imageSeachersPage[boxnum] > 8){
 				// Damn, nothing useful after 8 pages / 64 images. Just load the thumb, it's equally shit
-				console.log("box" + boxnum + " has no suitable img, using thumb " + best_match_tb[boxnum]);
+				if(verbose) console.log("box" + boxnum + " has no suitable img, using thumb " + best_match_tb[boxnum]);
 				$("#box"+boxnum).css('background-image', 'url(' + best_match_tb[boxnum] + ')');
 			}else{
 				imageSeachersPage[boxnum]++;
-				console.log("box" + boxnum + " is looking at page " + imageSeachersPage[boxnum]);
+				if(verbose) console.log("box" + boxnum + " is looking at page " + imageSeachersPage[boxnum]);
 				imageSeachers[boxnum].gotoPage(imageSeachersPage[boxnum]);
 				// box_images[boxnum] = imageSeachers[boxnum].results;
-				// console.log(imageSeachers[boxnum].results);
-				// console.log(box_images[boxnum]);
+				// if(verbose) console.log(imageSeachers[boxnum].results);
+				// if(verbose) console.log(box_images[boxnum]);
 				// useNextBestImg(boxnum);
 				// That's the best we are going to do
 			}
@@ -198,7 +199,7 @@
 	}
 
 	function boxClick(boxnum) {
-		console.log("Clicked box"+boxnum);
+		if(verbose) console.log("Clicked box"+boxnum);
 		// $('#box' + boxnum + ' .details').toggle();
 		$('#box' + boxnum + ' .titlecard').toggle();
 	}
@@ -223,10 +224,7 @@
 </head>
 <body>
 
-	<div id="container" class="centered">
-	</div>
-
-	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.mCustomScrollbar.js"></script>
+	<div id="container" class="centered"></div>
 
 </body>
 </html>
