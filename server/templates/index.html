@@ -115,7 +115,7 @@
 
 	function addBox(id) {
 		box = ""
-		+ "<div id='box" + id + "' class='box col' onClick='boxClick(" + id + ");'>"
+		+ "<div id='box" + id + "' class='box col'>"	// onClick='boxClick(" + id + ");'
 		+	"<div id='description" + id + "' class='titlecard'>"
 		+   "</div>"		
 		+	"<div class='mask mask-1'></div>	    <div class='mask mask-2'></div>"
@@ -139,6 +139,27 @@
 		var canvasDivWidth = $("#wordcloud" + id).width();
 		var canvasDivHeight = $("#wordcloud" + id).height();
 		$("#wordcloud" + id).append("<canvas id='wordcloudcanvas" + id + "' width='" + canvasDivWidth + "' height='" + canvasDivHeight + "'>");
+		$('#box' + id).toggle(function() {
+			//First time clicked
+			if(verbose) console.log("Clicked box"+id);
+			// $('#box' + id + ' .details').toggle();
+			var target = $('#box' + id);
+			target.addClass('box-hover');
+			if(verbose) console.log('moving box' + id + ' to the front');
+			// $('#box' + id).children(' .mask-1 ,  .mask-2').css('background', 'rgba(123,0,0,0.5)');
+			$('#box' + id).css('border', 'solid red 1px');
+			$('#container').prepend(target).masonry('reload');
+		}, function() {
+		 	//Revert
+			if(verbose) console.log("Clicked box"+id);
+			// $('#box' + id + ' .details').toggle();
+			var target = $('#box' + id);
+			target.removeClass('box-hover');
+			if(verbose) console.log('moving box' + id + ' to the back');
+			// $('#box' + id).children(' .mask-1 ,  .mask-2').css('background', 'rgba(123,0,0,0.5)');
+			$('#box' + id).css('border', '');
+			$('#container').append(target).masonry('reload');
+		});
 	}
 
 	function changeBox(boxnum) {
@@ -198,11 +219,18 @@
 		}
 	}
 
+	/* Not used anymore
 	function boxClick(boxnum) {
 		if(verbose) console.log("Clicked box"+boxnum);
 		// $('#box' + boxnum + ' .details').toggle();
-		$('#box' + boxnum + ' .titlecard').toggle();
+		var target = $('#box' + boxnum);
+		target.addClass('box-hover');
+		if(verbose) console.log('moving box' + boxnum + ' to the front');
+		// $('#box' + boxnum).children(' .mask-1 ,  .mask-2').css('background', 'rgba(123,0,0,0.5)');
+		$('#box' + boxnum).css('border', 'solid red 1px');
+		$('#container').prepend(target).masonry('reload');
 	}
+	*/
 
 	$(document).ready(function() {
 		$('#container').masonry({

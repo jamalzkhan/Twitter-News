@@ -85,6 +85,7 @@ width: 100%;
 }
 
 /*	Hover Effects from http://tympanus.net/codrops/2011/11/02/original-hover-effects-with-css3/	*/
+/*	The 'selected' color is defined in javascript	*/
 	
 .details{
 /*    background: rgba(0,0,0,0.9);*/
@@ -109,7 +110,8 @@ width: 100%;
 	        transition: all 0.4s ease-in-out 0.3s;
 }
 
-.box:hover .details{
+.box:hover .details,
+.box-hover .details{
     height: 420px;
     width: 420px;
     opacity: 0.9;
@@ -121,7 +123,8 @@ width: 100%;
 	        transform: rotate(0deg) translate(0px,0px);
 }
 
-.box:hover .titlecard{
+.box:hover .titlecard,
+.box-hover .titlecard{
 	display:none;
 }
 
@@ -170,21 +173,26 @@ width: 100%;
 }
 
 .box:hover .mask-1,
-.box:hover .mask-2{
+.box:hover .mask-2,
+.box-hover .mask-1,
+.box-hover .mask-2{
 	-webkit-transition-delay: 0s;  /* Saf3.1+, Chrome */
 	   -moz-transition-delay: 0s;  /* FF3.5+ */
 	    -ms-transition-delay: 0s;  /* IE9 */
 	     -o-transition-delay: 0s;  /* Opera 10.5 */
 	        transition-delay: 0s;
 }
-.box:hover .mask-1{
+
+.box:hover .mask-1,
+.box-hover .mask-1{
 	-webkit-transform: rotate(45deg) translateX(0.4px);  /* Saf3.1+, Chrome */
 	   -moz-transform: rotate(45deg) translateX(0.4px);  /* FF3.5+ */
 	    -ms-transform: rotate(45deg) translateX(0.4px);  /* IE9 */
 	     -o-transform: rotate(45deg) translateX(0.4px);  /* Opera 10.5 */
 	        transform: rotate(45deg) translateX(0.4px);
 }
-.box:hover .mask-2 {
+.box:hover .mask-2,
+.box-hover .mask-2{
 	-webkit-transform: rotate(45deg) translateX(0px);  /* Saf3.1+, Chrome */
 	   -moz-transform: rotate(45deg) translateX(0px);  /* FF3.5+ */
 	    -ms-transform: rotate(45deg) translateX(0px);  /* IE9 */
