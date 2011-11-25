@@ -8,7 +8,7 @@ class Twitinfo:
   
   def __init__(self):
     
-    self.logger = logger.Logger(console_logging=True, file_logging=True)
+    self.logger = logger.Logger(console_logging=False, file_logging=False)
     
     self.r_log = log.Log("RSS Fetcher   ", self.logger)
     self.s_log = log.Log("Stream Fetcher", self.logger)
