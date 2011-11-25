@@ -4,9 +4,10 @@ import mongo_connector
 import shared
 from dateutil import parser
 
+
 class StreamReader(threading.Thread):
 
-  def __init__(self):
+  def __init__(self, log=None):
     threading.Thread.__init__(self)
     self.tweet_collection = mongo_connector.MongoConnector().getCol("tweets")
 
@@ -15,6 +16,8 @@ class StreamReader(threading.Thread):
 
     self.twitter_username = config.get('twitter','username')
     self.twitter_password = config.get('twitter','password')
+    
+    self.log = log
 
     print "making new stream reader"
 

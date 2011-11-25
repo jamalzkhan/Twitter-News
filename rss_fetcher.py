@@ -8,14 +8,15 @@ import keyword_extractor
 
 import shared
 
+import log
 
 class RssFetcher(threading.Thread):
-  def __init__(self, rss="http://news.google.com/?output=rss", verbose=False, sleeptime=500):
+  def __init__(self, rss="http://news.google.com/?output=rss", log=None , sleeptime=500):
     threading.Thread.__init__(self)
     self.extractor = keyword_extractor.KeywordExtractor()
     self.rss_link = rss
-    self.verbose = verbose
     self.sleeptime = sleeptime
+    self.log = log
   
   def run(self):
     while 1:
@@ -25,11 +26,9 @@ class RssFetcher(threading.Thread):
       shared.event.set()
       
       # Sleep for 5 minutes
-      if self.verbose:
-        print "[INFO] RSS Thread: Going to sleep for {0}.".format(self.sleeptime)
+      self.log.info("Going to sleep for {0}.".format(self.sleeptime))
       time.sleep(self.sleeptime)
-      if self.verbose:
-        print "[INFO] RSS Thread: Waking up."
+      self.log.info("Waking up.")
       
       shared.flag = True
   
@@ -55,14 +54,12 @@ class RssFetcher(threading.Thread):
   
   def getNews(self):
     """Download news stories and put them in the shared list"""
-    if self.verbose:
-      print "[INFO] RSS Thread: Fetching news feed from {0}.".format(self.rss_link)
+    self.log.info("Fetching news feed from {0}.".format(self.rss_link))
     feed = feedparser.parse(self.rss_link)
     news_stories = []
     
     for entry in feed["items"]:
-      if self.verbose:
-        print "[INFO] RSS Thread: Parsing story {0}.".format(entry["title"])
+      self.log.info("Parsing story {0}.".format(entry["title"]))
       news_story = {}
       news_story["title"] = RssFetcher.gNews_title_fix(entry["title"])
       news_story["link_main_story"] = RssFetcher.gNews_get_link_main_story(entry["link"])
@@ -72,8 +69,7 @@ class RssFetcher(threading.Thread):
       news_story["keywords"] = self.extractor.getKeywordsByURL(news_story["link_main_story"])
       news_stories.append(news_story)
     
-    if self.verbose:
-      print "[INFO] RSS Thread: Putting a new set of stories into the shared list."
+    self.log.info("Putting a new set of stories into the shared list.")
     shared.stories = news_stories
   
 
