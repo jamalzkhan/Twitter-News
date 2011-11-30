@@ -4,6 +4,7 @@ import shared
 import time
 import datetime
 import word_statistics
+import sentiment_analysis
 
 class Analysis(threading.Thread):
   def __init__(self,log,sleeptime=120,stories_col="stories",tweet_col="tweets"):
@@ -12,6 +13,7 @@ class Analysis(threading.Thread):
     self.stories_collection = connector.getCol(stories_col)
     self.tweet_collection = connector.getCol(tweet_col)
     self.word_stats = word_statistics.WordStatistics(self.tweet_collection)
+    self.sentiment = sentiment_analysis.SentimentAnalysis(self.tweet_collection)
     self.last_update = datetime.datetime.utcnow()
     self.sleeptime = sleeptime
     self.log = log
@@ -84,5 +86,7 @@ class Analysis(threading.Thread):
       
     for story in stories:
       story["curr_period"]["wordstats"] = self.word_stats.get_word_statistics_for_tweets(story["curr_period"]["tweets"])
+      story["curr_period"]["sentiment"] = self.sentiment.get_sentiment_for_tweets(story["curr_period"]["tweets"])
+      
       self.log.info("Pushing period with {0} tweets to {1}".format(len(story["curr_period"]["tweets"]), story["title"]))
       self.stories_collection.update({"title":story["title"]},{"$push": {"periods": story["curr_period"]}})

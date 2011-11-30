@@ -33,7 +33,7 @@ class StreamReader(threading.Thread):
     self.log.info(u"Getting tweets for keywords:{}".format(",".join(subjects)))
     post_data = "track=" + ",".join(subjects)
     post_data = unicodedata.normalize('NFKD', post_data).encode('ascii','ignore')
-    
+
     conn = self.openStream(stream_url, onwrite)
     conn.setopt(pycurl.POST, 1)
     conn.setopt(pycurl.POSTFIELDS, post_data)
@@ -55,7 +55,10 @@ class StreamReader(threading.Thread):
   def on_receive(self, data):
     print json.loads(data)
   
-  def receive_and_write_to_Mongo(self, data):
+  def receive_and_write_to_Mongo(self, data):    
+    if(data.find("many requests") > -1 ):
+      self.log.error("Twitter is throttling us!!!!")
+      
     try:
       # Means we need to restart with new set of keywords
       if shared.flag:
@@ -66,6 +69,7 @@ class StreamReader(threading.Thread):
       data = json.loads(data)
       data["_id"] = bson.objectid.ObjectId(hashlib.md5(str(data["id"])).hexdigest()[:24])
       data["created_at"] =  parser.parse(data["created_at"])
+      
       self.tweet_collection.insert(data)
 
     except ValueError:
