@@ -2,12 +2,13 @@ import pycurl, json, pymongo, ConfigParser, bson, hashlib, threading, itertools
 
 import mongo_connector
 import shared
+import unicodedata
 from dateutil import parser
 
 
 class StreamReader(threading.Thread):
 
-  def __init__(self, log=None):
+  def __init__(self,log):
     threading.Thread.__init__(self)
     self.tweet_collection = mongo_connector.MongoConnector().getCol("tweets")
 
@@ -19,26 +20,19 @@ class StreamReader(threading.Thread):
     
     self.log = log
 
-    print "making new stream reader"
-
-
   def run(self):
-
     while 1:
-      print "Waiting for RSS to get news"
       shared.event.wait()
-      print "Got news..."
       self.getTweetsBySubject(list(itertools.chain.from_iterable(map(lambda a : a["keywords"], shared.stories))),
                               self.receive_and_write_to_Mongo)
       shared.flag = False;
   
   def getTweetsBySubject(self, subjects, onwrite):
-    print "Starting the stream getting...."
     
     stream_url  = "https://stream.twitter.com/1/statuses/filter.json"
-    print subjects
+    self.log.info(u"Getting tweets for keywords:{}".format(",".join(subjects)))
     post_data = "track=" + ",".join(subjects)
-    print "post_data = " + post_data
+    post_data = unicodedata.normalize('NFKD', post_data).encode('ascii','ignore')
     
     conn = self.openStream(stream_url, onwrite)
     conn.setopt(pycurl.POST, 1)
@@ -48,7 +42,7 @@ class StreamReader(threading.Thread):
     try:
       conn.perform()
     except Exception:
-      print "Done..."
+      self.log.info("Story list updated. Restarting stream.")
       conn.close()
   
   def openStream(self, stream, write_function):
@@ -72,12 +66,11 @@ class StreamReader(threading.Thread):
       data = json.loads(data)
       data["_id"] = bson.objectid.ObjectId(hashlib.md5(str(data["id"])).hexdigest()[:24])
       data["created_at"] =  parser.parse(data["created_at"])
-      print data["text"]
       self.tweet_collection.insert(data)
 
     except ValueError:
-      print "Error in tweet."
-      print data
+      self.log.info("Tweet had an error. Not adding to DB.")
+
 
 def main():
   t = StreamReader()

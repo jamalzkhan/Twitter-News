@@ -4,10 +4,9 @@ import shared
 import time
 import datetime
 import word_statistics
-import log
 
 class Analysis(threading.Thread):
-  def __init__(self,sleeptime=120,stories_col="stories",tweet_col="tweets", log=None):
+  def __init__(self,log,sleeptime=120,stories_col="stories",tweet_col="tweets"):
     threading.Thread.__init__(self)
     connector = mongo_connector.MongoConnector()
     self.stories_collection = connector.getCol(stories_col)

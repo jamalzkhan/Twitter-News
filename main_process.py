@@ -1,23 +1,23 @@
 import rss_fetcher
 import stream_reader
 import analysis
-import log
-import logger
+import loggers.log as log
+import loggers.logger as logger
    
 class Twitinfo:
   
   def __init__(self):
     
-    self.logger = logger.Logger(console_logging=False, file_logging=False)
+    main_logger = logger.Logger()
     
-    self.r_log = log.Log("RSS Fetcher   ", self.logger)
-    self.s_log = log.Log("Stream Fetcher", self.logger)
-    self.a_log = log.Log("Analysis      ", self.logger)
+    r_log = log.Log("RSS Fetcher", main_logger)
+    s_log = log.Log("Tweet Fetcher", main_logger)
+    a_log = log.Log("Analysis", main_logger)
     
     
-    self.r = rss_fetcher.RssFetcher(log=self.r_log)
-    self.s = stream_reader.StreamReader(log=self.s_log)
-    self.a = analysis.Analysis(log=self.a_log)
+    self.r = rss_fetcher.RssFetcher(r_log)
+    self.s = stream_reader.StreamReader(s_log)
+    self.a = analysis.Analysis(a_log)
     
     
   def start(self):

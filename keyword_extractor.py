@@ -2,7 +2,7 @@ import ConfigParser, json, urllib
 
 class KeywordExtractor:
   
-  def __init__(self, limit=3):
+  def __init__(self, logger, limit=3):
     config = ConfigParser.RawConfigParser()
     config.read('config.conf')
     self.key = config.get('alchemyapi','key')
@@ -10,6 +10,7 @@ class KeywordExtractor:
     self.apikey_option = 'apikey=' + self.key
     self.output_option = 'outputMode=' + 'json'
     self.keyword_limit_option = 'maxRetrieve={0}'.format(limit)
+    self.logger = logger
 
   def getKeywordsByURL(self, url):
     """Gets Keywords given a particular URL in JSON format which is then put into a list"""
@@ -24,11 +25,10 @@ class KeywordExtractor:
       
       #We only care about the keywords
       for keyword_entry in keyword_data:
-        keywords.append(str(keyword_entry['text']))
+        keywords.append(unicode(keyword_entry['text']))
       return keywords
-    except ValueError:
-      print "Error in data from the keyword extractor"
-      print data
+    except ValueError as strerror:
+      logger.error("Error while parsing keywords: {}".format(strerror))
       return []
 
 if __name__ == "__main__":

@@ -8,12 +8,10 @@ import keyword_extractor
 
 import shared
 
-import log
-
 class RssFetcher(threading.Thread):
-  def __init__(self, rss="http://news.google.com/?output=rss", log=None , sleeptime=500):
+  def __init__(self, log, rss="http://news.google.com/?output=rss", sleeptime=500):
     threading.Thread.__init__(self)
-    self.extractor = keyword_extractor.KeywordExtractor()
+    self.extractor = keyword_extractor.KeywordExtractor(log)
     self.rss_link = rss
     self.sleeptime = sleeptime
     self.log = log

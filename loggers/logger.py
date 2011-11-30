@@ -1,34 +1,32 @@
 import logging
+import datetime
 
 class Logger():
     
-  def __init__(self, console_logging=True, file_logging=True, file_name="log.log"):
+  def __init__(self, console_logging=False, file_logging=True, file_name=".log"):
     
     # Collection of loggers
     self.loggers = {}
     self.console_logging = console_logging
     self.file_logging = file_logging
-    self.file_name = file_name
+    self.file_name = "logs/" + str(datetime.datetime.now()) + file_name
     
-    self.format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    self.format = '[%(levelname)s] %(asctime)s - %(name)s - %(message)s'
     
     # Console logging options
     self.console = logging.StreamHandler()
     self.console.setLevel(logging.INFO)
     self.console.setFormatter(logging.Formatter(self.format))
   
-    if (file_logging and console_logging) or file_logging:
-      
+    if file_logging:
       # Adding only file logging
       self.config = logging.basicConfig(format = self.format, filename=self.file_name, filemode='w', level=logging.INFO)
       
     elif console_logging:
-      
       # Logging to console if file logging is not present
       self.config = logging.basicConfig(format = self.format, level=logging.INFO)
       
     else:
-      
       self.config = None
       
   def addLogger(self, name):
