@@ -148,7 +148,7 @@
 			if(verbose) console.log('moving box' + id + ' to the front');
 			// $('#box' + id).children(' .mask-1 ,  .mask-2').css('background', 'rgba(123,0,0,0.5)');
 			$('#box' + id).css('border', 'solid red 1px');
-			$('#container').prepend(target).masonry('reload');
+			// $('#container').prepend(target).masonry('reload');
 		}, function() {
 		 	//Revert
 			if(verbose) console.log("Clicked box"+id);
@@ -158,7 +158,7 @@
 			if(verbose) console.log('moving box' + id + ' to the back');
 			// $('#box' + id).children(' .mask-1 ,  .mask-2').css('background', 'rgba(123,0,0,0.5)');
 			$('#box' + id).css('border', '');
-			$('#container').append(target).masonry('reload');
+			// $('#container').append(target).masonry('reload');
 		});
 	}
 
