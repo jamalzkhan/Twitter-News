@@ -23,9 +23,9 @@
 	<script type="text/javascript" src="static/js/jquery.jscrollpane.min.js"></script>
 		
 	<!-- endScrolling -->
-
-
 	<script type="text/javascript">
+	var timestamp;
+	var id=0;
 	var box_images = new Array();	//saves the array of images for each box
 	var best_match_tb = new Array(); //saves the array of best match thumbnail
 	var imageSeachers = new Array();
@@ -135,7 +135,7 @@
 		+   	"</div>"		
 		+   "</div>"		
 		+ "</div>";
-		$("#container").append(box);
+		$("#container").prepend(box);
 		var canvasDivWidth = $("#wordcloud" + id).width();
 		var canvasDivHeight = $("#wordcloud" + id).height();
 		$("#wordcloud" + id).append("<canvas id='wordcloudcanvas" + id + "' width='" + canvasDivWidth + "' height='" + canvasDivHeight + "'>");
@@ -162,8 +162,10 @@
 		});
 	}
 
-	function changeBox(boxnum) {
+	function changeBox(boxnum, timeout) {
 		return function(data) {
+			setTimeout(function() {
+				
 			if (!document.getElementById("box" + boxnum)) { 
 				addBox(boxnum);
 				$('#container').masonry('reload');
@@ -206,6 +208,8 @@
 
 			if(data.keywords.length > 0)
 				$.ajax({type: "GET", url: "http://search.twitter.com/search.json?q="+data.keywords[0]+"&rpp=10&result_type=mixed", dataType: "jsonp", success: parseTweets(boxnum)});
+				
+			}, timeout);
 		}
 	}
 
@@ -219,6 +223,20 @@
 		}
 	}
 
+	function update(){
+		console.log(timestamp);
+		// $.getJSON("api/news/" + timestamp, function(data) {
+		$.getJSON("api/news/" + '0', function(data) {
+			console.log(data);
+			timestamp = data.timestamp;
+			for(i = 0; i < data.news.length; i++) {
+				$.getJSON("api/story/"+data.news[i], changeBox(id, i*600));
+				id++;
+				console.log(id);
+			}
+		});
+	}
+	
 	/* Not used anymore
 	function boxClick(boxnum) {
 		if(verbose) console.log("Clicked box"+boxnum);
@@ -241,17 +259,26 @@
 		});
 
 		$.getJSON("api/news", function(data) {
+			timestamp = data.timestamp;
 			for(i = 0; i < data.news.length; i++) {
-				$.getJSON("api/story/"+data.news[i], changeBox(i));
+				$.getJSON("api/story/"+data.news[i], changeBox(id, i*600));
+				id++;
+				console.log(id);
 			}
 		});
+		
+		$('#refresh').click(function(){update();});
+		setTimeout(timer, 2*60*1000);
 	});
-
+	function timer(){
+		update();
+		setTimeout(timer, 2*60*1000);
+	}
 	</script>
 
 </head>
 <body>
-
+	<button id='refresh' style='font-size:3em;position: fixed;right: 10px;top: 10px;'>R!</button>
 	<div id="container" class="centered"></div>
 
 </body>
