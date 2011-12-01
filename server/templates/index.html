@@ -25,6 +25,7 @@
 	<!-- endScrolling -->
 	<script type="text/javascript">
 	var timestamp;
+	var refresherTimer;
 	var id=0;
 	var box_images = new Array();	//saves the array of images for each box
 	var best_match_tb = new Array(); //saves the array of best match thumbnail
@@ -266,12 +267,12 @@
 			}
 		});
 		
-		$('#refresh').click(function(){update();});
-		setTimeout(timer, 2*60*1000);
+		$('#refresh').click(function(){clearTimeout(refresherTimer); timer();});
+		refresherTimer = setTimeout(timer, 2*60*1000);
 	});
 	function timer(){
 		update();
-		setTimeout(timer, 2*60*1000);
+		refresherTimer = setTimeout(timer, 2*60*1000);
 	}
 	</script>
 
