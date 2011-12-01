@@ -283,7 +283,11 @@
 	right: -90px;
 	top: 50%;
 	bottom: 50%;
-	-webkit-transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);  /* Saf3.1+, Chrome */
+	   -moz-transform: rotate(90deg);  /* FF3.5+ */
+	    -ms-transform: rotate(90deg);  /* IE9 */
+	     -o-transform: rotate(90deg);  /* Opera 10.5 */
+	        transform: rotate(90deg);
 	z-index: 9999;
 	height: 50px;'>Check for new stories</button>
 	<div id="container" class="centered"></div>
