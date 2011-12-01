@@ -4,12 +4,14 @@
 	<title>Twitter News</title>
 	<link rel="stylesheet" href="static/css/original.css"/>
 	<link rel="stylesheet" href="static/css/sam.css"/>
+	<!-- <link rel="stylesheet" href="static/css/bootstrap.min.css"/> -->
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
 	<!--	<script type="text/javascript" src="static/js/jquery-ui-1.8.16.custom.min.js"></script> -->
 	<script type="text/javascript" src="static/js/jquery.masonry.min.js"></script>
 	<script type="text/javascript" src="static/js/jquery.wordcloud.js"></script>
 	<script type="text/javascript" src="static/js/jquery.easing.1.3.js"></script>
 	<!--	<script type="text/javascript" src="static/js/jquery.mCustomScrollbar.js"></script>	-->
+	<script type="text/javascript" src="static/js/jquery.infinitescroll.min.js"></script>
 	
 	<!--	<script src="https://www.google.com/jsapi?key=ABQIAAAAVq_ezpCP6r9ct3n9o8VV4hRqSHJGvvNPApRNCRW5oia_vxvJeRS6Bcd_ACwcm1qSmZcU7cSDOrqt6Q" type="text/javascript"></script>	-->
 
@@ -55,7 +57,6 @@
 		img.onload=function() {imgExist(boxnum,url);};
 		img.onerror=function() {useNextBestImg(boxnum);};
 		img.src=url;
-		
 	}
 
 	function imgExist(boxnum,url){
@@ -267,8 +268,89 @@
 			}
 		});
 		
+		// Infinite scroll
+		//Note: To prevent infinite scroll from firing at the beginning, we do a set time out for 10 seconds
+		setTimeout(function(){
+		
+		// usage:
+		// $(elem).infinitescroll(options,[callback]);
+
+		// infinitescroll() is called on the element that surrounds 
+		// the items you will be loading more of
+		
+		$('#container').infinitescroll({
+navSelector  : '#page-nav',    // selector for the paged navigation      
+nextSelector : '#page-nav a',  // selector for the NEXT link (to page 2)      
+itemSelector : '.box',     // selector for all items you'll retrieve
+			// navSelector  : "#page-nav",            
+			//                // selector for the paged navigation (it will be hidden)
+			// nextSelector : "#page-nav a:first",    
+			//                // selector for the NEXT link (to page 2)
+			// itemSelector : ".boxhead",
+
+		  debug        : true,                        
+		                 // enable debug messaging ( to console.log )
+
+		  loadingImg   : "static/images/ajax-loader-infinite-scroll.gif",          
+		                 // loading image.
+		                 // default: "http://www.infinite-scroll.com/loading.gif"
+
+		  loadingText  : "Calling Journalists on Mechanical Turk...",      
+		                 // text accompanying loading image
+		                 // default: "<em>Loading the next set of posts...</em>"
+
+		  animate      : true,      
+		                 // boolean, if the page will do an animated scroll when new content loads
+		                 // default: false
+
+		  extraScrollPx: 50,      
+		                 // number of additonal pixels that the page will scroll 
+		                 // (in addition to the height of the loading div)
+		                 // animate must be true for this to matter
+		                 // default: 150
+
+		  donetext     : "OK, we have run out. You've got a lot of RAM." ,
+		                 // text displayed when all items have been retrieved
+		                 // default: "<em>Congratulations, you've reached the end of the internet.</em>"
+
+		  bufferPx     : 40,
+		                 // increase this number if you want infscroll to fire quicker
+		                 // (a high number means a user will not see the loading message)
+		                 // new in 1.2
+		                 // default: 40
+
+		  errorCallback: function(){},
+		                 // called when a requested page 404's or when there is no more content
+		                 // new in 1.2                   
+
+		  localMode    : true
+		                 // enable an overflow:auto box to have the same functionality
+		                 // demo: http://paulirish.com/demo/infscr
+		                 // instead of watching the entire window scrolling the element this plugin
+		                 //   was called on will be watched
+		                 // new in 1.2
+		                 // default: false
+
+
+		    },function(arrayOfNewElems){
+					$('#container').masonry('appended', $(arrayOfNewElems), true);
+		     // optional callback when new content is successfully loaded in.
+
+		     // keyword `this` will refer to the new DOM content that was just added.
+		     // as of 1.5, `this` matches the element you called the plugin on (e.g. #content)
+		     //                   all the new elements that were found are passed in as an array
+
+		});
+		
+		//Close the settimeout
+		}, 10*1000);
+		// End infinite scroll
+		
+		
 		$('#refresh').click(function(){clearTimeout(refresherTimer); timer();});
 		refresherTimer = setTimeout(timer, 2*60*1000);
+		
+	
 	});
 	function timer(){
 		update();
@@ -291,6 +373,9 @@
 	z-index: 9999;
 	height: 50px;'>Check for new stories</button>
 	<div id="container" class="centered"></div>
+	<nav id="page-nav">
+	  <a href="infiniteScroll/200/0"></a>
+	</nav>
 
 </body>
 </html>

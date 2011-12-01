@@ -11,6 +11,37 @@ def index():
   #For testing purposes, stub
   return render_template('index.html')
 
+@app.route("/infiniteScroll/<int:id>/<timestamp>")
+# For infinite Scroll
+def helloworld(id,timestamp):
+	time = float(timestamp)
+	# story = database.getStory(story_id)
+	# stories = database.getStoriesByTimeStamp(time)
+	# print stories
+	box = ''
+	for i in range(1,10):
+		box += """
+		<div id='box""" +  str(i) + """' class='boxhead box col'>
+			<div id='description""" + str(i) + """' class='titlecard'>
+			</div>
+			<div class='mask mask-1'></div>	    <div class='mask mask-2'></div>
+		 	<div class='details' style=''>
+				<div class='left' style='width:200px; height:400px; float:left'>
+		   		<div class='boxw' style='margin-bottom: 10px;height:50%'>
+		     			<div id='article""" + str(i) + """' class='scrollable' style=''>
+						</div>
+		   		</div>		
+		   		<div id='wordcloud""" + str(i) + """' class='boxw' style='height:165px'></div>
+			   </div>		
+				<div class='right' style='width:200px; height:400px; float:left;'>
+		   		<div id='tweets""" + str(i) + """' class='boxw scrollable' style='height:395px'>
+						<span id='addtweet""" + str(i) + """'/>
+		   	  	</div>
+		   	</div>		
+		   </div>
+		 </div>"""
+	return box
+
 @app.route("/story/<int:story_id>")
 # This is where we need to setup the story UI. It doesn't have to be an ID, maybe we can use story name.
 # But for now I'll leave it as an ID.
@@ -52,7 +83,7 @@ def prepareWordCloud(cloud):
 if __name__ == "__main__":
   # Setting up debugging environment (server reloads itself and provides better error messages)
   app.debug = True
-  app.run()
+  # app.run()
   
   # This is, so that the website is externally visible
-  #app.run(host='0.0.0.0')
+  app.run(host='0.0.0.0')
