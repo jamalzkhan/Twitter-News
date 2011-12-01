@@ -225,8 +225,7 @@
 
 	function update(){
 		console.log(timestamp);
-		// $.getJSON("api/news/" + timestamp, function(data) {
-		$.getJSON("api/news/" + '0', function(data) {
+		$.getJSON("api/news/" + timestamp, function(data) {
 			console.log(data);
 			timestamp = data.timestamp;
 			for(i = 0; i < data.news.length; i++) {
