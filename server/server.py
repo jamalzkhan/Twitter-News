@@ -1,9 +1,28 @@
 import time
-from flask import Flask, jsonify, render_template
+from flask import Flask, render_template, Response
 import db
+import datetime
+
+import json
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 database = db.Database()
+
+# jsonify hacks
+
+class APIEncoder(json.JSONEncoder): 
+  def default(self, obj): 
+     if isinstance(obj, (datetime.datetime, datetime.date)): 
+         return obj.ctime() 
+     elif isinstance(obj, datetime.time): 
+         return obj.isoformat() 
+     elif isinstance(obj, ObjectId): 
+         return str(obj) 
+     return json.JSONEncoder.default(self, obj)
+    
+def jsonify(data):
+  return Response(json.dumps(data, cls=APIEncoder, indent = 1), mimetype='application/json')
 
 @app.route("/")
 # This is where we need to setup the main UI
@@ -69,6 +88,16 @@ def api_story(story_id):
     return jsonify(story)
   else:
     story['wordcloud'] = prepareWordCloud(story["wordcloud"])
+    return jsonify(story)
+    
+@app.route("/api/story/<story_id>/full")
+def api_story_full(story_id):
+  story = database.getStoryFullData(story_id)
+  if "error" in story:
+    return jsonify(story)
+  else:
+    for i, p in enumerate(story["periods"]):
+      story["periods"][i]["tweets"] = map(lambda x : {"text" : x["text"], "score" : x["score"] }, story["periods"][i]["tweets"])
     return jsonify(story)
 
 

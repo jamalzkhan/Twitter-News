@@ -37,7 +37,7 @@ class Database:
     return stories
     
   def getStory(self, story_id):
-    """Given the story id gives a story summary and title"""
+    """Given the story id gives a story summary, along with tweet data for the most recent time period"""
     try:
       id = objectid.ObjectId(str(story_id))
     except objectid.InvalidId:
@@ -55,6 +55,22 @@ class Database:
     else:
       return {'error' : 'Story does not exist'}
       
+  def getStoryFullData(self,story_id):
+    """Given the story id gives a story summary, along with all historial tweet data"""
+    try:
+      id = objectid.ObjectId(str(story_id))
+    except objectid.InvalidId:
+      return {'error' : 'Invalid Id'}
+    story = self.stories.find_one({'_id':id})  
+    if story != None:
+      return {
+        'title': story["title"], 
+        'summary': story["summary"], 
+        'link': story["link_main_story"], 
+        'keywords': story["keywords"],
+        'periods' : story["periods"] }
+    else:
+      return {'error' : 'Story does not exist'}
   
   def getStories(self):
     """Used to get all the stories"""
