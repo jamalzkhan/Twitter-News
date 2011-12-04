@@ -5,6 +5,7 @@ import time
 import datetime
 import word_statistics
 import sentiment_analysis
+import helpers as h
 
 class Analysis(threading.Thread):
   def __init__(self,log,sleeptime=120,stories_col="stories",tweet_col="tweets"):
@@ -79,14 +80,15 @@ class Analysis(threading.Thread):
           for keyword_word in keyword_words:
             exists = exists and (tweet["text"].find(keyword_word) != -1)
           if exists:
-            story["curr_period"]["tweets"].append(tweet["_id"])
+            story["curr_period"]["tweets"].append( { 'id': tweet["_id"], 'score': tweet["retweet_count"], 'text' : tweet["text"] } )
             break;
     
     self.log.info("Pushing new periods to db.")
       
     for story in stories:
-      story["curr_period"]["wordstats"] = self.word_stats.get_word_statistics_for_tweets(story["curr_period"]["tweets"])
-      story["curr_period"]["sentiment"] = self.sentiment.get_sentiment_for_tweets(story["curr_period"]["tweets"])
+      # print h.extractTweetIds(story["curr_period"]["tweets"])
+      story["curr_period"]["wordstats"] = self.word_stats.get_word_statistics_for_tweets(h.extractTweetIds(story["curr_period"]["tweets"]))
+      story["curr_period"]["sentiment"] = self.sentiment.get_sentiment_for_tweets(h.extractTweetIds(story["curr_period"]["tweets"]))
       
       self.log.info("Pushing period with {0} tweets to {1}".format(len(story["curr_period"]["tweets"]), story["title"]))
       self.stories_collection.update({"title":story["title"]},{"$push": {"periods": story["curr_period"]}})

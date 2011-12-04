@@ -68,7 +68,8 @@ def api_story(story_id):
   if "error" in story:
     return jsonify(story)
   else:
-    return jsonify({'title': story["title"], 'link': story["link"], 'keywords': story["keywords"],'summary': story["summary"], 'wordcloud': prepareWordCloud(story["wordcloud"])})
+    story['wordcloud'] = prepareWordCloud(story["wordcloud"])
+    return jsonify(story)
 
 
 def prepareWordCloud(cloud):

@@ -44,7 +44,14 @@ class Database:
       return {'error' : 'Invalid Id'}
     story = self.stories.find_one({'_id':id})  
     if story != None:
-      return {'title': story["title"], 'summary': story["summary"], 'link': story["link_main_story"], 'keywords': story["keywords"], 'wordcloud': story["periods"][-1]["wordstats"]}
+      return {
+        'title': story["title"], 
+        'summary': story["summary"], 
+        'link': story["link_main_story"], 
+        'keywords': story["keywords"], 
+        'wordcloud': story["periods"][-1]["wordstats"],
+        'sentiment' : story["periods"][-1]["sentiment"],
+        'tweets': map(lambda x: {"text" : x["text"], "score" : x["score"]}, story["periods"][-1]["tweets"] ) }
     else:
       return {'error' : 'Story does not exist'}
       
@@ -58,7 +65,7 @@ class Database:
 
 if __name__ == "__main__":
   d = Database()
-  #print d.getRecentStories(10)
-  #print d.getStory("4eb428e91786f0117a000003")
-  print d.getStoriesByTimeStamp(time)
+  print d.getRecentStories(10)
+  # print d.getStory("4eb428e91786f0117a000003")
+  # print d.getStoriesByTimeStamp(time)
   

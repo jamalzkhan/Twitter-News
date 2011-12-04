@@ -1,12 +1,9 @@
 import feedparser, pymongo, json, hashlib, bson, threading, time
-
 from dateutil import parser    # For easily parsing strings to Date
-
 from BeautifulSoup import BeautifulSoup # For Parsing descriptions
-
 import keyword_extractor
-
 import shared
+import helpers
 
 class RssFetcher(threading.Thread):
   def __init__(self, log, rss="http://news.google.com/?output=rss", sleeptime=500):
@@ -57,7 +54,7 @@ class RssFetcher(threading.Thread):
     news_stories = []
     
     for entry in feed["items"]:
-      self.log.info("Parsing story {0}.".format(entry["title"]))
+      self.log.info("Parsing story {0}.".format( helpers.toAscii(entry["title"])) )
       news_story = {}
       news_story["title"] = RssFetcher.gNews_title_fix(entry["title"])
       news_story["link_main_story"] = RssFetcher.gNews_get_link_main_story(entry["link"])

@@ -57,7 +57,8 @@ class StreamReader(threading.Thread):
   
   def receive_and_write_to_Mongo(self, data):    
     if(data.find("many requests") > -1 ):
-      self.log.error("Twitter is throttling us!!!!")
+      self.log.error("Twitter is throttling us... Waiting 30 seconds")
+      time.wait(30)
       
     try:
       # Means we need to restart with new set of keywords
@@ -69,7 +70,9 @@ class StreamReader(threading.Thread):
       data = json.loads(data)
       data["_id"] = bson.objectid.ObjectId(hashlib.md5(str(data["id"])).hexdigest()[:24])
       data["created_at"] =  parser.parse(data["created_at"])
-      
+      if( type( data["retweet_count"]) != int ):
+        data["retweet_count"] = 100 # Twitter gives us string '100+'
+        
       self.tweet_collection.insert(data)
 
     except ValueError:

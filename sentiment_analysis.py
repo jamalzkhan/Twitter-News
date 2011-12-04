@@ -1,6 +1,7 @@
 import urllib2, urllib
 import json
 import unicodedata
+import helpers as h
 
 class SentimentAnalysis:
   def __init__(self,tweet_collection):
@@ -12,7 +13,7 @@ class SentimentAnalysis:
     """Return sentiment for the array of tweet ids supplied"""
     tweet_text_list = []
     for tweet_id in tweets:
-      text_ascii =  unicodedata.normalize('NFKD', self.tweet_collection.find_one({"_id" : tweet_id }, {"text" : 1})['text']).encode('ascii','ignore')
+      text_ascii =  h.toAscii(self.tweet_collection.find_one({"_id" : tweet_id }, {"text" : 1})['text'])
       tweet_text_list.append( {'text': text_ascii, 'tid': tweet_id } )
 
     data = { 'data' : tweet_text_list }
