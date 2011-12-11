@@ -6,7 +6,7 @@ import shared
 import helpers
 
 class RssFetcher(threading.Thread):
-  def __init__(self, log, rss="http://news.google.com/?output=rss", sleeptime=500):
+  def __init__(self, log=None, rss="http://news.google.com/?output=rss", sleeptime=500):
     threading.Thread.__init__(self)
     self.extractor = keyword_extractor.KeywordExtractor(log)
     self.rss_link = rss
@@ -51,7 +51,7 @@ class RssFetcher(threading.Thread):
     """Download news stories and put them in the shared list"""
     self.log.info("Fetching news feed from {0}.".format(self.rss_link))
     feed = feedparser.parse(self.rss_link)
-    news_stories = []
+    self.news_stories = []
     
     for entry in feed["items"]:
       self.log.info("Parsing story {0}.".format( helpers.toAscii(entry["title"])) )
@@ -62,10 +62,10 @@ class RssFetcher(threading.Thread):
       news_story["summary"] = RssFetcher.gNews_get_summary(entry["description"])
       news_story["date"] = parser.parse(entry["updated"])
       news_story["keywords"] = self.extractor.getKeywordsByURL(news_story["link_main_story"])
-      news_stories.append(news_story)
+      self.news_stories.append(news_story)
     
     self.log.info("Putting a new set of stories into the shared list.")
-    shared.stories = news_stories
+    shared.stories = self.news_stories
   
 
 if __name__ == "__main__":
