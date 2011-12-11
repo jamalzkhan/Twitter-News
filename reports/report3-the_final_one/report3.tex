@@ -34,6 +34,22 @@
 	
 	\section{Testing}
 	
+	  \subsection{Logging and Debugging}
+	
+	  Instead of using standard print statements to output the state of our system, which is composed of the RSS, Analysis and Twitter Thread, we incorporated a flexible event logging system.\\
+	We are able to leave our system and if an error occurs we can trace exactly which thread caused it and at which point in the program as opposed to the usual debugging.
+  The logger was also incorporated so that we have different levels of importance in logging i.e. have logging for general information of what is going on in the system and logging for errors. We are also able to log messages to different output sinks including the console and files.
+	
+	  \begin{figure}[ht!]
+				  \centering
+					  \includegraphics[scale=0.4]{logger.png}
+				    \caption{Customised Logger}
+	  \end{figure}
+	
+	  \subsection{Unit Testing}
+	
+	For testing various parts of the system we used unit tests to check that the code we were writing did not brake existing functionality that we already had.
+	
 	\section{General Validation}
 	
 	\section{Managerial Documentation}
