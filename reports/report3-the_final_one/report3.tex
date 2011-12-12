@@ -47,9 +47,10 @@
 				    \caption{Customised Logger}
 	  \end{figure}
 	
-	    \subsection{Unit Testing}
+	    \subsection{Unit and Mock Testing}
 
-  	  We used the PyUnit\footnote{\url{http://pyunit.sourceforge.net/}} module for incorporating unit tests in our code. An example of where we used this was in the RSS thread where we were testing functionality of all the functions written for this module.
+  	  We used the PyUnit\footnote{\url{http://pyunit.sourceforge.net/}} module for incorporating unit tests in our code. An example of where we used this was in the RSS thread where we were testing functionality of all the functions written for this module. For this we had to create a mock rss fetcher object and ran tests on it.
+  	  
   	  Having said this, It was very difficult to test some parts of the system as there is a lack of clear models, for example having unit tests for keyword generation or tweet fetching is difficult to implement as they use external APIs.
 
   
