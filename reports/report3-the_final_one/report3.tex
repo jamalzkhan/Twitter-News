@@ -34,6 +34,14 @@
 	\maketitle
 	
 	\section{Testing}
+	  Testing our project was challenging. Since it is more of a real-time system that just analyses data we did not have any models to test. Nevertheless we needed a way to check if the program is working correctly.
+	  
+	  \subsection{Unit and Mock Testing}
+
+	  We used the PyUnit\footnote{\url{http://pyunit.sourceforge.net/}} module for incorporating unit tests in our code. An example of where we used this was in the RSS thread where we were testing functionality of all the functions written for this module. For this we had to create a mock rss fetcher object and ran tests on it.
+	  
+	  Having said this, It was very difficult to test some parts of the system as there is a lack of clear models, for example having unit tests for keyword generation or tweet fetching is difficult to implement as they use external APIs.
+    
 	
 	  \subsection{Logging and Debugging}
 	
@@ -46,8 +54,7 @@
 					  \includegraphics[scale=0.4]{logger.png}
 				    \caption{Customised Logger}
 	  \end{figure}
-	
-	    \subsection{Unit and Mock Testing}
+   \subsection{Unit and Mock Testing}
 
   	  We used the PyUnit\footnote{\url{http://pyunit.sourceforge.net/}} module for incorporating unit tests in our code. An example of where we used this was in the RSS thread where we were testing functionality of all the functions written for this module. For this we had to create a mock rss fetcher object and ran tests on it.
   	  
@@ -56,8 +63,10 @@
 		\subsection{UI Testing}
 		To debug the UI, Google Chrome’s Developer tools and Firebug were used. These tools were used to inspect the requests the UI issued, the network activities, debug layout and monitor performance.
   
-	
 	\section{General Validation}
+	
+	\subsection{Keyword Relevancy}
+  One of the most important part of the project was to find keywords for stories that would be specific enough to generate relevant tweets and general enough so that the amount of tweets we find is large enough to generate meaningful data. This proved to be troublesome and we had to constantly check if keywords look like they fit the data and monitor the amount of tweets matching each story and their quality. This was done manually, but if we were to continue developing the project an automatic monitoring tool would definitely have to be created.
 	
 		\subsection{User Validation}
   	  From time to time we asked for feedback on the user facing product, this was done so that we could make design and functionality choices. We talked to our supervisor Jeremy Bradley\footnote{\url{http://www.doc.ic.ac.uk/~jb}} and he liked our user interface but wanted us to add pictures for each news story, we consequently went ahead with this and received very positive feedback.
