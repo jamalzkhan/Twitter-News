@@ -32,8 +32,7 @@ class RssFetcherTest(unittest.TestCase):
   def test_rss_returns_correct_format(self):
     """Test to see that given a dummy feed we get the correct stories"""
     self.rss_fetcher.getNews()
-    stories = self.rss_fetcher.news_stories
-    
+    stories = self.rss_fetcher.news_stories  
     
     # Various checks for the dummy rss feed, whose values are known
     
