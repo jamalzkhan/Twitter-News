@@ -2,6 +2,7 @@
 \usepackage{fullpage}
 \usepackage{hyperref}
 \usepackage{url}
+\usepackage{amssymb}
 \usepackage{graphicx}
 %\usepackage{polski}
 \usepackage[utf8]{inputenc}
@@ -97,7 +98,7 @@
 		
 		\subsection{Management policies}
 		
-		Whenever a new code push occurs, it is immediately live on the server. We know that this is not particularly safe, as there is no server-side test suite that, if fails, prevents the new version from going live. Hence, we have asked all members to run the test suite locally, and see if the software works, before committing it to our main repository. This is definitely not ideal if our 'live' environment was actually a production environment with real users depending on the code working, but we have decided that instead of over-burdening ourselves with extensive test suites and commit rules, we would concentrate more on adding user-visible features.
+		Whenever a new code push occurs, it is immediately live on the server. We know that this is not particularly safe, as there is no server-side test suite that, if fails, prevents the new version from going live. Hence, we have asked all members to run the test suite locally, and see if the software works, before committing it to our main repository. This is definitely not ideal if our `live' environment was actually a production environment with real users depending on the code working, but we have decided that instead of over-burdening ourselves with extensive test suites and commit rules, we would concentrate more on adding user-visible features.
 		
 		\subsection{Management of knowledge transfer within the group}
 		
@@ -110,17 +111,17 @@
 	
   \subsection{Team Meetings}
   \begin{tabular}{c | l p{7cm} r}
-    Date & Venue & Subject &Attended\\
+    \emph{\large Date} &  \emph{\large Venue} &  \emph{\large Subject} &  \emph{\large Attended}\\
     \hline
     14/10/2011 & Lab Round Table & Choose which project to do & \(G\)\\
     18/10/2011 & Skypeland & Choose which project to do & \(G\)\\
     21/10/2011 & Lab Round Table & Discovered the original plan is infeasible due to constraints set by Twitter, draft backup plan & \(G\)\\
-    27/10/2011 & Lab Round Table & Plan approved, Design Architecture & \(G\ \{Suhaib\}\)\\
-    3/11/2011 & Lab Round Table & Progress Report (Backend, and UI Prototype I) & \(G\ \{Rafal\}\)\\
-    10/11/2011 & Lab Round Table & UI Prototype II presentation, API requests and design & \(G\ \{Maciej\}\)\\
-    17/11/2011 & Lab Round Table & UI Prototype III. Post-JB-meeting discussion & \(G\ \{Jamal\}\)\\
-    24/11/2011 & Skypeland & Incremental improvements & \(G\ \{Sam\}\)\\
-    1/12/2011 & Skypeland & Extensions ideas & \(G \ \{Suhaib\}\)\\
+    27/10/2011 & Lab Round Table & Plan approved, Design Architecture & \(G \smallsetminus \{\texttt{Suhaib}\}\)\\
+    3/11/2011 & Lab Round Table & Progress Report (Backend, and UI Prototype I) & \(G \smallsetminus \{\texttt{Rafal}\}\)\\
+    10/11/2011 & Lab Round Table & UI Prototype II presentation, API requests and design & \(G \smallsetminus \{\texttt{Maciej}\}\)\\
+    17/11/2011 & Lab Round Table & UI Prototype III. Post-JB-meeting discussion & \(G \smallsetminus \{\texttt{Jamal}\}\)\\
+    24/11/2011 & Skypeland & Incremental improvements & \(G \smallsetminus \{\texttt{Sam}\}\)\\
+    1/12/2011 & Skypeland & Extensions ideas & \(G \smallsetminus \{\texttt{Suhaib}\}\)\\
     8/12/2011 & Skypeland & Features prioritisation & \(G\)\\
   \end{tabular}
   \(G=\{\texttt{Rafal}, \texttt{Sam}, \texttt{Suhaib}, \texttt{Jamal}, \texttt{Maciek}\}\)\\
