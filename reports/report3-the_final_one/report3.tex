@@ -65,6 +65,15 @@
 				\caption{Pylint sample report}
 	\end{figure}
 	
+		\subsection{Data Volume}
+
+		Originally, there were problems with high write volumes, which was mostly due to improper use of writing debug information to files. This sometimes resulted in up to 30000 IO operations per second, resulting in emails from the VPS provider. This was subsequently solved, and IO volume is now proper.
+	
+		\begin{figure}[ht!]
+					\centering
+						\includegraphics[scale=0.4]{io_chart.png}
+					\caption{IO Volume before fix}
+		\end{figure}
 	
 	
 	\section{Managerial Documentation}
