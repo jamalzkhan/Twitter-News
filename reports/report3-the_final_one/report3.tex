@@ -38,7 +38,7 @@
 	
 	  Instead of using standard print statements to output the state of our system, which is composed of the RSS, Analysis and Twitter Thread, we incorporated a flexible event logging system.\\
 	We are able to leave our system and if an error occurs we can trace exactly which thread caused it and at which point in the program as opposed to the usual debugging.
-  The logger was also incorporated so that we have different levels of importance in logging i.e. have logging for general information of what is going on in the system and logging for errors. We are also able to log messages to different output sinks including the console and files.
+  The logger was also incorporated so that we have different levels of importance i.e. have logging for general information of what is going on in the system and logging for errors. We are also able to log messages to different output sinks including the console and files.
 	
 	  \begin{figure}[ht!]
 				  \centering
@@ -48,7 +48,11 @@
 	
 	  \subsection{Unit Testing}
 	
-	For testing various parts of the system we used unit tests to check that the code we were writing did not brake existing functionality that we already had.
+	  We used the PyUnit\footnote{\url{http://pyunit.sourceforge.net/}} module for incorporating unit tests in our code. An example of where we used this was in the RSS thread where we were testing functionality of all the functions written for this module.
+	  Having said this, It was very difficult to test some parts of the system as there is a lack of clear models, for example having unit tests for keyword generation or tweet fetching is difficult to implement as they use external APIs.
+	
+	\subsection{User Testing}
+	  From time to time we asked for feedback on the user facing product, this was done so that we could make design and functionality choices.
 	
 	\section{General Validation}
 	
