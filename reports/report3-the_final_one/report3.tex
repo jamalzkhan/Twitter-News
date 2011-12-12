@@ -53,6 +53,8 @@
   	  
   	  Having said this, It was very difficult to test some parts of the system as there is a lack of clear models, for example having unit tests for keyword generation or tweet fetching is difficult to implement as they use external APIs.
 
+		\subsection{UI Testing}
+		To debug the UI, Google Chrome’s Developer tools and Firebug were used. These tools were used to inspect the requests the UI issued, the network activities, debug layout and monitor performance.
   
 	
 	\section{General Validation}
@@ -60,8 +62,11 @@
 		\subsection{User Validation}
   	  From time to time we asked for feedback on the user facing product, this was done so that we could make design and functionality choices. We talked to our supervisor Jeremy Bradley\footnote{\url{http://www.doc.ic.ac.uk/~jb}} and he liked our user interface but wanted us to add pictures for each news story, we consequently went ahead with this and received very positive feedback.
 	
-	\subsection{Code Validation}
-	We used Pylint\footnote{\url{http://www.logilab.org/857}} to validate the python code which we wrote. This was done so that we could check if we had any bad indentation which could lead to silly errors. This also helped us check bad naming conventions for class names and functions.
+		\subsection{Code Validation}
+		We used Pylint\footnote{\url{http://www.logilab.org/857}} to validate the python code which we wrote. This was done so that we could check if we had any bad indentation which could lead to silly errors. This also helped us check bad naming conventions for class names and functions.
+	
+		\subsection{UI Validation}
+		http://validator.w3.org/ was used to validate the markup before pushing. We have a minimalist UI, therefore exhaustive tests were used to test all features.
 	
 
 		\subsection{Data Volume}
