@@ -38,7 +38,7 @@
 	
 	  Instead of using standard print statements to output the state of our system, which is composed of the RSS, Analysis and Twitter Thread, we incorporated a flexible event logging system.\\
 	We are able to leave our system and if an error occurs we can trace exactly which thread caused it and at which point in the program as opposed to the usual debugging.
-  The logger was also incorporated so that we have different levels of importance i.e. have logging for general information of what is going on in the system and logging for errors. We are also able to log messages to different output sinks including the console and files.
+  The logger was also incorporated so that we have different levels of importance in logging i.e. have logging for general information of what is going on in the system and logging for errors. We are also able to log messages to different output sinks including the console and files.
 	
 	  \begin{figure}[ht!]
 				  \centering
@@ -48,11 +48,7 @@
 	
 	  \subsection{Unit Testing}
 	
-	  We used the PyUnit\footnote{\url{http://pyunit.sourceforge.net/}} module for incorporating unit tests in our code. An example of where we used this was in the RSS thread where we were testing functionality of all the functions written for this module.
-	  Having said this, It was very difficult to test some parts of the system as there is a lack of clear models, for example having unit tests for keyword generation or tweet fetching is difficult to implement as they use external APIs.
-	
-	\subsection{User Testing}
-	  From time to time we asked for feedback on the user facing product, this was done so that we could make design and functionality choices. We talked to our supervisor Jeremy Bradley\footnote{\url{http://www.doc.ic.ac.uk/~jb}} and he liked our user interface but wanted us to add pictures for each news story, we consequently went ahead with this and received very positive feedback.
+	For testing various parts of the system we used unit tests to check that the code we were writing did not brake existing functionality that we already had.
 	
 	\section{General Validation}
 	
@@ -102,30 +98,31 @@
 	  \begin{tabular}{l | p{10cm} r}
      \emph{\large Date} & \emph{\large Comments} & \emph{\large Hours}\\
      \hline
-     12/10/2011 & Advanced network generation for follower/folowee relations. & 3\\
-     20/10/2011 & More work on the network generation. & 4\\
-     28/10/2011 & Initial internal API definition and basic implementation. & 2\\
-     28/10/2011 & Fixes to inter thread communication. & 2\\
-     02/11/2011 & Refactoring. & 3\\
-     02/11/2011 & Implemented keyword generation using Alchemy API. & 2\\
-     03/11/2011 & Implemented basic analysis thread. & 4\\
-     04/11/2011 & Assigning tweets to stories in analysis thread. & 3\\
-     04/11/2011 & Added short summaries and links to stories DB. & 2\\
-     08/11/2011 & Added wordclouds to the API. & 1\\
-     10/11/2011 & Refactoring. & 3\\
-     30/11/2011 & Fixed bugs in the logger. & 2
-    \end{tabular}
+	  11/10/2011 & Initial creation of the RSS Fetcher using python module feedparser. & 2\\
+    31/10/2011 & Keyword extraction completed for each story using Alchemy API. & 4\\
+    4/11/2011 & Implemented Flask Server creating API for the front end for the site as well as relevant database calls to fetch stories. & 7\\
+    10/11/2011 & Added functionality of getting stories by timestamp for the API. & 2\\
+    25/11/2011 & Completed flexible logger for each thread, so we can see exactly what is going on. & 7\\
+    12/11/2011 & Unit testing for RSS Fetcher completed. & 4
+  \end{tabular}
 	
 	  \subsubsection{Rafał Szymański}
 	    \begin{tabular}{l | p{10cm} r}
 	     \emph{\large Date} & \emph{\large Comments} & \emph{\large Hours}\\
 	     \hline
-	     11/10/2011 & Initial creation of the RSS Fetcher using python module feedparser. & 2\\
-       31/10/2011 & Keyword extraction completed for each story using Alchemy API. & 4\\
-       4/11/2011 & Implemented Flask Server creating API for the front end for the site as well as relevant database calls to fetch stories. & 7\\
-       10/11/2011 & Added functionality of getting stories by timestamp for the API. & 2\\
-       25/11/2011 & Completed flexible logger for each thread, so we can see exactly what is going on. & 7\\
-       12/11/2011 & Unit testing for RSS Fetcher completed. & 4
+	     10/10/2011 & Initial commit for the project. Basic implementation in Python of a script that given a keyword  fetches the live streaming API for the given keyword and writes it to the Mongo database. & 6\\
+       11/10/2011 & Bug fixes and a short readme. & 2\\
+       12/10/2011 & Fetching the follower/folowee graph and saving to a file. Basic analysis with NetworkX. & 3\\
+       20/10/2011 & More working on generating the user graph. & 2\\
+       21/10/2011 & Big update. Gets headlines from Google news RSS, generates keywords using Termtopia, sets up twitter stream, saves to Mongo and repeats every 5 minutes. & 7\\
+       01/11/2011 & Improving the threading of the program - added condition variables and fixed previous threading bugs. & 4\\
+       04/11/2011 & Working on instant deployment environment using Flask, Nginx, uwsgi, and a couple other technologies. Took forever to do but afterwards, after every git push, the new version is live straight away. & 10\\
+       07/11/2011 & Improvements to the instant deployment - new git hook, and a control script that allows remote restarting and clearing of the database. & 4\\
+       08/11/2011 & Wordcloud generation. Goes through each tweet, finds the most occurring words and adds that data for each analysis period. & 4\\
+       11/11/2011 & Improvements to control script. & 2\\
+       30/11/2011 & Sentiment analysis for each period. Gets sentiment using an API and adds to Mongo. & 5\\
+       04/12/2011 & Top tweets based on the number of retweets. & 2\\
+       04/12/2011 & Added all my new data to the frontend API. & 2
 	    \end{tabular}
 	  
 	  \subsubsection{Sam Wong}
