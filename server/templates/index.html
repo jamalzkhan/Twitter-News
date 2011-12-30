@@ -185,6 +185,12 @@
 			}
 			$("#wordcloudcanvas"+boxnum).wordCloud({wordList: cloud});
 
+			for(i = 0; i < data.tweets.length; i++) {
+				String str = data.tweets[i].text;
+				var box = "<p style='width:inherit;'><strong>" + str.substring(0,str.indexOf(":")) + ": </strong>" + str.substring(str.indexOf(":"),str.length) + "</p>"
+				$("#addtweet"+boxnum).append(box);
+			}
+
 			var imageSearch = new google.search.ImageSearch();
 			imageSeachers[boxnum] = imageSearch;
 			imageSeachersPage[boxnum] = 0;
@@ -193,7 +199,7 @@
 			imageSearch.setRestriction(
 			  google.search.Search.RESTRICT_SAFESEARCH,
 			  google.search.Search.SAFESEARCH_OFF
-			);	//Will we ever get porn? ;)
+			);	//Will we ever get porn? ;) -> Yes. Yes we did.
 			
 			// imageSearch.setRestriction(
 			// 	google.search.ImageSearch.RESTRICT_IMAGESIZE, 
@@ -208,10 +214,12 @@
 			imageSearch.setSearchCompleteCallback(this, boxSearch(boxnum), [imageSearch]);
 			imageSearch.execute('' + data.title + '');
 
+			/*// Get tweets using Twitter REST API			
 			if(data.keywords.length > 0)
 				$.ajax({type: "GET", url: "http://search.twitter.com/search.json?q="+data.keywords[0]+"&rpp=10&result_type=mixed", dataType: "jsonp", success: parseTweets(boxnum)});
 				
 			}, timeout);
+			*/
 		}
 	}
 
