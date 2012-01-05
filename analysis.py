@@ -47,8 +47,8 @@ class Analysis(threading.Thread):
         story["created_at"] = time.time()
         self.stories_collection.insert(story)
       else:
-        self.log.info("Story {0} is in db. Updating date.".format(story["title"]))
-        in_db.update({"$set": {"date": story["date"]}})
+        #self.log.info("Story {0} is in db. Updating date.".format(story["title"]))
+        #in_db.update({"$set": {"date": story["date"]}})
         self.log.info("Story {0} is in db. Updating update_time.".format(story["title"]))
         in_db.update({"$set": {"update_time": time.time()}})
         self.log.info("Story {0} is in db. Updating keywords.".format(story["title"]))

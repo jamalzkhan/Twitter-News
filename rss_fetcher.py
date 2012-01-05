@@ -1,7 +1,8 @@
 import feedparser, pymongo, json, hashlib, bson, threading, time
-from dateutil import parser    # For easily parsing strings to Date
+from dateutil import parser # For easily parsing strings to Date
 from BeautifulSoup import BeautifulSoup # For Parsing descriptions
-import keyword_extractor
+import keyword_extractor_termtopia as keyword_extractor
+
 import shared
 import helpers
 
@@ -61,7 +62,8 @@ class RssFetcher(threading.Thread):
       news_story["link"] = RssFetcher.gNews_get_link(entry["description"])
       news_story["summary"] = RssFetcher.gNews_get_summary(entry["description"])
       news_story["date"] = parser.parse(entry["updated"])
-      news_story["keywords"] = self.extractor.getKeywordsByURL(news_story["link_main_story"])
+      news_story["date_added"] = time.time()
+      news_story["keywords"] = self.extractor.getKeywords(news_story)
       self.news_stories.append(news_story)
     
     self.log.info("Putting a new set of stories into the shared list.")

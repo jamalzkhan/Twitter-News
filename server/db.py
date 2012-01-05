@@ -19,21 +19,39 @@ class Database:
     self.stories = self.database[self.story_collection_name]
     
     
-  def getStoriesByTimeStamp(self, time_stamp, no_of_stories=10):
+  def getStoriesAddedAfterTimeStamp(self, time_stamp, no_of_stories=10):
     """Used to get the most recent stories since the given timestamp"""
     stories_array = []
-    stories = {}
-    for story in self.stories.find({'created_at' : { '$gte': time_stamp }}).sort('created_at', -1).limit(no_of_stories):
+    for story in self.stories.find({'created_at' : { '$gte': time_stamp }}).sort('date_added', -1).limit(no_of_stories):
       stories_array.append(str(story["_id"]))
-    stories = {'news': stories_array, 'timestamp' : time.time()}
+    stories = {'news': stories_array, 'requesttime' : time.time()}
+    return stories
+    
+  def getStoriesAddedBeforeTimeStamp(self, time_stamp, no_of_stories=10):
+    stories_array = []
+    for story in self.stories.find({'created_at' : { '$lte': time_stamp }}).sort('date_added', 1).limit(no_of_stories).sort('date_added', -1):
+      stories_array.append(str(story["_id"]))
+    stories = {'news': stories_array, 'requesttime' : time.time()}
     return stories
   
   def getRecentStories(self, no_of_stories=10):
     """Used to get the most recent stories in json format {news: [story_1, story_2,..,story_number_of_stories]}"""
     stories_array = []
-    for story in self.stories.find().sort('update_date', -1).limit(no_of_stories): 
+    bottom_timestamp = 0
+    top_timestamp = 0
+    timestamps_set = False
+    for story in self.stories.find().sort('date_added', -1).limit(no_of_stories):
+      if(not timestamps_set):
+        bottom_timestamp = story["date_added"]
+        top_timestamp = story["date_added"]
+        timestamps_set = True
+      else:
+        if (bottom_timestamp > story["date_added"]):
+          bottom_timestamp = story["date_added"]
+        elif (top_timestamp < story["date_added"]):
+          top_timestamp = story["date_added"]
       stories_array.append(str(story["_id"]))
-    stories = {'news': stories_array, 'timestamp' : time.time()}
+    stories = {'news': stories_array, 'requesttime' : time.time(), 'bottomtimestamp': bottom_timestamp, 'toptimestamp': top_timestamp}
     return stories
     
   def getStory(self, story_id):
@@ -54,24 +72,7 @@ class Database:
         'tweets': map(lambda x: {"text" : x["text"], "score" : x["score"]}, story["periods"][-1]["tweets"] ) }
     else:
       return {'error' : 'Story does not exist'}
-      
-  def getStoryFullData(self,story_id):
-    """Given the story id gives a story summary, along with all historial tweet data"""
-    try:
-      id = objectid.ObjectId(str(story_id))
-    except objectid.InvalidId:
-      return {'error' : 'Invalid Id'}
-    story = self.stories.find_one({'_id':id})  
-    if story != None:
-      return {
-        'title': story["title"], 
-        'summary': story["summary"], 
-        'link': story["link_main_story"], 
-        'keywords': story["keywords"],
-        'periods' : story["periods"] }
-    else:
-      return {'error' : 'Story does not exist'}
-  
+        
   def getStories(self):
     """Used to get all the stories"""
     stories = []
