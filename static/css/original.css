@@ -349,25 +349,8 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #02f058), color-stop(.4, #01c230), color-stop(.6, #00a30d), to(#016b0b));  
 }
 
-.roundr {
-    -webkit-border-top-right-radius: 5px;
-    -webkit-border-bottom-right-radius: 5px;
-    -moz-border-top-right-radius: 5px;
-    -moz-border-bottom-right-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-.roundl {
-    -webkit-border-top-left-radius: 5px;
-    -webkit-border-bottom-left-radius: 5px;
-    -moz-border-top-left-radius: 5px;
-    -moz-border-bottom-left-radius: 5px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-
-.roundall {
+.round {
+    overflow: hidden;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
