@@ -202,7 +202,7 @@
             $("#wordcloudcanvas"+boxnum).wordCloud({wordList: cloud});
 
             for(i = 0; i < data.tweets.length; i++) {
-                var str = new String("data.tweets[i].text");
+                var str = new String(data.tweets[i].text);
                 var tbox = "<p style='width:inherit;'><strong>" + str.substring(0,str.indexOf(":")) + ": </strong>" + str.substring(str.indexOf(":"),str.length) + "</p>"
                 $("#addtweet"+boxnum).append(tbox);
             }
