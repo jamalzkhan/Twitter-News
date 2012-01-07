@@ -1,4 +1,4 @@
-import pycurl, json, pymongo, ConfigParser, bson, hashlib, threading, itertools
+import pycurl, json, pymongo, ConfigParser, bson, hashlib, threading, itertools, time
 
 import mongo_connector
 import shared
@@ -59,6 +59,7 @@ class StreamReader(threading.Thread):
     if(data.find("many requests") > -1 ):
       self.log.error("Twitter is throttling us... Waiting 30 seconds")
       time.wait(30)
+      self.log.error("Finished waiting")
       
     try:
       # Means we need to restart with new set of keywords
