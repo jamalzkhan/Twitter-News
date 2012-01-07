@@ -319,13 +319,6 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
     
     background: #A30006;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F03C02), color-stop(.4, #C21A01), color-stop(.6, #A30006), to(#6B0103));  
-    
-    -webkit-border-top-left-radius: 5px;
-    -webkit-border-bottom-left-radius: 5px;
-    -moz-border-top-left-radius: 5px;
-    -moz-border-bottom-left-radius: 5px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
 }
 
 .sentimentG {
@@ -340,7 +333,9 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
     
     background: #519548;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #BEF202), color-stop(.4, #88C425), color-stop(.6, #519548), to(#1B676B));  
-    
+}
+
+.roundr {
     -webkit-border-top-right-radius: 5px;
     -webkit-border-bottom-right-radius: 5px;
     -moz-border-top-right-radius: 5px;
@@ -349,3 +344,11 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
     border-bottom-right-radius: 5px;
 }
 
+.roundl {
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-top-left-radius: 5px;
+    -moz-border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
