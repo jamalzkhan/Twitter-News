@@ -305,3 +305,47 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; }
 
+
+/* Sentiment */
+.sentimentR {
+    height: 15px;
+    float: left;
+    overflow: hidden;
+    
+    line-height: 15px;
+    color: white; 
+    font-size: 12px;
+    text-align: center; 
+    
+    background: #A30006;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F03C02), color-stop(.4, #C21A01), color-stop(.6, #A30006), to(#6B0103));  
+    
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-top-left-radius: 5px;
+    -moz-border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.sentimentG {
+    height: 15px;
+    float: right;
+    overflow: hidden;
+    
+    line-height: 15px;
+    color: white; 
+    font-size: 12px;
+    text-align: center;
+    
+    background: #519548;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #BEF202), color-stop(.4, #88C425), color-stop(.6, #519548), to(#1B676B));  
+    
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-border-top-right-radius: 5px;
+    -moz-border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
