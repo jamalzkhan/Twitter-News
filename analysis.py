@@ -80,7 +80,7 @@ class Analysis(threading.Thread):
           for keyword_word in keyword_words:
             exists = exists and (tweet["text"].find(keyword_word) != -1)
           if exists:
-            story["curr_period"]["tweets"].append( { 'id': tweet["_id"], 'score': tweet["retweet_count"], 'text' : tweet["text"] } )
+            story["curr_period"]["tweets"].append( { 'id': tweet["_id"], 'score': tweet["retweet_count"], 'text' : tweet["text"], 'user' : tweet["user"]["screen_name"] } )
             break;
     
     self.log.info("Pushing new periods to db.")
