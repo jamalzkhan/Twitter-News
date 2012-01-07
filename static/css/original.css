@@ -352,3 +352,9 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
+
+.roundall {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}

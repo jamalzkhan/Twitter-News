@@ -183,8 +183,8 @@
             var neg;
             if(data.sentiment.negative + data.sentiment.positive > 0) {
                 neg = data.sentiment.negative / (data.sentiment.negative + data.sentiment.positive);
-                if(data.sentiment.negative == 0) $("#sneg"+boxnum).addClass("roundr");
-                if(data.sentiment.positive == 0) $("#spos"+boxnum).addClass("roundl");
+                if(data.sentiment.negative == 0) $("#sneg"+boxnum).removeClass("roundl").addClass("roundall");
+                if(data.sentiment.positive == 0) $("#spos"+boxnum).removeClass("roundr").addClass("roundall");
             }
             else {
                 neg = 0.5;
