@@ -122,7 +122,7 @@
         +    "</div>"        
         +    "<div class='mask mask-1'></div>        <div class='mask mask-2'></div>"
         +    "<div class='details' style=''>"
-        +        "<div class='left' style='width:205px; height:400px; float:left'>"
+        +        "<div class='left' style='width:200px; height:400px; float:left'>"
         +             "<div class='boxw' style='margin-bottom: 10px;height:200px'>"
         +                "<div id='article" + id + "' class='scrollable' style=''>"
         +                "</div>"
@@ -134,8 +134,9 @@
         +                "<span id='addtweet" + id + "'/>"
         +             "</div>"
         +             "<div id='sentiment" + id + "' class='boxw' style='width: 190px; height: 15px'>"
-        +                 "<div id='sneg" + id + "' class='sentimentR roundl' style='width: 50%;'></div>"
-        +                 "<div id='spos" + id + "' class='sentimentG roundr' style='width: 50%;'></div>"
+        +                 "<div id='sneg" + id + "' class='sentimentR' style='width: 30%;'></div>"
+        +                 "<div id='sneu" + id + "' class='sentimentN' style='width: 40%;'></div>"
+        +                 "<div id='spos" + id + "' class='sentimentG' style='width: 30%;'></div>"
         +             "</div>"
         +         "</div>"    
         +     "</div>"        
@@ -180,17 +181,36 @@
             // $("#btc"+boxnum).mCustomScrollbar("vertical",300,"easeOutCirc",1.05,"fixed","yes","no",1);
             
 
-            var neg;
-            if(data.sentiment.negative + data.sentiment.positive > 0) {
-                neg = data.sentiment.negative / (data.sentiment.negative + data.sentiment.positive);
-                if(data.sentiment.negative == 0) $("#sneg"+boxnum).removeClass("roundl").addClass("roundall");
-                if(data.sentiment.positive == 0) $("#spos"+boxnum).removeClass("roundr").addClass("roundall");
+            var neg, pos, neu;
+            if(data.sentiment.negative + data.sentiment.positive + data.sentiment.neutral > 0) {
+                neg = Math.floor(100 * data.sentiment.negative / (data.sentiment.negative + data.sentiment.positive + data.sentiment.neutral));
+                pos = Math.floor(100 * data.sentiment.positive / (data.sentiment.negative + data.sentiment.positive + data.sentiment.neutral));
+                neu = 100 - neg - pos;
+                if(neg + pos == 0) $("#sneu"+boxnum).addClass("roundall");
+                else if(neg == 0) {
+                    if(neu > 0) {
+                        $("#sneu"+boxnum).addClass("roundl");
+                        $("#pos"+boxnum).addClass("roundr");
+                    }
+                    else $("#spos"+boxnum).addClass("roundall");
+                }
+                else if(pos == 0) {
+                    if(neu > 0) {
+                        $("#sneu"+boxnum).addClass("roundr");
+                        $("#neg"+boxnum).addClass("roundl");
+                    }
+                    else $("#sneg"+boxnum).addClass("roundall");
+                }
+                
             }
             else {
-                neg = 0.5;
+                neg = 0;
+                pos = 0;
+                neu = 100;
             }
-            $("#sneg"+boxnum).css('width', (neg*100) + '%');
-            $("#spos"+boxnum).css('width', (100 - neg*100) + '%');
+            $("#sneg"+boxnum).css('width', neg + '%');
+            $("#sneu"+boxnum).css('width', neu + '%');
+            $("#spos"+boxnum).css('width', pos + '%');
 
             var cloud = new Array();
             for(var i in data.wordcloud) {

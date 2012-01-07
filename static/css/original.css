@@ -321,6 +321,20 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F03C02), color-stop(.4, #C21A01), color-stop(.6, #A30006), to(#6B0103));  
 }
 
+.sentimentN {
+    height: 15px;
+    float: right;
+    overflow: hidden;
+    
+    line-height: 15px;
+    color: white; 
+    font-size: 12px;
+    text-align: center;
+    
+    background:  #a6a6a6;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #a6a6a6), color-stop(.4, #7c7c7c), color-stop(.6, #5b5b5b), to(#3d3d3d));  
+}
+
 .sentimentG {
     height: 15px;
     float: right;
@@ -331,8 +345,8 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
     font-size: 12px;
     text-align: center;
     
-    background: #519548;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #BEF202), color-stop(.4, #88C425), color-stop(.6, #519548), to(#1B676B));  
+    background:  #02f058;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #02f058), color-stop(.4, #01c230), color-stop(.6, #00a30d), to(#016b0b));  
 }
 
 .roundr {
