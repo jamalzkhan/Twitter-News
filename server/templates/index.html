@@ -133,9 +133,9 @@
         +             "<div id='tweets" + id + "' class='boxw scrollable' style='height:350px'>"
         +                "<span id='addtweet" + id + "'/>"
         +             "</div>"
-        +             "<div id='sentiment" + id + "' class='boxw' style='height: 15px'>"
-        +                 "<div id='sneg" + id + "' class='sentimentR' style='width: 50%;'>[-]</div>"
-        +                 "<div id='spos" + id + "' class='sentimentG' style='width: 50%;'>[+]</div>"
+        +             "<div id='sentiment" + id + "' class='boxw' style='width: 200px; height: 15px'>"
+        +                 "<div id='sneg" + id + "' class='sentimentR roundl' style='width: 50%;'></div>"
+        +                 "<div id='spos" + id + "' class='sentimentG roundr' style='width: 50%;'></div>"
         +             "</div>"
         +         "</div>"    
         +     "</div>"        
@@ -183,6 +183,8 @@
             var neg;
             if(data.sentiment.negative + data.sentiment.positive > 0) {
                 neg = data.sentiment.negative / (data.sentiment.negative + data.sentiment.positive);
+                if(data.sentiment.negative == 0) $("#sneg"+boxnum).addClass("roundr");
+                if(data.sentiment.positive == 0) $("#spos"+boxnum).addClass("roundl");
             }
             else {
                 neg = 0.5;
@@ -200,8 +202,7 @@
             $("#wordcloudcanvas"+boxnum).wordCloud({wordList: cloud});
 
             for(i = 0; i < data.tweets.length; i++) {
-                var str = new String(data.tweets[i].text);
-                var tbox = "<p style='width:inherit;'><strong>" + str.substring(0,str.indexOf(":")) + ": </strong>" + str.substring(str.indexOf(":"),str.length) + "</p>"
+                var tbox = "<p style='width:inherit;'><strong></strong>" + data.tweets[i].text + "</p>"
                 $("#addtweet"+boxnum).append(tbox);
             }
             $('.scrollable').jScrollPane({});
