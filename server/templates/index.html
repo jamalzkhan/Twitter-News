@@ -208,7 +208,7 @@
             $("#wordcloudcanvas"+boxnum).wordCloud({wordList: cloud});
 
             for(i = 0; i < data.tweets.length; i++) {
-                var tbox = "<p style='width:inherit;'><strong></strong>" + data.tweets[i].text + "</p>"
+                var tbox = "<p style='width:inherit;'><strong>" + data.tweets[i].user + ": </strong>" + data.tweets[i].text + "</p>";
                 $("#addtweet"+boxnum).append(tbox);
             }
             $('.scrollable').jScrollPane({});
