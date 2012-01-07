@@ -323,7 +323,7 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
 
 .sentimentN {
     height: 15px;
-    float: right;
+    float: left;
     overflow: hidden;
     
     line-height: 15px;
@@ -337,7 +337,7 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
 
 .sentimentG {
     height: 15px;
-    float: right;
+    float: left;
     overflow: hidden;
     
     line-height: 15px;
