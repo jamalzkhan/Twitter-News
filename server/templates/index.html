@@ -181,7 +181,7 @@
             $("#article"+boxnum).html("<h2>" + data.title + "</h2><p>" + data.summary + "</p>");
             // $("#btc"+boxnum).mCustomScrollbar("vertical",300,"easeOutCirc",1.05,"fixed","yes","no",1);
             
-            console.log(data.sentiment); // TO FINISH PROPERLY /!\
+
             var neg;
             if(data.sentiment.negative + data.sentiment.positive > 0) {
                 neg = data.sentiment.negative / (data.sentiment.negative + data.sentiment.positive);
