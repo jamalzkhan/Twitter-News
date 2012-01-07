@@ -1,7 +1,7 @@
 import feedparser, pymongo, json, hashlib, bson, threading, time
 from dateutil import parser # For easily parsing strings to Date
 from BeautifulSoup import BeautifulSoup # For Parsing descriptions
-import keyword_extractor_termtopia as keyword_extractor
+import keyword_extractor as keyword_extractor
 
 import shared
 import helpers

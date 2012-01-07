@@ -12,10 +12,10 @@ class KeywordExtractor:
     self.keyword_limit_option = 'maxRetrieve={0}'.format(limit)
     self.logger = logger
 
-  def getKeywordsByURL(self, url):
-    """Gets Keywords given a particular URL in JSON format which is then put into a list"""
+  def getKeywords(self, story):
+    """Gets Keywords given a particular story in JSON format which is then put into a list"""
     # Building Alchemy API call
-    call = self.stream +  '?' + self.apikey_option + "&" + 'url=' + url + "&" + self.output_option + '&' + self.keyword_limit_option
+    call = self.stream +  '?' + self.apikey_option + "&" + 'url=' + story["link_main_story"] + "&" + self.output_option + '&' + self.keyword_limit_option
     data = urllib.urlopen(call)
     try:
       keywords = []
