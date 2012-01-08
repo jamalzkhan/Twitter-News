@@ -67,16 +67,34 @@
 		
 		\paragraph{Database} We decided to use MongoDB as our main data store. Most of us had used it before and we were very happy with how it worked. We opted for a NoSQL Document-oriented database, rather than for a classical SQL solution for a couple of reasons.
 		
-		The data we get for twitter stream is not always the same. Very often there are fields missing, some of them sometimes contain numbers sometimes strings. It would be much harder to save all of that data in an SQL database. The advantage MongoDB has here is that it natively operates in JSON, the format twitter data is supplied to us and it makes it extremely easy to save the tweets and retrieve them later.
+		The data we get for twitter stream is not always the same. Very often there are fields missing, some of them sometimes contain numbers sometimes strings. It would be much harder to save all of that data in a SQL database.
+		
+		The other advantage MongoDB has here is that it natively operates in JSON, the format twitter data is supplied to us and it makes it extremely easy to save the tweets and retrieve them later.
 		
 		Our project itself also didn't have a rigid structure initially. We were changing what we write into the database all the time and everything was quite fluid until the very end. The fact that MongoDB didn't impose any structure helped a lot.
 		
-		\paragraph{Architecture} This is the basic sequence of events that happens in the analysis process:
+		\paragraph{Other tools} We decided that in order to attach relevant tweets to news stories we will need to generate keyword relevant to the articles. That turns out to be much trickier than we expected. Keywords need to be specific enough so that the tweets we attach to the story are actually relevant but not so specific that there is no tweets mentioning them. It's quite easy for a person with all the cultural knowledge we have to do that, but writing a program to do that efficiently is actually quite hard.
+		
+		We initially used TermTopia's TermExtractor\footnote{\url{http://pypi.python.org/pypi/topia.termextract/}}. It was a simple tool that just analysed the title of the article and tried to decide which word in there could be keywords and rank them in order of importance.
+		
+		We quickly realised that this will not be enough, very often the relevant keywords don't appear in the title, they appear in the text of the news article. We decided to use AlchemyAPI's keyword extractor\footnote{\url{http://alchemyapi.com}}. We emailed them and got special university access that increased the amount of API calls we can make.
+		
+		We initially wanted to do sentiment analysis ourselves, but we quickly realised it's going to be extremely hard. We did find some interesting papers\footnote{\url{http://www.stanford.edu/~alecmgo/papers/TwitterDistantSupervision09.pdf}}, but realised this approach would involve diving really deep into machine learning and teaching our system to recognise tweets for some time. Fortunately authors of the paper also provide a service for analysing tweet sentiment and an API that goes along with it\footnote{\url{http://twittersentiment.appspot.com/}} and we decided to use that.
+		
+	\paragraph{Architecture} This is the basic sequence of events that happens in the analysis process:
 		\begin{enumerate}
 		  \item Start three threads: \emph{News Fetcher}, \emph{Tweet Fetcher} and \emph{Analysis}
 		  \item \emph{Tweet Fetcher} waits for the \emph{News Fetcher} to get current news
 		  \item \emph{News Fetcher} gets current news from the RSS feed
-		  \item \emph{News Fetcher} Extracts basic information
+		  \item \emph{News Fetcher} extracts basic information from the RSS feed
+		  \item \emph{News Fetcher} generates keywords using AlchemyAPI
+		  \item \emph{News Fetcher} saves all the info generated into \emph{shared} and goest o sleep for 500s
+		  \item \emph{Tweet Fetcher} wakes up gets all the keywords from \emph{shared} and starts fetching tweets mentioning those keywords restarting every time \emph{News Fetcher updates}
+		  \item \emph{Analysis} wakes up every 5 minutes and gets current stories from \emph{shared}
+		  \item \emph{Analysis} checks if the stories in \emph{shared} are already in DB, if not it inserts them
+		  \item \emph{Analysis} gets the tweets saved by \emph{Tweet Fetcher} in last 5 minutes and attaches them to stories in the current period in DB
+		  \item \emph{Analysis} performs word cloud generation on the tweets attached to stories
+		  \item \emph{Analysis} performs sentiment analysis on the tweets attached to stories using Twitter Sentiment mentioned earlier
 		\end{enumerate}
 		
 		
@@ -244,6 +262,8 @@
 			\item 	\url{http://nginx.org/} - Backend server
 			\item 	\url{http://projects.unbit.it/uwsgi/} - For nginx to speak with python
 			\item 	\url{http://alchemyapi.com} - API for keyword extraction
+			\item   \url{http://pypi.python.org/pypi/topia.termextract/} TermTopia's TermExtractor
+			\item   \url{http://twittersentiment.appspot.com/} Twitter Sentiment Analizer
 			\item 	\url{http://mongodb.com} - Data store used 
 			\item 	\url{http://www.logilab.org/857} - Pylint
 		\end{itemize}
