@@ -136,7 +136,6 @@
         +             "<div id='sentiment" + id + "' class='boxw' style='width: 189px; height: 15px'>"
         +                 "<div class='round'>"
         +                   "<div id='sneg" + id + "' class='sentimentR' style='width: 30%;'></div>"
-        +                   "<div id='sneu" + id + "' class='sentimentN' style='width: 40%;'></div>"
         +                   "<div id='spos" + id + "' class='sentimentG' style='width: 30%;'></div>"
         +                 "</div>"
         +             "</div>"
@@ -183,19 +182,16 @@
             // $("#btc"+boxnum).mCustomScrollbar("vertical",300,"easeOutCirc",1.05,"fixed","yes","no",1);
             
 
-            var neg, pos, neu;
-            if(data.sentiment.negative + data.sentiment.positive + data.sentiment.neutral > 0) {
-                neg = Math.floor(100 * data.sentiment.negative / (data.sentiment.negative + data.sentiment.positive + data.sentiment.neutral));
-                pos = Math.floor(100 * data.sentiment.positive / (data.sentiment.negative + data.sentiment.positive + data.sentiment.neutral));
-                neu = 100 - neg - pos;
+            var neg, pos;
+            if(data.sentiment.negative + data.sentiment.positive > 0) {
+                neg = Math.floor(100 * data.sentiment.negative / (data.sentiment.negative + data.sentiment.positive));
+                pos = 100 - neg;
             }
             else {
-                neg = 0;
-                pos = 0;
-                neu = 100;
+                neg = 50;
+                pos = 50;
             }
             $("#sneg"+boxnum).css('width', neg + '%');
-            $("#sneu"+boxnum).css('width', neu + '%');
             $("#spos"+boxnum).css('width', pos + '%');
 
             var cloud = new Array();
