@@ -145,7 +145,7 @@
 		
 		When looking for a framework we initially considered Django\footnote{\url{http://www.django.org}}, but quickly dismissed it as being way too big for our needs. It requires major setup and is set up for more classic web pages, not live updating, JavaScript based websites.
 		
-		AFter some research we ended up with two possible choices Bottle\footnote{\url{http://bottlepy.org/docs/dev/}} and Flask\footnote{\url{http://flask.pocoo.org/}}. After quickly going through the documentation it seemed to us that Flask has better support for returning well formed JSON data, so we decided to go with it. API is a relatively small part of the project, so we didn't want to spend too much time making this choice.
+		After some research we ended up with two possible choices Bottle\footnote{\url{http://bottlepy.org/docs/dev/}} and Flask\footnote{\url{http://flask.pocoo.org/}}. After quickly going through the documentation it seemed to us that Flask has better support for returning well formed JSON data, so we decided to go with it. API is a relatively small part of the project, so we didn't want to spend too much time making this choice.
 		
 		\subsection{UI}
 		The UI connects to the server's API and displays the information in a clean and appealing tiled layout. These tiles dynamically rearrange themselves and adjust to the size of the users' window or screen. Each tile displays an image related to the article aswell as the title of the article in question. On hover/click of a tile, the image folds away (CSS3 eye-candy) revealing a short summary of the article, a word cloud made from common words found in relevant tweets, a list of top relevant tweets and the overall sentiment derived from the relevant tweets.
@@ -155,10 +155,9 @@
 Specifically we use:
   \begin{itemize}
     \item CSS3 for the fold-away image tile
-    \item Javascript/JQuery for fetching news and stories, and adding the news boxes to the page
+    \item Javascript/JQuery for fetching news and stories, adding the news boxes to the page, and implementing Infinite Scroll  to get archived news stories
     \item JQuery Masonry for the dynamically rearranging tiled page layout
     \item JQuery WordCloud for on the fly/dynamic word cloud creation
-    \item JQuery Infinite Scroll for nice/clever way of getting archived news stories
     \item Various other JQuery plugins for other smaller tasks including nice scrolling
   \end{itemize}
     For article images, we originally wanted to extract the image from the linked article but because we get our news from google which links to several different news sites, writing an extraction method which worked with all these sites is difficult, and the resolution is sometimes too low for our purpose.
