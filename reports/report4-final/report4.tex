@@ -226,23 +226,29 @@ Specifically we use:
 			We have used the git version control system for keeping track of the project, for easily reverting if there is a problem, and for having a very quick deploy mechanism. Whenever a code push occurs to our git repository, we have a git post-receive hook that copies the static files appropriately, and restarts the appropriate processes. This means that as soon as a code push occurs, the new version is live right away.
 		
 			\subsection{Trello}
-		
-			Trello\footnote{\url{http://trello.com}} is a very good piece of software by FogCreek. It is a digital board that allows you to create post-its and write the product backlog, and move tasks between the product backlog, the current iteration, and the finished tasks. We have used Trello throughout and found it very useful. See Figure~\ref{fig:trello} to have an overview of how Trello operates.
-			
-			\begin{figure}
+			\begin{figure}[t!]
 			 \includegraphics[scale=0.4]{trello.png}
 			 \caption{\label{fig:trello} Trello project management board.}
 			\end{figure}
 		
 			\subsection{Skype}
+			Trello\footnote{\url{http://trello.com}} is a very good piece of software by FogCreek. It is a digital board that allows you to create post-its and write the product backlog, and move tasks between the product backlog, the current iteration, and the finished tasks. We have used Trello throughout and found it very useful. See Figure~\ref{fig:trello} to have an overview of how Trello operates.
 		
 			We extensively used Skype to discuss the project and set up team meetings.
 			
 		\section{Development Techniques}
-		
+		\begin{figure}
+  	  \centering
+  	 \includegraphics[scale=0.19]{iter1.png}
+
+  	 \includegraphics[scale=0.19]{iter2.png}
+
+  	 \includegraphics[scale=0.19]{iter3.png}
+  	 \caption{\label{fig:uiiter} UI Iterations}
+  	\end{figure}
 		We adopted agile development methodologies, but as discussed in the section on people management, we have had some problems in having set project meetings. Nevertheless, we have adopted the use of iterations and developed using iterations plans.
 		
-		\textbf{First iteration of iteration plan}
+		\paragraph{First iteration of iteration plan}
 
 		\begin{itemize}
 			\item First Iteration MVP - basic news augmenting functionality and live updates.
@@ -276,7 +282,7 @@ Specifically we use:
 
 		Therefore, we drafted a new iteration plan and described what the project goals are in terms of user-facing features.
 		
-		\textbf{Second iteration of iteration plan}
+		\paragraph{Second iteration of iteration plan}
 		
 		\begin{itemize}
 			\item First Iteration
@@ -318,7 +324,6 @@ Specifically we use:
 		\end{itemize}
 		
 		We were satisfied with this plan. We skipped Iteration 4 because we thought it doesn’t align with our project aim, but apart from that, we followed the plan and made accountable progress along the way.
-	
 			\section{Testing}
 			  Testing our project was challenging. Since it is more of a real-time system that just analyses data we did not have any models to test. Nevertheless we needed a way to check if the program is working correctly.
 
@@ -458,16 +463,28 @@ Specifically we use:
 	From time to time we asked for feedback on the user facing products. This was done so that we could make design and functionality choices. We talked to our supervisor Jeremy Bradley, and he liked our user interface but wanted us to add pictures for each news story, we consequently went ahead with this and received positive feedback.
 	
 	\section{Code Validation}
-	
+
 	We used Pylint4 to validate the Python code which we wrote. This was done to check for errors such as incorrect indentation, bad naming conventions for class names and functions, among others. Checking for errors and validating the UI side of the project was done using the W3 Validator at \url{http://validator.w3.org/}.
 	
-	\section{Conclusion}
 	
+	\section{Learning Outcomes}
+	\paragraph{Technologies}
+  Throughout the project we were working with technologies that we had not come across before. As mentioned our primary language of development Python was new to us - looking back this was a dangerous move, however it was a good challenge and we managed to take a away quite a bit of learning.
+
+  \paragraph{Collaboration Tools}
+  As mentioned above we used tools to help keep track of each others progress and to track how close we are from hitting our milestones. This helped us learn how professional software engineering projects are planned and progress measured. Details of our two main tools (Trello and Git) are above.
+
+  \paragraph{Teamwork}
+  One key takeaway from this project was that teams (not technology or code) make or break whether a project is successful or not.
+
+  We learned quickly that if we did not assign roles to particular people then a lot of time is wasted in people trying to cover all aspects of the project. To us it made more sense to assign particular parts of the project suited to the individuals and if problems were encountered at an individual level then the help of the group was at hand.
+	
+	\section{Conclusion}
 		We conclude that this project was a good exercise in learning software development techniques, and exposing problems related to working in a group.
 		
 		We have achieved a working end product, and are reasonably happy with the result given the encountered technical difficulties of working with Twitter, but nevertheless believe that had the organization and work of the group been better, that the end result could have seen an increase in quality.
 	
-		In addition to learning firsthand a lot about the effect of poor teamwork on the quality of the output, we have had other positive learning experiences. We got to work with Python, a language the team yet hasn't used, and got to experiment with a number of APIs such as Twitter's, AlchemyAPI's, and a number of others. The project was a positive experience in terms of API mashups and learning software engineering techniques.
+		In addition to learning firsthand a lot about the effect of poor teamwork on the quality of the output, we have had other positive learning experiences. We got to work with Python, a language the team yet hasn't used, and got to experiment with a number of APIs such as Twitter's, AlchemyAPI's, and a number of others. The project was a positive experience in terms of API mashups and learning software engineering techniques.		
 	
 	\chapter{Bibliography and Tools used}\label{chap:bib}
 	
