@@ -35,6 +35,8 @@
 
 	\chapter{High Level Overview}
 	
+	\section{Product Functionality}
+	
 	Twitter News Generator - An webapp that pairs current news with relevant tweets.
 
 	\section{Our Aim}
@@ -45,7 +47,13 @@
 
 	When a news story breaks, our backend performs a textual analysis on the story to extract keywords. These keywords are then used as the seed to fetch relevant tweets. Once we have a list of relevant tweets, we perform 1) sentiment analysis on these tweets to gauge positivity of each tweet, 2) textual analysis to extract keywords and 3) using 1 and 2 to gauge which tweets should be shown first.
 
-	Once these analyses are done, they are presented in our minimalist yet visually appealing news reading interface. The interface will self-updated periodically, and infinite scroll was implemented to look at past news.
+	Once these analyses are done, they are presented in our minimalist yet visually appealing news reading interface. The interface will self-updated periodically, and infinite scroll was implemented to look at past news. Figure~\ref{fig:screen1} shows the final end product.
+
+	\begin{figure}
+	 \includegraphics[scale=0.29]{screen1.png}
+	 \caption{\label{fig:screen1} Minimalist UI of our end product}
+	\end{figure}	
+	
 	
 	\chapter{Technical Overview}
 	\begin{figure}
@@ -202,6 +210,87 @@ Specifically we use:
 			\subsection{Skype}
 		
 			We extensively used Skype to discuss the project and set up team meetings.
+			
+		\section{Development Techniques}
+		
+		We adopted agile development methodologies, but as discussed in the section on people management, we have had some problems in having set project meetings. Nevertheless, we have adopted the use of iterations and developed using iterations plans.
+		
+		\textbf{First iteration of iteration plan}
+
+		\begin{itemize}
+			\item First Iteration MVP - basic news augmenting functionality and live updates.
+			\begin{itemize}
+				\item Setup DB and server to receive Tweets and RSS
+				\item Research suitable DB (MongoDB) – Select frameworks and architecture – digging into twitter API and RSS
+				\item Design algorithms to generate keywords (Look into using natural language processing libraries, there are a lot available for Python)
+				\item UI Mockups and UX Research
+				\item UI Implementation: Framework and plugins to use (eg jQuery, jQuery plugins, Twitter Bootstrap, etc)
+				\item Getting the web app hosted
+			\end{itemize}
+			
+			\item Second Iteration
+			\begin{itemize}
+				\item Polished and Efficient implementation including Debugging, refactoring and optimisation
+			\end{itemize}
+			
+			\item Third Iteration
+			\begin{itemize}
+				\item Extensions including: • Sentiment Analysis algorithm • Categorization algorithm 
+			\end{itemize}
+			
+			\item Fourth Iteration
+			\begin{itemize}
+				\item Final Product
+			\end{itemize}
+			
+		\end{itemize}
+		
+		After submitting our first report we realised the Iteration plan we proposed was flawed. In many parts instead of focusing on the user facing features we have reported on the technical aspects of what we will do. One whole iteration was dedicated to “Debugging, refactoring and optimisation”. 
+
+		Therefore, we drafted a new iteration plan and described what the project goals are in terms of user-facing features.
+		
+		\textbf{Second iteration of iteration plan}
+		
+		\begin{itemize}
+			\item First Iteration
+			\begin{itemize}
+				\item Setup DB and server to receive Tweets and RSS
+				\item Research suitable DB (MongoDB) – Select frameworks and architecture – digging into twitter API and RSS
+				\item First attempt at the UI. It will be polished and new features will be added throughout iterations.
+				\item Generate keywords from news stories and fetch relevant tweets. This is a necessary part of the entire system.
+				\item Display current news stories
+				\item Getting the web app hosted
+			\end{itemize}
+			
+			\item Second Iteration
+			\begin{itemize}
+				\item Wordclouds generated from tweets related to news stories.
+				\item Influential tweets related to news stories.
+			\end{itemize}
+			
+			\item Third Iteration
+			\begin{itemize}
+				\item Add the ability to analyse whether the tweets are positive or negative and present the aggregated result in the UI.
+			\end{itemize}
+			
+			\item Fourth Iteration
+			\begin{itemize}
+				\item Categorise tweets and based on these categories categorise the news stories themselves. Add that to UI.
+			\end{itemize}
+			
+			\item Fifth Iteration
+			\begin{itemize}
+				\item Fetch pictures relevant to news stories and present them in the UI.
+			\end{itemize}
+			
+			\item Sixth Iteration
+			\begin{itemize}
+				\item Final application polish and validating if everything is really really working before final submission.
+			\end{itemize}
+			
+		\end{itemize}
+		
+		We were satisfied with this plan. We skipped Iteration 4 because we thought it doesn’t align with our project aim, but apart from that, we followed the plan and made accountable progress along the way.
 	
 			\section{Testing}
 			  Testing our project was challenging. Since it is more of a real-time system that just analyses data we did not have any models to test. Nevertheless we needed a way to check if the program is working correctly.
@@ -337,9 +426,23 @@ Specifically we use:
 	
 	\chapter{Validation and Conclusions}
 	
+	\section{User Validation}
+	
+	From time to time we asked for feedback on the user facing products. This was done so that we could make design and functionality choices. We talked to our supervisor Jeremy Bradley, and he liked our user interface but wanted us to add pictures for each news story, we consequently went ahead with this and received very positive feedback.
+	
+	\section{Code Validation}
+	
+	We used Pylint4 to validate the Python code which we wrote. This was done to check for errors such as incorrect indentation, bad naming conventions for class names and functions, among others. Checking for errors and validating the UI side of the project was done using the W3 Validator at \url{http://validator.w3.org/}.
+	
+	\section{Conclusion}
+	
+	
+	
+	
+	
 	\chapter{Bibliography and Tools used}\label{chap:bib}
 	
-	Taking into account the fact that this wasn't a research project requiring extensive external material, we do not provide a full biography, but provide links to sources we have used and consulted when working on this software engineering project.
+	Taking into account the fact that this wasn't a research project requiring extensive external material, we do not provide a full bibliography, but provide links to sources we have used and consulted when working on this software engineering project.
 	
 	\begin{itemize}
 		\item Backend Resources
