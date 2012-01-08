@@ -56,7 +56,7 @@ class StreamReader(threading.Thread):
     print json.loads(data)
   
   def receive_and_write_to_Mongo(self, data):    
-    if(data.find("many requests") > -1 ):
+    while(data.find("many requests") > -1 ):
       self.log.error("Twitter is throttling us... Waiting 30 seconds")
       time.sleep(30)
       self.log.error("Finished waiting")
