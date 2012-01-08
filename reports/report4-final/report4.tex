@@ -153,7 +153,7 @@ Specifically we use:
     \item JQuery Infinite Scroll for nice/clever way of getting archived news stories
     \item Various other JQuery plugins for other smaller tasks including nice scrolling
   \end{itemize}
-    For article images, we originally wanted to extract the image from the linked article but because we get our news from google which links to several different news sites, writing an extraction method which worked with all these sites proved too difficult and time consuming to be worth it.
+    For article images, we originally wanted to extract the image from the linked article but because we get our news from google which links to several different news sites, writing an extraction method which worked with all these sites is difficult, and the resolution is sometimes too low for our purpose.
     
     Instead we decided to the Google Images API and do an image search with the article's title which almost always resulted in a relevant image. Due to the nature of Google Image search, sometimes the resulting image is too low resolution or the link may be broken. When this occurs, we iterate over the search results until we find an satisfactory image.
 
