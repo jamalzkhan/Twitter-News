@@ -126,7 +126,7 @@
 		
 		\paragraph{Database} We decided to use MongoDB as our main data store. Most of us had used it before and we were very happy with how it worked. We opted for a NoSQL Document-oriented database, rather than for a classical SQL solution for a couple of reasons.
 		
-		The data we get for twitter stream is not always the same. Very often there are fields missing, some of them sometimes contain numbers sometimes strings. It would be much harder to save all of that data in a SQL database.
+		The data we get for twitter stream is not always the same. Very often there are fields missing, and the fields have variable types. It would be much harder to save all of that data in a SQL database.
 		
 		The other advantage MongoDB has here is that it natively operates in JSON, the format twitter data is supplied to us and it makes it extremely easy to save the tweets and retrieve them later.
 		
