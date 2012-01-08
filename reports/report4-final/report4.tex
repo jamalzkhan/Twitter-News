@@ -89,7 +89,7 @@
 		\begin{itemize}
 		  \item \verb|/api/news| returns the list of 10 current news stories and timestamps for the earliest and the newest stories
 		  \item \verb|/api/news/before/<timestamp>| returns a list of 10 news stories before the \verb|<timestamp>| and the timestamp of earliest story
-		  \item \verb|/api/news/after/<timestamp>| returns a list of 10 news stories after the \verb|<timestamp>| and the timestamp of newest story
+		  \item \verb|/api/news/after/<timest22amp>| returns a list of 10 news stories after the \verb|<timestamp>| and the timestamp of newest story
 		  \item \verb|/api/story/<id>| returns a detailed description of the story requested
 		\end{itemize}
 		
@@ -131,7 +131,43 @@
 		We quickly realised that this will not be enough, very often the relevant keywords don't appear in the title, they appear in the text of the news article. We decided to use AlchemyAPI's keyword extractor\footnote{\url{http://alchemyapi.com}}. We emailed them and got special university access that increased the amount of API calls we can make.
 		
 		We initially wanted to do sentiment analysis ourselves, but we quickly realised it's going to be extremely hard. We did find some interesting papers\footnote{\url{http://www.stanford.edu/~alecmgo/papers/TwitterDistantSupervision09.pdf}}, but realised this approach would involve diving really deep into machine learning and teaching our system to recognise tweets for some time. Fortunately authors of the paper also provide a service for analysing tweet sentiment and an API that goes along with it\footnote{\url{http://twittersentiment.appspot.com/}} and we decided to use that.
-	
+		
+		\subsection{API}
+		From the start we wanted API to be a very thin layer on top of the database. The communication between the API server and the \emph{UI} was supposed to be done using JSON a format that's very easy to use with JavaScript. WE also wanted to keep all of the backend in the same language. It would have allowed possible code migrations from \emph{Analysis} to \emph{API} and vice-versa and also wouldn't require us to learn extra tools.
+		
+		When looking for a framework we initially considered Django\footnote{\url{http://www.django.org}}, but quickly dismissed it as being way too big for our needs. It requires major setup and is set up for more classic web pages, not live updating, JavaScript based websites.
+		
+		AFter some research we ended up with two possible choices Bottle\footnote{\url{http://bottlepy.org/docs/dev/}} and Flask\footnote{\url{http://flask.pocoo.org/}}. After quickly going through the documentation it seemed to us that Flask has better support for returning well formed JSON data, so we decided to go with it. API is a relatively small part of the project, so we didn't want to spend too much time making this choice.
+		
+		\subsection{UI}
+		The UI connects to the server's API and displays the information in a clean and appealing tiled layout. Each tile displays an image related to the article aswell as the title of the article in question. On hover/click of a tile, the image folds away (CSS3 eye-candy) revealing a short summary of the article, a word cloud made from common words found in relevant tweets, a list of top relevant tweets and the overall sentiment derived from the relevant tweets.
+
+    We use a HTML frontpage with CSS3 for styling and animations. This allows for a clean and visually appealing user interface. Javascript, JQuery and its various plugins are used to fetch the necessary information from the server API and to make the page dynamic, user friendly and more enjoyable to use.
+
+Specifically we use:
+  \begin{itemize}
+    \item CSS3 for the fold-away image tile
+    \item Javascript/JQuery for fetching news and stories, and adding the news boxes to the page
+    \item JQuery Masonry for the dynamic tiled page layout
+    \item JQuery WordCloud for on the fly/dynamic word cloud creation
+    \item JQuery Infinite Scroll for nice/clever way of getting archived news stories
+    \item Various other JQuery plugins for other smaller tasks including nice scrolling
+  \end{itemize}
+    For article images, we originally wanted to extract the image from the linked article but because we get our news from google which links to several different news sites, writing an extraction method which worked with all these sites proved too difficult and time consuming to be worth it.
+    
+    Instead we decided to the Google Images API and do an image search with the article's title which almost always resulted in a relevant image. Due to the nature of Google Image search, sometimes the resulting image is too low resolution or the link may be broken. When this occurs, we iterate over the search results until we find an satisfactory image.
+
+    The front page is dynamic, every few minutes it checks with the server if there are any new articles to display and if any changes (tweets/word cloud/sentiment) have occurred to existing articles. It then updates the news tiles accordingly.
+    Scrolling to the bottom of the page will invoke a call to fetch past/archived articles. This creates a clean and continuous experience for the user.
+
+    We considered but did not use PHP (or any other server-side scripting language) and opted for Javascript because this relieves some of the workload from the server and also makes it easier to make the page dynamic and update in real time.
+
+    We also considered using SVG and d3.js\footnote{\url{http://mbostock.github.com/d3/}} for rendering additional information such as twitter following/followed networks but due to a design change we decided this was no longer necessary.
+
+		\begin{figure}
+  	 \includegraphics[scale=0.6]{twnet.png}
+  	 \caption{\label{fig:twnet} Twitter network created from our group members' accounts using d3.js}
+  	\end{figure}
 	
 		\section{People and Team Management}
 
