@@ -1,8 +1,9 @@
 \documentclass{report}
-\usepackage{fullpage}
+%\usepackage{fullpage}
 \usepackage{amssymb}
 \usepackage[utf8]{inputenc}
 \usepackage{url}
+\usepackage{graphicx}
 
 \setlength{\parindent}{0pt}
 \addtolength{\parskip}{\baselineskip}
@@ -35,7 +36,50 @@
 	\chapter{High Level Overview}
 	
 	\chapter{Technical Overview}
+	We decided to divide the project into two separate technical parts: \emph{Analysis} and \emph{UI}, that would be connected through our own \emph{API} server.
+	\begin{description}
+	 \item[Analysis] was written in Python and its main tasks were to gather current news, fetch relevant tweets, analyse them in bulk and save the results into a database.
+	 \item[API] was also written in Python. It provides easy access to the database for the \emph{UI}.
+	 \item[UI] was written in HTML5 and JavaScript. It utilises the API to display the news.
+	\end{description}	
 	
+	We kept \emph{Analysis} and \emph{UI} as separate as possible. THanks to that we achieved low coupling and extending the application became quite easy.
+	
+	A general overview of the information flow in the application can be seen in Figure~\ref{fig:inf_flow}.
+	\begin{figure}
+	 \includegraphics[scale=0.4]{infrastructure.png}
+	 \caption{\label{fig:inf_flow} General overview of the information flow in the application. Arrows point into the direction information flows.}
+	\end{figure}
+	
+	What follows is a more detailed description of the three parts and reasons for the choices we made.
+	
+	\section{Analysis}
+	\label{sec:analysis}
+		Analysis consists of everything up to and including MongoDB in Figure~\ref{fig:inf_flow}.
+		
+		\paragraph{Programming Language} We decided to use Python as the main developing language for this part of the project. We needed a relatively lightweight language that would be quite good with connecting to many different web based services and analysing data. Other languages we considered were Ruby and JavaScript (using Node.js).
+		
+		Most of us had used Node.js before, when working on last years group project. It's a great language for fast and easy realtime communication and it's quite simple to start writing web applications using frameworks like Express\footnote{\url{http;//www.expressjs.com}}. The problem JavaScript had was a lack of threads. We knew we wanted to separate the tweet fetching, news fetching and actual analysis parts out into separate components that could still communicate with each other. It would have been possible with JavaScript by creating 3 different processes, but communication between them would be much more complicated. The other reason we opted out of using Node, was the relative youth of the platform. There just weren't that many useful libraries available.
+		
+		The choice between Ruby and Python was harder, as they are both fantastic web languages with thriving communities and lots of libraries. It was made easy after doing some more research on analysing twitter and the \emph{social web} in general. We found two great books on the topic\footnote{\emph{Programming Collective Intelligence} and \emph{Mining the Social Web}, for more details see Chapter~\ref{chap:bib}} and both of them advocated using Python for the task. They also came with some tested solutions for fetching tweets and analysing them in bulk, so we decided to use the same language they do.
+		
+		We are very happy with the choice we've made. Not only have we learned a very popular language but also found lots of help and tools online, which made the project a little bit easier. 
+		
+		\paragraph{Database} We decided to use MongoDB as our main data store. Most of us had used it before and we were very happy with how it worked. We opted for a NoSQL Document-oriented database, rather than for a classical SQL solution for a couple of reasons.
+		
+		The data we get for twitter stream is not always the same. Very often there are fields missing, some of them sometimes contain numbers sometimes strings. It would be much harder to save all of that data in an SQL database. The advantage MongoDB has here is that it natively operates in JSON, the format twitter data is supplied to us and it makes it extremely easy to save the tweets and retrieve them later.
+		
+		Our project itself also didn't have a rigid structure initially. We were changing what we write into the database all the time and everything was quite fluid until the very end. The fact that MongoDB didn't impose any structure helped a lot.
+		
+		\pargraph{Architecture} This is the basic sequence of events that happens in the analysis process:
+		\begin{enumerate}
+		  \item Start three threads: \emph{News Fetcher}, \emph{Tweet Fetcher} and \emph{Analysis}
+		  \item \emph{Tweet Fetcher} waits for the \emph{News Fetcher} to get current news
+		  \item \emph{News Fetcher} gets current news from the RSS feed
+		  \item \emph{News Fetcher} Extracts basic information
+		\end{enumerate}
+		
+		
 	\chapter{Software Engineering Issues}
 	
 	
@@ -142,7 +186,7 @@
 	
 	\chapter{Validation and Conclusions}
 	
-	\chapter{Bibliography and Tools used}
+	\chapter{Bibliography and Tools used}\label{chap:bib}
 	
 	Taking into account the fact that this wasn't a research project requiring extensive external material, we do not provide a full biography, but provide links to sources we have used and consulted when working on this software engineering project.
 	
