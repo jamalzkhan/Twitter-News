@@ -117,6 +117,33 @@
 		
 			We extensively used Skype to discuss the project and set up team meetings.
 	
+			\section{Testing}
+			  Testing our project was challenging. Since it is more of a real-time system that just analyses data we did not have any models to test. Nevertheless we needed a way to check if the program is working correctly.
+
+			  \subsection{Unit and Mock Testing}
+
+			  We used the PyUnit\footnote{\url{http://pyunit.sourceforge.net/}} module for incorporating unit tests in our code. An example of where we used this was in the RSS thread where we were testing functionality of all the functions written for this module. For this we had to create a mock rss fetcher object and run tests on it.
+
+			  Having said this, it was very difficult to test some parts of the system as there is a lack of clear models, for example having unit tests for keyword generation or tweet fetching is difficult to implement as they use external APIs.
+
+			  \subsection{Logging and Debugging}
+
+			  Instead of using standard print statements to output the state of our system, which is composed of the RSS, Analysis and Twitter Thread, we incorporated a flexible event logging system.\\
+			We are able to leave our system and if an error occurs we can trace exactly which thread caused it and at which point in the program as opposed to the usual debugging.
+		  The logger was also incorporated so that we have different levels of importance in logging i.e. have logging for general information of what is going on in the system and logging for errors. We are also able to log messages to different output sinks including the console and files.
+
+				\begin{figure}
+				 \includegraphics[scale=0.32]{logger.png}
+				 \caption{\label{fig:logger} Customised logger.}
+				\end{figure}
+				
+		   \subsection{Unit and Mock Testing}
+
+		  	  We used the PyUnit\footnote{\url{http://pyunit.sourceforge.net/}} module for incorporating unit tests in our code. An example of where we used this was in the RSS thread where we were testing functionality of all the functions written for this module. For this we had to create a mock rss fetcher object and ran tests on it.
+
+				\subsection{UI Testing}
+				To debug the UI, Google Chrome’s Developer tools and Firebug were used. These tools were used to inspect the requests the UI issued, the network activities, debug layout and monitor performance.
+	
 		\section{Summary of each members contribution}
 		
 				We have tried to establish fair contribution by everyone by assigning to everyone tasks on Trello, and believe that it has worked well and ensured a rather fair individual contribution. As stated beforehand, we had a clear distinction between the people working on the frontend and backend.
