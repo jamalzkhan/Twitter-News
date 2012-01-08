@@ -318,7 +318,8 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
     text-align: center; 
     
     background: #A30006;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F03C02), color-stop(.4, #C21A01), color-stop(.6, #A30006), to(#6B0103));  
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F03C02), color-stop(.4, #C21A01), color-stop(.6, #A30006), to(#6B0103));
+    background: -moz-linear-gradient(top, #F03C02 0%, #C21A01 40%, #A30006 60%, #6B0103 100%);  
 }
 
 .sentimentN {
@@ -347,6 +348,7 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
     
     background:  #02f058;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #02f058), color-stop(.4, #01c230), color-stop(.6, #00a30d), to(#016b0b));  
+    background: -moz-linear-gradient(top, #02f058 0%, #01c230 40%, #00a30d 60%, #016b0b 100%);
 }
 
 .round {
