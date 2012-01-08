@@ -177,6 +177,34 @@ Specifically we use:
   	 \caption{\label{fig:twnet} Twitter network created from our group members' accounts using d3.js}
   	\end{figure}
 	
+	
+	  \section{Encountered Problems}
+	  Due to an open ended form of the task and very unstructured content it concerns we have encountered quite a lot of problems on the way.
+	  
+	  \subsection{Backend}
+	  
+	  \paragraph{Twitter API Limitation} The initial topic of the project was ``Twitter Based News Generator''. It took us some time to establish what would and would not be possible within the Twitter API. We played with gathering tweets from groups of users and generating small (around 1000 members) subnetworks of high connectivity that would all be influencers in a specific domain. This proved to be extremely complicated due to Twitter API limitations. There are quite low limits on the amount of calls that can be made per hour to the REST API and only one stream from the Streaming API with one account. We thought about ways to going around this, but quickly realised that most of the project would than be concerned with creating multiple accounts and bouncing IP addresses instead of actually trying to generate news with Twitter. The other problem is if we were caught we would have been banned from using the Twitter API forever, which would have put the whole project in jeopardy. After much back and forth between ourselves and our supervisor we decided to go for a different challenge of augmenting news with reaction from twitter commenters.
+	  
+	  For this we decided to use Twitter's Streaming API, which also proved to be quite challenging. Very often during development when we restarted the server too often (and sometimes completely without any reason) the stream would cut us off for some time. Unfortunately our code would then try to connect again almost immediately. We managed to work around it by catching the error message and making the server wait 30 seconds. Through testing we established this is the smallest amount of time we can wait before restarting. Unfortunately that means we are loosing some of the tweets posted during those 30 seconds.
+	  
+	  That was not the end of our problems with Twitter. We've found that sometimes an account would just completely stop working and we would have to wait a day or two before reusing it. We still haven't been able to figure this problem out.
+	  
+	  \paragraph{Relevancy of the tweets} The other problematic part was actually getting tweets relevant to news stories. Initially we thought it was the fault of the technologies we used to generate keywords and that was true, but only partially. Initially our tools sometimes generated extremely specific, or quite general keywords (one great example of that was \emph{video}), which did in fact ruin the results. When the keyword were to specific, we didn't get any tweets at all, if they were too general the tweets had nothing to do with the news story. We tried to combat that by using different methods for keyword generation and adding some filters on top of it. This helped, however we still do encounter irrelevant or highly specific keywords sometimes. The other thing we've found is that people don't actually tweet about news as much as we expected them too. Multiple stories even with search terms we came up with ourselves yielded 1 or 2 tweets per hour. Not nearly enough for a meaningful bulk analysis.
+	  
+	  \subsection{Frontend}
+	  
+	  \paragraph{Designing the news tile and its internal layout}
+    Also known as ``CSS hell''. We first tried using CSS percentages so that the UI would adapt to different window/screen sizes but this did not work cleanly so we ended up hard-coding the dimensions in pixels into the different elements used by the UI.
+
+
+    \paragraph{Browser compatibility}
+    After several different iterations, and a ridiculous amount of research, testing and tweaking, we finally got the layout working on most browsers. Microsoft's Internet Explorer continues to be problematic and generally uncollaborative so we decided to drop support for it in the hope that this would serve as an incentive for users to switch to a modern, non-broken browser.
+
+
+    \paragraph{API specification and reworking based on evolving requirements}
+    Because of the open ended nature of the project and the freedom we had in the way we could display news and information, the UI was constantly changing and its requirements from the server's API were changing along with it. Collaboration with the backend team was therefore necessary to rework the API as the UI's requirements evolved.
+	  
+	  
 		\section{People and Team Management}
 
 		We deem it important to discuss how we have managed our team and worked as a team. As it often happens with group projects, problems relating to group interactions and dynamics surface. Firstly, in our group, everyone knows each other well and is good friends with everyone else, which reduces the authoritative attitude of any one group member towards others. In a real life project, you have a manager with an authoritative position to do things such as lay you off, which certainly induces at least a little bit of motivation. In a university project where all the members are good friends, it is harder to establish an authority that is able to motivate others, especially during a time where everyone has a lot of other personal tasks at hand; motivation has to come from within the group members.
@@ -428,7 +456,7 @@ Specifically we use:
 	
 	\section{User Validation}
 	
-	From time to time we asked for feedback on the user facing products. This was done so that we could make design and functionality choices. We talked to our supervisor Jeremy Bradley, and he liked our user interface but wanted us to add pictures for each news story, we consequently went ahead with this and received very positive feedback.
+	From time to time we asked for feedback on the user facing products. This was done so that we could make design and functionality choices. We talked to our supervisor Jeremy Bradley, and he liked our user interface but wanted us to add pictures for each news story, we consequently went ahead with this and received positive feedback.
 	
 	\section{Code Validation}
 	
@@ -436,9 +464,11 @@ Specifically we use:
 	
 	\section{Conclusion}
 	
+		We conclude that this project was a good exercise in learning software development techniques, and exposing problems related to working in a group.
+		
+		We have achieved a working end product, and are reasonably happy with the result given the encountered technical difficulties of working with Twitter, but nevertheless believe that had the organization and work of the group been better, that the end result could have seen an increase in quality.
 	
-	
-	
+		In addition to learning firsthand a lot about the effect of poor teamwork on the quality of the output, we have had other positive learning experiences. We got to work with Python, a language the team yet hasn't used, and got to experiment with a number of APIs such as Twitter's, AlchemyAPI's, and a number of others. The project was a positive experience in terms of API mashups and learning software engineering techniques.
 	
 	\chapter{Bibliography and Tools used}\label{chap:bib}
 	
@@ -473,15 +503,15 @@ Specifically we use:
 			\item 	\url{https://github.com/} - For storing code + wiki
 			\item 	\url{http://flask.pocoo.org/} - Python web framework
 			\item 	\url{http://news.google.com/} - News source
+			\item   \url{http://www.stanford.edu/~alecmgo/papers/TwitterDistantSupervision09.pdf} - Paper on Machine Learning based sentiment analysis
 			\item 	Programming Collective Intelligence, Toby Segaran, OReilly Media, 2007
 			\item 	Mining the Social Web, Matthew A. Russell, OReilly Media, 2011
 		\end{itemize}
 		
 	\end{itemize} 
 	
-	\chapter{Appendix}
-	
-	\section{Team Meetings}
+	\appendix
+	\chapter{Team Meetings}
 	\begin{tabular}{c | l p{7cm} r}
     \emph{\large Date} &  \emph{\large Venue} &  \emph{\large Subject} &  \emph{\large Attended}\\
     \hline
