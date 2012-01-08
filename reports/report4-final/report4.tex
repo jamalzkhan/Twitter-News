@@ -35,11 +35,15 @@
 
 	\chapter{High Level Overview}
 	
-	Twitter News Generator - An webapp that pairs current events with relevant tweets.
+	\section{Product Functionality}
+	
+	Twitter News Generator - An webapp that pairs current news with relevant tweets.
+
+	\section{Our Aim}
 
 	Traditionally, the media has been presenting news stories biased with the writers’ point of view or agenda. Recruiting readers to join their agendas. This webapp presents a balanced view to the readers. We pair up relevant tweets to news emerging around the world. Our aim is to create a new kind of news reader that also presents the discussion behind the news. 
 	
-	\section{Product Functionality}
+	\section{How we planned to achieve this}
 
 	When a news story breaks, our backend performs a textual analysis on the story to extract keywords. These keywords are then used as the seed to fetch relevant tweets. Once we have a list of relevant tweets, we perform 1) sentiment analysis on these tweets to gauge positivity of each tweet, 2) textual analysis to extract keywords and 3) using 1 and 2 to gauge which tweets should be shown first.
 
@@ -144,7 +148,7 @@
 		AFter some research we ended up with two possible choices Bottle\footnote{\url{http://bottlepy.org/docs/dev/}} and Flask\footnote{\url{http://flask.pocoo.org/}}. After quickly going through the documentation it seemed to us that Flask has better support for returning well formed JSON data, so we decided to go with it. API is a relatively small part of the project, so we didn't want to spend too much time making this choice.
 		
 		\subsection{UI}
-		The UI connects to the server's API and displays the information in a clean and appealing tiled layout. Each tile displays an image related to the article aswell as the title of the article in question. On hover/click of a tile, the image folds away (CSS3 eye-candy) revealing a short summary of the article, a word cloud made from common words found in relevant tweets, a list of top relevant tweets and the overall sentiment derived from the relevant tweets.
+		The UI connects to the server's API and displays the information in a clean and appealing tiled layout. These tiles dynamically rearrange themselves and adjust to the size of the users' window or screen. Each tile displays an image related to the article aswell as the title of the article in question. On hover/click of a tile, the image folds away (CSS3 eye-candy) revealing a short summary of the article, a word cloud made from common words found in relevant tweets, a list of top relevant tweets and the overall sentiment derived from the relevant tweets.
 
     We use a HTML frontpage with CSS3 for styling and animations. This allows for a clean and visually appealing user interface. Javascript, JQuery and its various plugins are used to fetch the necessary information from the server API and to make the page dynamic, user friendly and more enjoyable to use.
 
@@ -152,7 +156,7 @@ Specifically we use:
   \begin{itemize}
     \item CSS3 for the fold-away image tile
     \item Javascript/JQuery for fetching news and stories, and adding the news boxes to the page
-    \item JQuery Masonry for the dynamic tiled page layout
+    \item JQuery Masonry for the dynamically rearranging tiled page layout
     \item JQuery WordCloud for on the fly/dynamic word cloud creation
     \item JQuery Infinite Scroll for nice/clever way of getting archived news stories
     \item Various other JQuery plugins for other smaller tasks including nice scrolling
