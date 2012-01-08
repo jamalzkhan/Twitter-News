@@ -71,7 +71,7 @@
 		
 		Our project itself also didn't have a rigid structure initially. We were changing what we write into the database all the time and everything was quite fluid until the very end. The fact that MongoDB didn't impose any structure helped a lot.
 		
-		\pargraph{Architecture} This is the basic sequence of events that happens in the analysis process:
+		\paragraph{Architecture} This is the basic sequence of events that happens in the analysis process:
 		\begin{enumerate}
 		  \item Start three threads: \emph{News Fetcher}, \emph{Tweet Fetcher} and \emph{Analysis}
 		  \item \emph{Tweet Fetcher} waits for the \emph{News Fetcher} to get current news
@@ -96,6 +96,26 @@
 		We now discuss the assignment of tasks and group subdivision. We have separated our group of five people as follows: 2 for UI, and 3 for backend, so everyone is doing what they are more comfortable with. From time to time, but maybe not as often as we could have done, both of these subteams utilized pair programming. Many times one of us knew something useful, for example a specific MongoDB query syntax, and can help the other without having to resolve to Google. This ensures a good flow of information between the team, and levels out our knowledge. A visible problem was the following scenario: we are working in the same location, but not currently pair programming. Person $A$ is concentrating and has a train of thought, while person $B$, interrupts to ask for a triviality such as the aforementioned MongoDB query syntax, which one easily find on google within 30 seconds. Now $A$ has lost concentration and needs to get back on their train of thought. We see that $B$ has shortened the amount of work for himself, but has lowered the total productivity and output of the group. This is to be avoided at all costs. There is a time to discuss and ask questions, and there is a time to work quietly. The group most not get itself into a state of perpetual back-and-forth questioning of, for example, API syntax, or else group productivity is greatly diminished. Nevertheless, when we set to do a session of pair programming, output and learning were both increased.
 		
 		 We discussed that the group was separated into frontend and backend, but we still thrived to have a \emph{bus count}\footnote{\url{bit.ly/j1zquA} - quite interesting article.}\footnote{Bus count - ``how many people in your team have to get hit by a bus before you’re all dead in the water''} of the size of our group - we wanted everyone to understand, and if needed, to work on any part of our stack. In the end, this has not fully materialized, as the frontend group don't know the intricacies involved in the threading of the backend processes, and the backend team is not aware of the various UI hacks the frontend team had to develop to have a nice cross-browser and pretty UI.
+		
+		
+		\section{Collaboration Tools Used}
+		
+			\subsection{Git}
+		
+			We have used the git version control system for keeping track of the project, for easily reverting if there is a problem, and for having a very quick deploy mechanism. Whenever a code push occurs to our git repository, we have a git post-receive hook that copies the static files appropriately, and restarts the appropriate processes. This means that as soon as a code push occurs, the new version is live right away.
+		
+			\subsection{Trello}
+		
+			Trello\footnote{\url{http://trello.com}} is a very good piece of software by FogCreek. It is a digital board that allows you to create post-its and write the product backlog, and move tasks between the product backlog, the current iteration, and the finished tasks. We have used Trello throughout and found it very useful. See Figure~\ref{fig:trello} to have an overview of how Trello operates.
+			
+			\begin{figure}
+			 \includegraphics[scale=0.4]{trello.png}
+			 \caption{\label{fig:trello} Trello project management board.}
+			\end{figure}
+		
+			\subsection{Skype}
+		
+			We extensively used Skype to discuss the project and set up team meetings.
 	
 		\section{Summary of each members contribution}
 		
