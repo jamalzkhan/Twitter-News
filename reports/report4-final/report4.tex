@@ -226,23 +226,29 @@ Specifically we use:
 			We have used the git version control system for keeping track of the project, for easily reverting if there is a problem, and for having a very quick deploy mechanism. Whenever a code push occurs to our git repository, we have a git post-receive hook that copies the static files appropriately, and restarts the appropriate processes. This means that as soon as a code push occurs, the new version is live right away.
 		
 			\subsection{Trello}
-		
-			Trello\footnote{\url{http://trello.com}} is a very good piece of software by FogCreek. It is a digital board that allows you to create post-its and write the product backlog, and move tasks between the product backlog, the current iteration, and the finished tasks. We have used Trello throughout and found it very useful. See Figure~\ref{fig:trello} to have an overview of how Trello operates.
-			
-			\begin{figure}
+			\begin{figure}[t!]
 			 \includegraphics[scale=0.4]{trello.png}
 			 \caption{\label{fig:trello} Trello project management board.}
 			\end{figure}
 		
 			\subsection{Skype}
+			Trello\footnote{\url{http://trello.com}} is a very good piece of software by FogCreek. It is a digital board that allows you to create post-its and write the product backlog, and move tasks between the product backlog, the current iteration, and the finished tasks. We have used Trello throughout and found it very useful. See Figure~\ref{fig:trello} to have an overview of how Trello operates.
 		
 			We extensively used Skype to discuss the project and set up team meetings.
 			
 		\section{Development Techniques}
-		
+		\begin{figure}
+  	  \centering
+  	 \includegraphics[scale=0.19]{iter1.png}
+
+  	 \includegraphics[scale=0.19]{iter2.png}
+
+  	 \includegraphics[scale=0.19]{iter3.png}
+  	 \caption{\label{fig:uiiter} UI Iterations}
+  	\end{figure}
 		We adopted agile development methodologies, but as discussed in the section on people management, we have had some problems in having set project meetings. Nevertheless, we have adopted the use of iterations and developed using iterations plans.
 		
-		\textbf{First iteration of iteration plan}
+		\paragraph{First iteration of iteration plan}
 
 		\begin{itemize}
 			\item First Iteration MVP - basic news augmenting functionality and live updates.
@@ -276,7 +282,7 @@ Specifically we use:
 
 		Therefore, we drafted a new iteration plan and described what the project goals are in terms of user-facing features.
 		
-		\textbf{Second iteration of iteration plan}
+		\paragraph{Second iteration of iteration plan}
 		
 		\begin{itemize}
 			\item First Iteration
@@ -318,7 +324,6 @@ Specifically we use:
 		\end{itemize}
 		
 		We were satisfied with this plan. We skipped Iteration 4 because we thought it doesn’t align with our project aim, but apart from that, we followed the plan and made accountable progress along the way.
-	
 			\section{Testing}
 			  Testing our project was challenging. Since it is more of a real-time system that just analyses data we did not have any models to test. Nevertheless we needed a way to check if the program is working correctly.
 
