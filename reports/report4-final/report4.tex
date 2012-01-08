@@ -73,13 +73,19 @@
 		\end{enumerate}
 		
 		\section{API}
-		API provides a very thing layer between the \emph{UI} and the data stored in the Database. It's written in Python using Flask\footnote{See Chapter~\ref{chap:bib}.} and provides the following calls returning results in JSON:
+		API provides a very thin layer between the \emph{UI} and the data stored in the Database. It's written in Python using Flask\footnote{See Chapter~\ref{chap:bib}.} and provides the following calls returning results in JSON:
 		\begin{itemize}
 		  \item \verb|/api/news| returns the list of 10 current news stories and timestamps for the earliest and the newest stories
 		  \item \verb|/api/news/before/<timestamp>| returns a list of 10 news stories before the \verb|<timestamp>| and the timestamp of earliest story
 		  \item \verb|/api/news/after/<timestamp>| returns a list of 10 news stories after the \verb|<timestamp>| and the timestamp of newest story
 		  \item \verb|/api/story/<id>| returns a detailed description of the story requested
 		\end{itemize}
+		
+		\section{Server and Production Environment}
+
+		It is essential that all used technologies used be glued together to work on a production environment. For this, on the outer server layer resides Nginx, which proxies requests to the lower level uwsgi process\footnote{This allows Nginx to talk to python and flask} that serves the API and the main page. Static content, such as javascript files or images, are directly handled by Nginx to reduce overhead. Nginx was chosen over the other alternative, Apache, for its lightweight memory footprint, and existing documentation regarding the integration of Nginx, uwsgi, and python.
+
+		Continuous deployment was set up to allow us to code, push a change to the repository, and see it live nearly instantly. Whenever a code push occurs, we have a git post-receive hook that copies the static files appropriately so that they can be served, and restarts the uwsgi process\footnote{This is the process that serves the python code}. This means that as soon as a code push occurs, the new version is live.
 		
 		
 	\chapter{Software Engineering Issues}
@@ -262,6 +268,24 @@
 	     01/12/2011 & Auto-refresh & 2\\
 	     01/12/2011 & infinite scroll proof of concept & 3\\
 	    \end{tabular}
+	
+	\section{Ethical and Environmental Impact of our Project}	
+
+	Ethical and environmental impact was a point of discussion in one of the previous reports, and we deem it interesting to add this discussion to this final report. We see the following possible ethical and environmental issues:
+
+	\begin{itemize}
+
+	  \item All technologies that we are using are open source. Python has an OSI-approved license\footnote{\url {http://docs.python.org/license.html}}, our server is written using Flask which is BSD Licenced\footnote{\url{http://flask.pocoo.org/docs/license/}} and MongoDB is also open source\footnote{\url{http://www.mongodb.org/display/DOCS/Licensing}}. The server is the widely used Nginx, which has a BSD-like license.
+
+		\item We are storing tweets, which are not our property. We copy the whole tweet to our database, which originally is the property of the original author and of Twitter. This is not exactly a compromising situation, but it nevertheless should be considered from an ethical standpoint.
+
+		\item We are possibly aggregating information and presenting it in such a fashion that could reveal new and interesting patterns - patterns that might be surprising or ones that others don't agree with. We would also probably need to state that the results are merely the results of our algorithmic analysis, and not our personal viewpoint regarding the current news story.
+
+		\item In addition, the news stories we are aggregating from Google News may be biased as it is based on what Google believes to be the top stories, and other peoples point of view as to what news is top may differ around the world.
+
+		\item Our project currently only works for just top 10 stories from google news, and the volume of tweets is already quite high (can be as high as 50 a second). This means that the database is growing large quite quickly. If this project were to be extended to support many more news services, it would have to be distributed over more machines, along with more database instances to support the larger volume of data. This would be something to consider if machines or EC2 instances were to be bought. Already, after running the product over the night, there was a notification from the VPS provider notifying about high disk IO rate. These type of problems could be classified as an environmental issues.
+	\end{itemize}
+	
 	
 	\chapter{Validation and Conclusions}
 	
