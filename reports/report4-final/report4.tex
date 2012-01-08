@@ -38,6 +38,93 @@
 	
 	\section{Software Engineering Issues}
 	
+		\subsection{Summary of each members contribution}
+		
+		All the members fairly contributed to the project. As stated beforehand, we had a clear distinction between the people working on the frontend and backend.
+		
+		  \subsubsection{Maciek Albin}
+		    \begin{tabular}{l | p{10cm} r}
+		     \emph{\large Date} & \emph{\large Comments} & \emph{\large Hours}\\
+		     \hline
+		     12/10/2011 & Advanced network generation for follower/folowee relations. & 3\\
+		     20/10/2011 & More work on the network generation. & 4\\
+		     28/10/2011 & Initial internal API definition and basic implementation. & 2\\
+		     28/10/2011 & Fixes to inter thread communication. & 2\\
+		     02/11/2011 & Refactoring. & 3\\
+		     02/11/2011 & Implemented keyword generation using Alchemy API. & 2\\
+		     03/11/2011 & Implemented basic analysis thread. & 4\\
+		     04/11/2011 & Assigning tweets to stories in analysis thread. & 3\\
+		     04/11/2011 & Added short summaries and links to stories DB. & 2\\
+		     08/11/2011 & Added wordclouds to the API. & 1\\
+		     10/11/2011 & Refactoring. & 3\\
+		     30/11/2011 & Fixed bugs in the logger. & 2
+		    \end{tabular}
+
+		  \subsubsection{Jamal Khan}
+		  \begin{tabular}{l | p{10cm} r}
+	     \emph{\large Date} & \emph{\large Comments} & \emph{\large Hours}\\
+	     \hline
+		  11/10/2011 & Initial creation of the RSS Fetcher using python module feedparser. & 2\\
+	    31/10/2011 & Keyword extraction completed for each story using Alchemy API. & 4\\
+	    4/11/2011 & Implemented Flask Server creating API for the front end for the site as well as relevant database calls to fetch stories. & 7\\
+	    10/11/2011 & Added functionality of getting stories by timestamp for the API. & 2\\
+	    25/11/2011 & Completed flexible logger for each thread, so we can see exactly what is going on. & 7\\
+	    12/11/2011 & Unit testing for RSS Fetcher completed. & 4
+	  \end{tabular}
+
+	  \subsubsection{Suhaib Sarmad}
+	    \begin{tabular}{l | p{10cm} r}
+	     \emph{\large Date} & \emph{\large Comments} & \emph{\large Hours}\\
+	     \hline
+	     27/10/2011 & Resource research and UI mockup & 4\\
+	     28/10/2011 & Basic grid UI proof of concept & 3\\
+	     09/11/2011 & Implementation of basic jQuery Masonry (tiled) UI & 2\\
+	     10/11/2011 & Create tiles in UI from server news API & 4\\
+	     11/11/2011 & CSS/HTML Tile layout, split into title/summary, picture, sentiment, word cloud, tweet list & 5\\
+	     11/11/2011 & UI debugging and cross-browser compatibility: works on all tested browsers except IE & 2\\
+	     12/11/2011 & Added tweets to tweet list using Twitter REST API and keywords from server API, added custom jQuery scrollbars & 1\\
+	     12/11/2011 & Added pictures to tiles using Google Images API and article titles & 2\\
+	     12/11/2011 & Generating html5 word cloud from keywords from server API & 3\\
+	     19/11/2011 & CSS3 transitions research and testing for big picture UI & 2\\
+	     01/12/2011 & Automatic refreshing and fetching of new news articles from server & 4\\
+	     09/12/2011 & Sentiment bar prototype & 1
+	    \end{tabular}
+
+
+		  \subsubsection{Rafał Szymański}
+		    \begin{tabular}{l | p{10cm} r}
+		     \emph{\large Date} & \emph{\large Comments} & \emph{\large Hours}\\
+		     \hline
+		     10/10/2011 & Initial commit for the project. Basic implementation in Python of a script that given a keyword  fetches the live streaming API for the given keyword and writes it to the Mongo database. & 6\\
+	       11/10/2011 & Bug fixes and a short readme. & 2\\
+	       12/10/2011 & Fetching the follower/folowee graph and saving to a file. Basic analysis with NetworkX. & 3\\
+	       20/10/2011 & More working on generating the user graph. & 2\\
+	       21/10/2011 & Big update. Gets headlines from Google news RSS, generates keywords using Termtopia, sets up twitter stream, saves to Mongo and repeats every 5 minutes. & 7\\
+	       01/11/2011 & Improving the threading of the program - added condition variables and fixed previous threading bugs. & 4\\
+	       04/11/2011 & Working on instant deployment environment using Flask, Nginx, uwsgi, and a couple other technologies. Took forever to do but afterwards, after every git push, the new version is live straight away. & 10\\
+	       07/11/2011 & Improvements to the instant deployment - new git hook, and a control script that allows remote restarting and clearing of the database. & 4\\
+	       08/11/2011 & Wordcloud generation. Goes through each tweet, finds the most occurring words and adds that data for each analysis period. & 4\\
+	       11/11/2011 & Improvements to control script. & 2\\
+	       30/11/2011 & Sentiment analysis for each period. Gets sentiment using an API and adds to Mongo. & 5\\
+	       04/12/2011 & Top tweets based on the number of retweets. & 2\\
+	       04/12/2011 & Added all my new data to the frontend API. & 2
+		    \end{tabular}
+
+		  \subsubsection{Sam Wong}
+		  \begin{tabular}{l | p{10cm} r}
+	     \emph{\large Date} & \emph{\large Comments} & \emph{\large Hours}\\
+	     \hline
+		   12/10/2011 & Python development & 1\\
+	     02/11/2011 & UI Prototype 1 & 3\\
+	     09/11/2011 & UI Prototype 2 & 4\\
+	     20/11/2011 & UI Prototype 3 & 5\\
+	     21/11/2011 & UI debugging & 1\\
+	     25/11/2011 & UI features experimentation & 1\\
+	     01/12/2011 & UI features refinement & 1\\
+	     01/12/2011 & Auto-refresh & 2\\
+	     01/12/2011 & infinite scroll proof of concept & 3\\
+	    \end{tabular}
+	
 	\section{Validation and Conclusions}
 	
 	\section{Bibliography and Tools used}
@@ -75,7 +162,29 @@
 			\item 	Mining the Social Web, Matthew A. Russell, OReilly Media, 2011
 		\end{itemize}
 		
-		
 	\end{itemize} 
+	
+	\section{Appendix}
+	
+	\subsection{Team Meetings}
+	\begin{tabular}{c | l p{7cm} r}
+    \emph{\large Date} &  \emph{\large Venue} &  \emph{\large Subject} &  \emph{\large Attended}\\
+    \hline
+    14/10/2011 & Lab Round Table & Choose which project to do & \(G\)\\
+    18/10/2011 & Skypeland & Choose which project to do & \(G\)\\
+    21/10/2011 & Lab Round Table & Discovered the original plan is infeasible due to constraints set by Twitter, draft backup plan & \(G\)\\
+    27/10/2011 & Lab Round Table & Plan approved, Design Architecture & \(G \smallsetminus \{\texttt{Suhaib}\}\)\\
+    3/11/2011 & Lab Round Table & Progress Report (Backend, and UI Prototype I) & \(G \smallsetminus \{\texttt{Rafal}\}\)\\
+    10/11/2011 & Lab Round Table & UI Prototype II presentation, API requests and design & \(G \smallsetminus \{\texttt{Maciej}\}\)\\
+    17/11/2011 & Lab Round Table & UI Prototype III. Post-JB-meeting discussion & \(G \smallsetminus \{\texttt{Jamal}\}\)\\
+    24/11/2011 & Skypeland & Incremental improvements & \(G \smallsetminus \{\texttt{Sam}\}\)\\
+    1/12/2011 & Skypeland & Extensions ideas & \(G \smallsetminus \{\texttt{Suhaib}\}\)\\
+    8/12/2011 & Skypeland & Features prioritisation & \(G\)\\
+  \end{tabular}
+
+  \(G=\{\texttt{Rafal}, \texttt{Sam}, \texttt{Suhaib}, \texttt{Jamal}, \texttt{Maciek}\}\)\\
+
+
+	
 
 \end{document}
