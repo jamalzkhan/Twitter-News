@@ -83,19 +83,19 @@ Final Report}
 		  \item \emph{Tweet Fetcher} waits for the \emph{News Fetcher} to get current news
 		  \item \emph{News Fetcher} gets current news from the RSS feed
 		  \item \emph{News Fetcher} extracts basic information from the RSS feed
-		  \item \emph{News Fetcher} generates keywords using AlchemyAPI\footnote{See Chapter~\ref{chap:bib}.}
+		  \item \emph{News Fetcher} generates keywords using AlchemyAPI\footnote{\url{http://www.alchemyapi.com/}}
 		  \item \emph{News Fetcher} saves all the info generated into \emph{shared} and goes to sleep for 500s
 		  \item \emph{Tweet Fetcher} wakes up gets all the keywords from \emph{shared} and starts fetching tweets mentioning those keywords restarting every time \emph{News Fetcher updates}
 		  \item \emph{Analysis} wakes up every 5 minutes and gets current stories from \emph{shared}
 		  \item \emph{Analysis} checks if the stories in \emph{shared} are already in DB, if not it inserts them
 		  \item \emph{Analysis} gets the tweets saved by \emph{Tweet Fetcher} in last 5 minutes and attaches them to stories in the current period in DB
 		  \item \emph{Analysis} performs word cloud generation on the tweets attached to stories
-		  \item \emph{Analysis} performs sentiment analysis\footnote{\emph{Sentiment Analysis aims to determine the attitude of a speaker or a writer with respect to some topic or the overall contextual polarity of a document.} - from \url{http://en.wikipedia.org/wiki/Sentiment_analysis}} on the tweets attached to stories using Twitter Sentiment\footnote{See Chapter~\ref{chap:bib}.}
+		  \item \emph{Analysis} performs sentiment analysis\footnote{\emph{Sentiment Analysis aims to determine the attitude of a speaker or a writer with respect to some topic or the overall contextual polarity of a document.} - from \url{http://en.wikipedia.org/wiki/Sentiment_analysis}} on the tweets attached to stories using Twitter Sentiment\footnote{\url{http://twittersentiment.appspot.com/}}
 		  \item \emph{Analysis} saves all of the generated data as a new period attached to a story in the database
 		\end{enumerate}
 		
 		\section{API}
-		API provides a very thin layer between the \emph{UI} and the data stored in the database. It's written in Python using Flask\footnote{See Chapter~\ref{chap:bib}.} and provides the following calls returning results in JSON:
+		API provides a very thin layer between the \emph{UI} and the data stored in the database. It's written in Python using Flask\footnote{\url{http://flask.pocoo.org/}} and provides the following calls returning results in JSON:
 		\begin{itemize}
 		  \item \verb|/api/news| returns the list of 10 current news stories and timestamps for the earliest and the newest stories
 		  \item \verb|/api/news/before/<timestamp>| returns a list of 10 news stories before the \verb|<timestamp>| and the timestamp of earliest story
