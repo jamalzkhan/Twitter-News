@@ -141,7 +141,7 @@
 		We initially wanted to do sentiment analysis ourselves, but we quickly realised it's going to be extremely hard. We did find some interesting papers\footnote{\url{http://www.stanford.edu/~alecmgo/papers/TwitterDistantSupervision09.pdf}}, but realised this approach would involve diving really deep into machine learning and teaching our system to recognise tweets for some time. Fortunately authors of the paper also provide a service for analysing tweet sentiment and an API that goes along with it\footnote{\url{http://twittersentiment.appspot.com/}} and we decided to use that.
 		
 		\subsection{API}
-		From the start we wanted API to be a very thin layer on top of the database. The communication between the API server and the \emph{UI} was supposed to be done using JSON a format that's very easy to use with JavaScript. WE also wanted to keep all of the backend in the same language. It would have allowed possible code migrations from \emph{Analysis} to \emph{API} and vice-versa and also wouldn't require us to learn extra tools.
+		From the start we wanted the API to be a very thin layer on top of the database. The communication between the API server and the \emph{UI} was supposed to be done using JSON a format that's very easy to use with JavaScript. WE also wanted to keep all of the backend in the same language. It would have allowed possible code migrations from \emph{Analysis} to \emph{API} and vice-versa and also wouldn't require us to learn extra tools.
 		
 		When looking for a framework we initially considered Django\footnote{\url{http://www.django.org}}, but quickly dismissed it as being way too big for our needs. It requires major setup and is set up for more classic web pages, not live updating, JavaScript based websites.
 		
@@ -150,15 +150,15 @@
 		\subsection{UI}
 		The UI connects to the server's API and displays the information in a clean and appealing tiled layout. These tiles dynamically rearrange themselves and adjust to the size of the users' window or screen. Each tile displays an image related to the article aswell as the title of the article in question. On hover/click of a tile, the image folds away (CSS3 eye-candy) revealing a short summary of the article, a word cloud made from common words found in relevant tweets, a list of top relevant tweets and the overall sentiment derived from the relevant tweets.
 
-    We use a HTML frontpage with CSS3 for styling and animations. This allows for a clean and visually appealing user interface. Javascript, JQuery and its various plugins are used to fetch the necessary information from the server API and to make the page dynamic, user friendly and more enjoyable to use.
+    We use a HTML frontpage with CSS3 for styling and animations. This allows for a clean and visually appealing user interface. Javascript, jQuery and its various plugins are used to fetch the necessary information from the server API and to make the page dynamic, user friendly and more enjoyable to use.
 
 Specifically we use:
   \begin{itemize}
     \item CSS3 for the fold-away image tile
-    \item Javascript/JQuery for fetching news and stories, adding the news boxes to the page, and implementing Infinite Scroll  to get archived news stories
-    \item JQuery Masonry for the dynamically rearranging tiled page layout
-    \item JQuery WordCloud for on the fly/dynamic word cloud creation
-    \item Various other JQuery plugins for other smaller tasks including nice scrolling
+    \item Javascript/jQuery for fetching news and stories, adding the news boxes to the page, and implementing Infinite Scroll  to get archived news stories
+    \item jQuery Masonry for the dynamically rearranging tiled page layout
+    \item jQuery WordCloud for on the fly/dynamic word cloud creation
+    \item Various other jQuery plugins for other smaller tasks including nice scrolling
   \end{itemize}
     For article images, we originally wanted to extract the image from the linked article but because we get our news from google which links to several different news sites, writing an extraction method which worked with all these sites is difficult, and the resolution is sometimes too low for our purpose.
     
