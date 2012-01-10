@@ -318,7 +318,6 @@
 				$('#refresh').css('background','-ms-linear-gradient(right , rgb(222,222,55) '+bottom+'%, rgb(255,255,255) '+ top +'%)');
 			default:
 				$('#refresh').css('background', 'linear-gradient(right , rgb(222,222,55) '+bottom+'%, rgb(255,255,255) '+ top +'%)');
-
 		}
 	    // if(verbose) console.log('buttonFilledHeight = ' + bottom + ', top = ' + top);
 	    buttonFilledHeight += 100/(updateIntervalInSec*30);
@@ -393,6 +392,72 @@
 	        transform: rotate(90deg);
 	z-index: 9999;
 	height: 50px;'>Check for new stories</button>
-	<div id="container" class="centered"></div>
+
+	<div id="container" class="centered">
+		<div id='boxhelp' class='box col'>
+			<div id='descriptionhelp' class='titlecard'>
+				<h1 style='font-size: 28px;'>Twitter Augmented News Reader</h1>
+			</div>
+			<div class='mask mask-1'></div>        <div class='mask mask-2'></div>
+			<div class='details' style=''>
+				<div class='left' style='width:199px; height:403px; float:left'>
+					<div class='boxw' style='margin-bottom: 10px;height:203px'>
+						<div id='articlehelp' class='scrollable'>
+							<h2 style='font-size:30px'><a onclick='javascript:location.reload(true);'>BIG NEWS!</a></h2>
+							<p style='height:100px;font-size: 16px;line-height: 20px;'>This is a short summary, for more info, click on the title. It will take you to the main page.</p>
+						</div>
+					</div>      
+					<div id='wordcloudhelp' class='boxw' style='height:165px'></div>
+				</div>      
+				<div class='right' style='width:199px; height:403px; float:left;'>
+					<div id='tweetshelp' class='boxw scrollable' style='height:368px'>
+						<span id='addtweethelp' style='font-size: 2em;line-height: 1.2em;'>
+							<p style='width:inherit;'><strong>Author: </strong> Relevant tweets from the world are presented here.</p>
+						<span>
+					</div>
+					<div id='sentimenthelp' class='boxw' style='width: 189px; height: 15px'>
+						<div class='round'>
+							<div id='sneghelp' class='sentimentR' style='width: 50%;'></div>
+							<div id='sposhelp' class='sentimentG' style='width: 50%;'></div>
+						</div>
+					</div>
+				</div> 
+			</div>     
+		</div>
+		
+	</div>
+	<script>
+		$('#boxhelp').toggle(function() {
+			//First time clicked
+			if(verbose) console.log("fixing box"+id);
+			var target = $('#boxhelp');
+			target.addClass('box-hover');
+			$('#boxhelp').css('border', 'solid red 1px');
+			$("#boxhelp").css('background-image', 'url("static/images/tanr-logo-gray.png")');
+		}, function() {
+		 	//Revert
+			if(verbose) console.log("unfixing box"+id);
+			var target = $('#boxhelp');
+			target.removeClass('box-hover');
+			$('#boxhelp').css('border', '');
+			$("#boxhelp").css('background-image', 'url("static/images/tanr-logo.png")');
+		});
+		
+		$("#boxhelp").hover(function(){$("#boxhelp").css('background-image', 'url("static/images/tanr-logo-gray.png")');}, function(){$("#boxhelp").css('background-image', 'url("static/images/tanr-logo.png")');})
+		
+		var canvasDivWidth = $("#wordcloudhelp").width();
+		var canvasDivHeight = $("#wordcloudhelp").height();
+		$("#wordcloudhelp").append("<canvas id='wordcloudcanvashelp' width='" + canvasDivWidth + "' height='" + canvasDivHeight + "'>");
+		//wordcloud
+		var words = ["On", "Wordcloud", "Tweets"];
+		console.log(words);
+		var cloud = new Array();
+		for(var i in words) {
+			cloud.push([words[i], (parseInt(i)+1.0)*2.3+20]);
+			console.log([i, words[i], (parseInt(i)+1.0)+20]);
+		}
+		$("#wordcloudcanvashelp").wordCloud({wordList: cloud});
+		//end wordcloud
+	</script>
 </body>
 </html>
