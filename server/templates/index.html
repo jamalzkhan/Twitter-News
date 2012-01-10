@@ -28,6 +28,7 @@
 	var buttonFilledHeight;
 	var updateIntervalInSec = 120;
 	var browserType;
+	var lastInfinitescroll;
 	var id=0;
 	var box_images = new Array();	//saves the array of images for each box
 	var best_match_tb = new Array(); //saves the array of best match thumbnail
@@ -241,6 +242,13 @@
 	*/
 	
 	function infinite_scroll(){
+		
+		if(new Date().getTime() - lastInfinitescroll < 5000){
+			if(verbose){
+				console.log("wait 5 sec before infinite scroll is active again.")
+				return; //Only fetch once every 5 sec
+			}
+		} 
 		var scrolled = $(document).scrollTop();
 		var windowHeight = $(window).height(); 
 		var docHeight = $(document).height();
@@ -260,6 +268,7 @@
 				}
 			});
 		}
+		lastInfinitescroll = +new Date();
 	}
 
 	function update(){
@@ -331,10 +340,16 @@
 		});
 		
 		// Infinite scroll
+		/* 
 		//Note: To prevent infinite scroll from firing at the beginning, we do a set time out for 10 seconds
 		setTimeout(function(){
 			setInterval('infinite_scroll();', 250);
 		}, 10*1000);
+		 */
+		// Use timestamp now, fetch at most once every 5 seconds
+		lastInfinitescroll = +new Date();
+		setInterval('infinite_scroll();', 250);
+		
 		// End infinite scroll
 		
 		if($.browser.webkit){
