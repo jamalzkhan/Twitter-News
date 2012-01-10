@@ -16,9 +16,9 @@ body{
     left:0px;  
     width:100%;  
     /* styling bellow */  
-    background-color:black;  
+    background-color: rgba(0,0,0,0.6);
     color:white;  
-    opacity:0.6; /* transparency */  
+    /* opacity:0.6;  transparency */  
     filter:alpha(opacity=60); /* IE transparency */  
 	-webkit-border-bottom-left-radius: 15px;
 	-moz-border-bottom-left-radius: 15px;

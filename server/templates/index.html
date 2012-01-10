@@ -23,12 +23,14 @@
 	<script type="text/javascript">
 	var toptimestamp;
 	var bottomtimestamp;
+
 	var refresherTimer;
 	var infinitescrollTimer;
 	var infiniteScrollWait = 5000;
 	var fillingButton;
 	var buttonFilledHeight;
 	var updateIntervalInSec = 120;
+
 	var browserType;
 	var id=0;
 	var box_images = new Array();	//saves the array of images for each box
@@ -173,22 +175,29 @@
 					insert_box_skeleton(boxnum, _pend);
 					setTimeout(function(){				$('#container').masonry('reload');	}, 50);
 				}
-				$("#description"+boxnum).html("<h1>" + data.title + "</h1>");
-				$("#article"+boxnum).html("<h2>" + data.title + "</h2><p>" + data.summary + "</p>");
-
+				
 				//sentiment bar
-				var neg, pos;
-	            if(data.sentiment.negative + data.sentiment.positive > 0) {
-	                neg = Math.floor(100 * data.sentiment.negative / (data.sentiment.negative + data.sentiment.positive));
-	                pos = 100 - neg;
-	            }
-	            else {
-	                neg = 50;
-	                pos = 50;
-	            }
-	            $("#sneg"+boxnum).css('width', neg + '%');
-	            $("#spos"+boxnum).css('width', pos + '%');
-				//end sentiment bar
+                                var neg, pos;
+                    if(data.sentiment.negative + data.sentiment.positive > 0) {
+                        neg = Math.floor(100 * data.sentiment.negative / (data.sentiment.negative + data.sentiment.positive));
+                        pos = 100 - neg;
+                    }
+                    else {
+                        neg = 50;
+                        pos = 50;
+                    }
+                    $("#sneg"+boxnum).css('width', neg + '%');
+                    $("#spos"+boxnum).css('width', pos + '%');
+                                //end sentiment bar
+
+				
+				$("#description"+boxnum).html("<div style='height: 3px;"
+                                                              + "background:  #a6a6a6;"
+                                                              + "background: -webkit-gradient(linear, left top, right top, color-stop(" + (neg/100) + ", #FF1A01), color-stop(" + (neg/100) + ", #02f058));"
+                                                              + "background: -moz-linear-gradient(left, #FF1A01 " + neg + "%, #02f058 " + neg + "%);'></div>"
+                                                              + "<div style='margin-bottom: 5px;'><h1>"
+                                                              + data.title + "</h1></div>");
+				$("#article"+boxnum).html("<h2><a onclick='javascript:window.location.href = " + '"' + data.link + '"'  + ";'>" + data.title + "</a></h2><p>" + data.summary + "</p>");
 
 				//wordcloud
 				var cloud = new Array();
@@ -268,9 +277,8 @@
 				if(verbose) console.log(data.bottomtimestamp);
 				if(verbose) console.log('infinite scroll: toptimestamp = ' + toptimestamp + ', bottomtimestamp = ' + bottomtimestamp);
 				for(i = 0; i < data.news.length; i++) {
-					$.getJSON("api/story/"+data.news[i], populateBox(id, i*600, 'append'));
-					id++;
-					if(verbose)	console.log('current id = ' + id);
+					$.getJSON("api/story/"+data.news[i], populateBox(data.news[i], i*600, 'append'));
+					if(verbose)	console.log('current id = ' + data.news[i]);
 				}
 			});
 			setTimeout(initiateInfiniteScroll, infiniteScrollWait);
@@ -286,9 +294,8 @@
 			}
 			if(verbose) console.log('update: toptimestamp = ' + toptimestamp + ', bottomtimestamp = ' + bottomtimestamp);
 			for(i = 0; i < data.news.length; i++) {
-				$.getJSON("api/story/"+data.news[i], populateBox(id, i*600, 'prepend'));
-				id++;
-				if(verbose)	console.log('current id = ' + id);
+				$.getJSON("api/story/"+data.news[i], populateBox(data.news[i], i*600, 'prepend'));
+				if(verbose)	console.log('current id = ' + data.news[i]);
 			}
 		});
 	}
@@ -338,9 +345,8 @@
 			bottomtimestamp = data.bottomtimestamp;
 			if(verbose) console.log('toptimestamp = ' + toptimestamp + ', bottomtimestamp = ' + bottomtimestamp);
 			for(i = 0; i < data.news.length; i++) {
-				$.getJSON("api/story/"+data.news[i], populateBox(id, i*600, 'append'));
-				id++;
-				if(verbose)	console.log('current id = ' + id);
+				$.getJSON("api/story/"+data.news[i], populateBox(data.news[i], i*600, 'append'));
+				if(verbose)	console.log('current id = ' + data.news[i]);
 			}
 		});
 		
