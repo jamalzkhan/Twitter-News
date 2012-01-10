@@ -67,7 +67,7 @@
 	
 	//Called when image is not available , eg 404, use next img instead.
 	function useNextBestImg(boxnum){
-		if(verbose) console.log(boxnum + "is looking for a image in page " + imageSeachersPage[boxnum]);
+		if(verbose) console.log('box' + boxnum + "is looking for a image in page " + imageSeachersPage[boxnum]);
 		if (box_images[boxnum] && box_images[boxnum].length > 0) {
 			// guarenteed: length > 0
 			while(
@@ -82,6 +82,7 @@
 				//we have sufficiently large img
 				imgCheck(boxnum, box_images[boxnum][0].url);
 				box_images[boxnum].shift();
+				return;
 			}       
 		}
 		// Guarenteed: we ran out of images, get next page if available
@@ -110,7 +111,7 @@
 			
 		
 		*/
-        box = ""
+        $box = $(""
         + "<div id='box" + id + "' class='box col'>"    // onClick='boxClick(" + id + ");'
         +    "<div id='description" + id + "' class='titlecard'>"
         +    "</div>"        
@@ -135,12 +136,13 @@
         +             "</div>"
         +         "</div>"    
         +     "</div>"        
-        + "</div>";
+        + "</div>");
 		if(verbose) console.log("box" + id + " should now be " + _pend + "ed");
 		if(_pend == 'prepend'){
-			$("#container").prepend(box);
+			$("#container").prepend($box);
 		}else{
-			$("#container").append(box);
+			$('#container').append($box).masonry( 'appended', $box, true );
+			// $("#container").append($box);
 		}
 		
 		var canvasDivWidth = $("#wordcloud" + id).width();
@@ -245,8 +247,12 @@
 		var distFromBottom = docHeight - windowHeight - scrolled;
 		if(distFromBottom < 150){
 			$.getJSON("api/news/before/" + bottomtimestamp, function(data) {
-				bottomtimestamp = data.bottomtimestamp;
-				if(verbose) console.log('toptimestamp = ' + toptimestamp + ', bottomtimestamp = ' + bottomtimestamp);
+				if(data.bottomtimestamp){
+					bottomtimestamp = data.bottomtimestamp;
+				}
+				if(verbose) console.log(data);
+				if(verbose) console.log(data.bottomtimestamp);
+				if(verbose) console.log('infinite scroll: toptimestamp = ' + toptimestamp + ', bottomtimestamp = ' + bottomtimestamp);
 				for(i = 0; i < data.news.length; i++) {
 					$.getJSON("api/story/"+data.news[i], populateBox(id, i*600, 'append'));
 					id++;
@@ -258,10 +264,12 @@
 
 	function update(){
 		if(verbose)	console.log(toptimestamp);
-		$.getJSON("api/news/" + toptimestamp, function(data) {
+		$.getJSON("api/news/after/" + toptimestamp, function(data) {
 			if(verbose)	console.log(data);
-			toptimestamp = data.toptimestamp;
-			if(verbose) console.log('toptimestamp = ' + toptimestamp + ', bottomtimestamp = ' + bottomtimestamp);
+			if(data.toptimestamp){
+				toptimestamp = data.toptimestamp;
+			}
+			if(verbose) console.log('update: toptimestamp = ' + toptimestamp + ', bottomtimestamp = ' + bottomtimestamp);
 			for(i = 0; i < data.news.length; i++) {
 				$.getJSON("api/story/"+data.news[i], populateBox(id, i*600, 'prepend'));
 				id++;

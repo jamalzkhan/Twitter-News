@@ -37,7 +37,7 @@ class Database:
       elif (before_timestamp > story["date_added"]):
         before_timestamp = story["date_added"]
       stories_array.append(str(story["_id"]))
-    stories = {'news': stories_array, 'requesttime': time.time(), 'beforetimestamp': before_timestamp}
+    stories = {'news': stories_array, 'requesttime': time.time(), 'bottomtimestamp': before_timestamp}
     return stories
   
   def getRecentStories(self, no_of_stories=10):
