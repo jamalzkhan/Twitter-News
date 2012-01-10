@@ -23,7 +23,7 @@ class Analysis(threading.Thread):
     while 1:
       #Sleep for sleeptime
       
-      self.log.info("Sleeping for {0}.".format(self.sleeptime))
+      self.log.info(unicode("Sleeping for {0}.").format(self.sleeptime))
       time.sleep(self.sleeptime)
       
       self.add_stories_to_mongo(shared.stories)
@@ -37,38 +37,38 @@ class Analysis(threading.Thread):
     """Goes through a list of stories and adds them to the stories in mongo. 
     If story with this title is already there it just updates the date."""
     
-    self.log.info("Adding extra stories to db.")
+    self.log.info(unicode("Adding extra stories to db."))
       
     for story in stories:
       in_db = self.stories_collection.find_one({"title": story["title"]})
       if not in_db:
-        self.log.info("Story {0} is not in db. Adding...".format(story["title"]))
+        self.log.info(unicode("Story {0} is not in db. Adding...").format(story["title"]))
         story["update_time"] = time.time()
         story["created_at"] = time.time()
         self.stories_collection.insert(story)
       else:
-        #self.log.info("Story {0} is in db. Updating date.".format(story["title"]))
+        #self.log.info(unicode("Story {0} is in db. Updating date.").format(story["title"]))
         #in_db.update({"$set": {"date": story["date"]}})
-        self.log.info("Story {0} is in db. Updating update_time.".format(story["title"]))
+        self.log.info(unicode("Story {0} is in db. Updating update_time.").format(story["title"]))
         in_db.update({"$set": {"update_time": time.time()}})
-        self.log.info("Story {0} is in db. Updating keywords.".format(story["title"]))
+        self.log.info(unicode("Story {0} is in db. Updating keywords.").format(story["title"]))
         in_db.update({"$set": {"keywords": story["keywords"]}})
-        self.log.info("Story {0} is in db. Updating link.".format(story["title"]))
+        self.log.info(unicode("Story {0} is in db. Updating link.").format(story["title"]))
         in_db.update({"$set": {"link": story["link"]}})
-        self.log.info("Story {0} is in db. Updating main story link.".format(story["title"]))
+        self.log.info(unicode("Story {0} is in db. Updating main story link.").format(story["title"]))
         in_db.update({"$set": {"link_main_story": story["link_main_story"]}})
   
   def add_new_time_period_to_stories(self, stories, start, end):
     """Goes through tweets posted between start and end and assigns them to appropriate stories"""
-    self.log.info("Adding time period from {0} to {1} to stories.".format(start,end))
+    self.log.info(unicode("Adding time period from {0} to {1} to stories.").format(start,end))
       
     #Add time period stub to stories
-    self.log.info("Adding curr_period to story objects")
+    self.log.info(unicode("Adding curr_period to story objects"))
     for story in stories:
       story["curr_period"] = {'period': end, 'tweets': []}
       
     #Loop through tweets
-    self.log.info("Loading tweets from {0} to {1}.".format(start,end))
+    self.log.info(unicode("Loading tweets from {0} to {1}.").format(start,end))
     tweets_in_time_period = self.tweet_collection.find({"created_at": {"$gte": start, "$lt": end}})
     for tweet in tweets_in_time_period:
       for story in stories:
@@ -83,12 +83,12 @@ class Analysis(threading.Thread):
             story["curr_period"]["tweets"].append( { 'id': tweet["_id"], 'score': tweet["retweet_count"], 'text' : tweet["text"], 'user' : tweet["user"]["screen_name"] } )
             break;
     
-    self.log.info("Pushing new periods to db.")
+    self.log.info(unicode("Pushing new periods to db."))
       
     for story in stories:
       # print h.extractTweetIds(story["curr_period"]["tweets"])
       story["curr_period"]["wordstats"] = self.word_stats.get_word_statistics_for_tweets(h.extractTweetIds(story["curr_period"]["tweets"]))
       story["curr_period"]["sentiment"] = self.sentiment.get_sentiment_for_tweets(h.extractTweetIds(story["curr_period"]["tweets"]))
       
-      self.log.info("Pushing period with {0} tweets to {1}".format(len(story["curr_period"]["tweets"]), story["title"]))
+      self.log.info(unicode("Pushing period with {0} tweets to {1}").format(len(story["curr_period"]["tweets"]), story["title"]))
       self.stories_collection.update({"title":story["title"]},{"$push": {"periods": story["curr_period"]}})

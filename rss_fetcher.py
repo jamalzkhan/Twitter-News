@@ -22,9 +22,9 @@ class RssFetcher(threading.Thread):
       shared.event.set()
       
       # Sleep for 5 minutes
-      self.log.info("Going to sleep for {0}.".format(self.sleeptime))
+      self.log.info(unicode("Going to sleep for {0}.").format(self.sleeptime))
       time.sleep(self.sleeptime)
-      self.log.info("Waking up.")
+      self.log.info(unicode("Waking up."))
       
       shared.flag = True
   
@@ -50,12 +50,12 @@ class RssFetcher(threading.Thread):
   
   def getNews(self):
     """Download news stories and put them in the shared list"""
-    self.log.info("Fetching news feed from {0}.".format(self.rss_link))
+    self.log.info(unicode("Fetching news feed from {0}.").format(self.rss_link))
     feed = feedparser.parse(self.rss_link)
     self.news_stories = []
     
     for entry in feed["items"]:
-      self.log.info("Parsing story {0}.".format( helpers.toAscii(entry["title"])) )
+      self.log.info(unicode("Parsing story {0}.").format( helpers.toAscii(entry["title"])) )
       news_story = {}
       news_story["title"] = RssFetcher.gNews_title_fix(entry["title"])
       news_story["link_main_story"] = RssFetcher.gNews_get_link_main_story(entry["link"])
@@ -66,7 +66,7 @@ class RssFetcher(threading.Thread):
       news_story["keywords"] = self.extractor.getKeywords(news_story)
       self.news_stories.append(news_story)
     
-    self.log.info("Putting a new set of stories into the shared list.")
+    self.log.info(unicode("Putting a new set of stories into the shared list."))
     shared.stories = self.news_stories
   
 

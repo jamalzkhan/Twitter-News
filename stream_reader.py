@@ -42,7 +42,7 @@ class StreamReader(threading.Thread):
     try:
       conn.perform()
     except Exception:
-      self.log.info("Story list updated. Restarting stream.")
+      self.log.info(unicode("Story list updated. Restarting stream."))
       conn.close()
   
   def openStream(self, stream, write_function):
@@ -57,9 +57,9 @@ class StreamReader(threading.Thread):
   
   def receive_and_write_to_Mongo(self, data):    
     while(data.find("many requests") > -1 ):
-      self.log.error("Twitter is throttling us... Waiting 30 seconds")
+      self.log.error(unicode("Twitter is throttling us... Waiting 30 seconds"))
       time.sleep(30)
-      self.log.error("Finished waiting")
+      self.log.error(unicode("Finished waiting"))
       
     try:
       # Means we need to restart with new set of keywords
@@ -77,7 +77,7 @@ class StreamReader(threading.Thread):
       self.tweet_collection.insert(data)
 
     except ValueError:
-      self.log.info("Tweet had an error. Not adding to DB.")
+      self.log.info(unicode("Tweet had an error. Not adding to DB."))
 
 
 def main():
