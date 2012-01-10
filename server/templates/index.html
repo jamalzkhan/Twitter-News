@@ -1,121 +1,115 @@
 <!doctype html>
 <html>
 <head>
-    <title>Twitter News</title>
-    <link rel="stylesheet" href="static/css/original.css"/>
-    <link rel="stylesheet" href="static/css/sam.css"/>
-    <!-- <link rel="stylesheet" href="static/css/bootstrap.min.css"/> -->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
-    <!--    <script type="text/javascript" src="static/js/jquery-ui-1.8.16.custom.min.js"></script> -->
-    <script type="text/javascript" src="static/js/jquery.masonry.min.js"></script>
-    <script type="text/javascript" src="static/js/jquery.wordcloud.js"></script>
-    <script type="text/javascript" src="static/js/jquery.easing.1.3.js"></script>
-    <!--    <script type="text/javascript" src="static/js/jquery.mCustomScrollbar.js"></script>    -->
-    <script type="text/javascript" src="static/js/jquery.infinitescroll.min.js"></script>
-    
-    <!--    <script src="https://www.google.com/jsapi?key=ABQIAAAAVq_ezpCP6r9ct3n9o8VV4hRqSHJGvvNPApRNCRW5oia_vxvJeRS6Bcd_ACwcm1qSmZcU7cSDOrqt6Q" type="text/javascript"></script>    -->
+	<title>Tweets Augmented News Reader</title>
+	<link rel="stylesheet" href="static/css/original.css"/>
+	<link rel="stylesheet" href="static/css/sam.css"/>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+	<script type="text/javascript" src="static/js/jquery.masonry.min.js"></script>
+	<script type="text/javascript" src="static/js/jquery.wordcloud.js"></script>
+	<script type="text/javascript" src="static/js/jquery.easing.1.3.js"></script>	
+	<!--	<script src="https://www.google.com/jsapi?key=ABQIAAAAVq_ezpCP6r9ct3n9o8VV4hRqSHJGvvNPApRNCRW5oia_vxvJeRS6Bcd_ACwcm1qSmZcU7cSDOrqt6Q" type="text/javascript"></script>	-->
 
-    <!--This key is registered to twitter.rafal.io-->
-        <script src="https://www.google.com/jsapi?key=ABQIAAAAUNr1ui41kSiUfappfALFIBRqSHJGvvNPApRNCRW5oia_vxvJeRQ9FKL9VrNCGjMZDsP8oZ7S50XAJQ" type="text/javascript"></script>
-    
-    
-    <!-- Scrolling -->
-    <link type="text/css" href="static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
-    <script type="text/javascript" src="static/js/jquery.mousewheel.min.js"></script>
-    <script type="text/javascript" src="static/js/jquery.jscrollpane.min.js"></script>
-        
-    <!-- endScrolling -->
-    <script type="text/javascript">
-    var timestamp;
-    var refresherTimer;
-    var id=0;
-    var box_images = new Array();    //saves the array of images for each box
-    var best_match_tb = new Array(); //saves the array of best match thumbnail
-    var imageSeachers = new Array();
-    var imageSeachersPage = new Array();
-    var verbose = 0;
-    google.load("search", "1");
+	<!--This key is registered to twitter.rafal.io-->
+		<script src="https://www.google.com/jsapi?key=ABQIAAAAUNr1ui41kSiUfappfALFIBRqSHJGvvNPApRNCRW5oia_vxvJeRQ9FKL9VrNCGjMZDsP8oZ7S50XAJQ" type="text/javascript"></script>
+	
+	
+	<!-- Scrolling -->
+	<link type="text/css" href="static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+	<script type="text/javascript" src="static/js/jquery.mousewheel.min.js"></script>
+	<script type="text/javascript" src="static/js/jquery.jscrollpane.min.js"></script>		
+	<!-- endScrolling -->
+	
+	<script type="text/javascript">
+	var toptimestamp;
+	var bottomtimestamp;
+	var refresherTimer;
+	var fillingButton;
+	var buttonFilledHeight;
+	var updateIntervalInSec = 120;
+	var browserType;
+	var id=0;
+	var box_images = new Array();	//saves the array of images for each box
+	var best_match_tb = new Array(); //saves the array of best match thumbnail
+	var imageSeachers = new Array();
+	var imageSeachersPage = new Array();
+	var verbose = 0;
+	google.load("search", "1");
 
-    //boxSearch is a function that assign image to a box
-    function boxSearch(boxnum) {
-        return function(searcher) {
-            if(searcher.results && searcher.results.length > 0){
-                box_images[boxnum] = searcher.results;
-                if (searcher.results && searcher.results.length > 0 && !best_match_tb[boxnum]) {
-                    best_match_tb[boxnum] = box_images[boxnum][0].tbUrl;    //save the best thumbnail
-                }
-                if(verbose) console.log('received results for ' + boxnum);
-                if(verbose) console.log(box_images);
-                useNextBestImg(boxnum);
-            }
-        }
-    }
+	function assign_image_to_box(boxnum) {
+		return function(searcher) {
+			if(searcher.results && searcher.results.length > 0){
+				box_images[boxnum] = searcher.results;
+				if (searcher.results && searcher.results.length > 0 && !best_match_tb[boxnum]) {
+					best_match_tb[boxnum] = box_images[boxnum][0].tbUrl;	//save the best thumbnail
+				}
+				if(verbose) console.log('received results for box' + boxnum);
+				if(verbose) console.log(box_images);
+				useNextBestImg(boxnum);
+			}
+		}
+	}
 
-    function imgCheck(boxnum, url){
-        if(verbose) console.log(boxnum + " is checking " + url);
-        var img = new Image();
-        img.onload=function() {imgExist(boxnum,url);};
-        img.onerror=function() {useNextBestImg(boxnum);};
-        img.src=url;
-    }
+	//checks for 404 on image links
+	function imgCheck(boxnum, url){
+		if(verbose) console.log("box" + boxnum + " is checking img " + url);
+		var img = new Image();
+		img.onload=function() {imgExist(boxnum,url);};
+		img.onerror=function() {useNextBestImg(boxnum);};
+		img.src=url;
+	}
 
-    function imgExist(boxnum,url){
-        if(verbose) console.log(boxnum + " is set to use " + url);
-        $("#box"+boxnum).css('background-image', 'url(' + url + ')');
-    }
-    
-    function useNextBestImg(boxnum){
-        if(verbose) console.log(boxnum + "is looking for a image in page " + imageSeachersPage[boxnum]);
-        if (box_images[boxnum] && box_images[boxnum].length > 0) {
-            // guarenteed: length > 0
-            while(
-                box_images[boxnum].length > 0    //there's more
-                && (box_images[boxnum][0].height < 300 || box_images[boxnum][0].width < 300)    //and img too small (used to check 140 200)
-            ){
-                if(verbose) console.log(boxnum + " dumped a img");
-                box_images[boxnum].shift();    //throw the head away
-            }    
-            //Post: we ran out / we have sufficiently large img
-            if(box_images[boxnum].length > 0){
-                //we have sufficiently large img
-                imgCheck(boxnum, box_images[boxnum][0].url);
-                box_images[boxnum].shift();
-            }else{
-                //we ran out
-                if(imageSeachersPage[boxnum] > 8){
-                    // Damn, nothing useful after 8 pages / 64 images. Just load the thumb, it's equally shit
-                    if(verbose) console.log("box" + boxnum + " has no suitable img, using thumb " + best_match_tb[boxnum]);
-                    $("#box"+boxnum).css('background-image', 'url(' + best_match_tb[boxnum] + ')');
-                }else{
-                    imageSeachersPage[boxnum]++;
-                    if(verbose) console.log("box" + boxnum + " is looking at page " + imageSeachersPage[boxnum]);
-                    imageSeachers[boxnum].gotoPage(imageSeachersPage[boxnum]);
-                    // box_images[boxnum] = imageSeachers[boxnum].results;
-                    // if(verbose) console.log(imageSeachers[boxnum].results);
-                    // if(verbose) console.log(box_images[boxnum]);
-                    // That's the best we are going to do
-                }
-            }       
-        }else{
-            //we need more image search results.
-            if(imageSeachersPage[boxnum] > 8){
-                // Damn, nothing useful after 8 pages / 64 images. Just load the thumb, it's equally shit
-                if(verbose) console.log("box" + boxnum + " has no suitable img, using thumb " + best_match_tb[boxnum]);
-                $("#box"+boxnum).css('background-image', 'url(' + best_match_tb[boxnum] + ')');
-            }else{
-                imageSeachersPage[boxnum]++;
-                if(verbose) console.log("box" + boxnum + " is looking at page " + imageSeachersPage[boxnum]);
-                imageSeachers[boxnum].gotoPage(imageSeachersPage[boxnum]);
-                // box_images[boxnum] = imageSeachers[boxnum].results;
-                // if(verbose) console.log(imageSeachers[boxnum].results);
-                // if(verbose) console.log(box_images[boxnum]);
-                // useNextBestImg(boxnum);
-                // That's the best we are going to do
-            }
-        }
-    }
+	//Called when the image exists, assign to box as a background
+	function imgExist(boxnum,url){
+		if(verbose) console.log('box' + boxnum + " is set to use img" + url);
+		$("#box"+boxnum).css('background-image', 'url(' + url + ')');
+	}
+	
+	//Called when image is not available , eg 404, use next img instead.
+	function useNextBestImg(boxnum){
+		if(verbose) console.log(boxnum + "is looking for a image in page " + imageSeachersPage[boxnum]);
+		if (box_images[boxnum] && box_images[boxnum].length > 0) {
+			// guarenteed: length > 0
+			while(
+				box_images[boxnum].length > 0	//there's more
+				&& (box_images[boxnum][0].height < 300 || box_images[boxnum][0].width < 300)	//and img too small
+			){
+				if(verbose) console.log(boxnum + " dumped an img");
+				box_images[boxnum].shift();	//throw the head away
+			}	
+			//Post: we ran out / we have sufficiently large img
+			if(box_images[boxnum].length > 0){
+				//we have sufficiently large img
+				imgCheck(boxnum, box_images[boxnum][0].url);
+				box_images[boxnum].shift();
+			}       
+		}
+		// Guarenteed: we ran out of images, get next page if available
+		//we ran out
+		if(imageSeachersPage[boxnum] > 8){
+			// Damn, nothing useful after 8 pages / 64 images. Just load the thumb, better load shitty image instead of showing irrelevant image
+			if(verbose) console.log("box" + boxnum + " has no suitable img, using thumb " + best_match_tb[boxnum]);
+			$("#box"+boxnum).css('background-image', 'url(' + best_match_tb[boxnum] + ')');
+		}else{
+			imageSeachersPage[boxnum]++;
+			if(verbose) console.log("box" + boxnum + " is looking at page " + imageSeachersPage[boxnum]);
+			imageSeachers[boxnum].gotoPage(imageSeachersPage[boxnum]);
+			// box_images[boxnum] = imageSeachers[boxnum].results;
+			// if(verbose) console.log(imageSeachers[boxnum].results);
+			// if(verbose) console.log(box_images[boxnum]);
+		}
+	}
 
-    function addBox(id) {
+	function insert_box_skeleton(id, _pend) {
+		/* 	
+		input: box-id
+		Workflow:
+			prepare html
+			append/prepend html to the div
+			apply javascript to enable the fancy animation & state fixing
+			
+		
+		*/
         box = ""
         + "<div id='box" + id + "' class='box col'>"    // onClick='boxClick(" + id + ");'
         +    "<div id='description" + id + "' class='titlecard'>"
@@ -142,256 +136,240 @@
         +         "</div>"    
         +     "</div>"        
         + "</div>";
-        $("#container").prepend(box);
-        var canvasDivWidth = $("#wordcloud" + id).width();
-        var canvasDivHeight = $("#wordcloud" + id).height();
-        $("#wordcloud" + id).append("<canvas id='wordcloudcanvas" + id + "' width='" + canvasDivWidth + "' height='" + canvasDivHeight + "'>");
-        $('#box' + id).toggle(function() {
-            //First time clicked
-            if(verbose) console.log("Clicked box"+id);
-            // $('#box' + id + ' .details').toggle();
-            var target = $('#box' + id);
-            target.addClass('box-hover');
-            if(verbose) console.log('moving box' + id + ' to the front');
-            // $('#box' + id).children(' .mask-1 ,  .mask-2').css('background', 'rgba(123,0,0,0.5)');
-            $('#box' + id).css('border', 'solid red 1px');
-            // $('#container').prepend(target).masonry('reload');
-        }, function() {
-             //Revert
-            if(verbose) console.log("Clicked box"+id);
-            // $('#box' + id + ' .details').toggle();
-            var target = $('#box' + id);
-            target.removeClass('box-hover');
-            if(verbose) console.log('moving box' + id + ' to the back');
-            // $('#box' + id).children(' .mask-1 ,  .mask-2').css('background', 'rgba(123,0,0,0.5)');
-            $('#box' + id).css('border', '');
-            // $('#container').append(target).masonry('reload');
-        });
-    }
+		if(verbose) console.log("box" + id + " should now be " + _pend + "ed");
+		if(_pend == 'prepend'){
+			$("#container").prepend(box);
+		}else{
+			$("#container").append(box);
+		}
+		
+		var canvasDivWidth = $("#wordcloud" + id).width();
+		var canvasDivHeight = $("#wordcloud" + id).height();
+		$("#wordcloud" + id).append("<canvas id='wordcloudcanvas" + id + "' width='" + canvasDivWidth + "' height='" + canvasDivHeight + "'>");
+		$('#box' + id).toggle(function() {
+			//First time clicked
+			if(verbose) console.log("fixing box"+id);
+			var target = $('#box' + id);
+			target.addClass('box-hover');
+			$('#box' + id).css('border', 'solid red 1px');
+		}, function() {
+		 	//Revert
+			if(verbose) console.log("unfixing box"+id);
+			var target = $('#box' + id);
+			target.removeClass('box-hover');
+			$('#box' + id).css('border', '');
+		});
+	}
 
-    function changeBox(boxnum, timeout) {
-        return function(data) {
-            setTimeout(function() {
-                
-            if (!document.getElementById("box" + boxnum)) { 
-                addBox(boxnum);
-                $('#container').masonry('reload');
-            }
-            $("#description"+boxnum).html("<h1>" + data.title + "</h1>");
-            $("#article"+boxnum).html("<h2>" + data.title + "</h2><p>" + data.summary + "</p>");
-            // $("#btc"+boxnum).mCustomScrollbar("vertical",300,"easeOutCirc",1.05,"fixed","yes","no",1);
-            
+	// populateBox puts content into the html skeleton
+	// ie title, summary, tweets, background pic
+	function populateBox(boxnum, timeout, _pend) {
+		return function(data) {
+			setTimeout(function() {
+				
+				if (!document.getElementById("box" + boxnum)) { 
+					insert_box_skeleton(boxnum, _pend);
+					$('#container').masonry('reload');
+				}
+				$("#description"+boxnum).html("<h1>" + data.title + "</h1>");
+				$("#article"+boxnum).html("<h2>" + data.title + "</h2><p>" + data.summary + "</p>");
 
-            var neg, pos;
-            if(data.sentiment.negative + data.sentiment.positive > 0) {
-                neg = Math.floor(100 * data.sentiment.negative / (data.sentiment.negative + data.sentiment.positive));
-                pos = 100 - neg;
-            }
-            else {
-                neg = 50;
-                pos = 50;
-            }
-            $("#sneg"+boxnum).css('width', neg + '%');
-            $("#spos"+boxnum).css('width', pos + '%');
+				//sentiment bar
+				var neg, pos;
+	            if(data.sentiment.negative + data.sentiment.positive > 0) {
+	                neg = Math.floor(100 * data.sentiment.negative / (data.sentiment.negative + data.sentiment.positive));
+	                pos = 100 - neg;
+	            }
+	            else {
+	                neg = 50;
+	                pos = 50;
+	            }
+	            $("#sneg"+boxnum).css('width', neg + '%');
+	            $("#spos"+boxnum).css('width', pos + '%');
+				//end sentiment bar
 
-            var cloud = new Array();
-            for(var i in data.wordcloud) {
-                cloud.push([i, data.wordcloud[i]*12]);
-            }
-            if(cloud.length == 0) {
-                cloud.push(['none', 30]);
-            }
-            $("#wordcloudcanvas"+boxnum).wordCloud({wordList: cloud});
+				//wordcloud
+				var cloud = new Array();
+				for(var i in data.wordcloud) {
+					cloud.push([i, data.wordcloud[i]*12]);
+				}
+				if(cloud.length == 0) {
+					cloud.push(['none', 30]);
+				}
+				$("#wordcloudcanvas"+boxnum).wordCloud({wordList: cloud});
+				//end wordcloud
 
-            for(i = 0; i < data.tweets.length; i++) {
-                var tbox = "<p style='width:inherit;'><strong>" + data.tweets[i].user + ": </strong>" + data.tweets[i].text + "</p>";
-                $("#addtweet"+boxnum).append(tbox);
-            }
-            $('.scrollable').jScrollPane({});
+				var imageSearch = new google.search.ImageSearch();
+				imageSeachers[boxnum] = imageSearch;
+				imageSeachersPage[boxnum] = 0;
+				imageSearch.setNoHtmlGeneration();
+				imageSearch.setResultSetSize(8);
+				imageSearch.setRestriction(
+				  google.search.Search.RESTRICT_SAFESEARCH,
+				  google.search.Search.SAFESEARCH_OFF
+				);	//Will we ever get porn? ;)
+			
+				// var searcher = new google.search.ImageSearch();
+				// searcher.setRestriction(google.search.ImageSearch.RESTRICT_RIGHTS,
+				//                         google.search.ImageSearch.RIGHTS_MODIFICATION
+				// );	// Remove comments to be Ethicial 
+			
+				imageSearch.setSearchCompleteCallback(this, assign_image_to_box(boxnum), [imageSearch]);
+				imageSearch.execute('' + data.title + '');
 
-            var imageSearch = new google.search.ImageSearch();
-            imageSeachers[boxnum] = imageSearch;
-            imageSeachersPage[boxnum] = 0;
-            imageSearch.setNoHtmlGeneration();
-            imageSearch.setResultSetSize(8);
-            imageSearch.setRestriction(
-              google.search.Search.RESTRICT_SAFESEARCH,
-              google.search.Search.SAFESEARCH_OFF
-            );    //Will we ever get porn? ;) -> Yes. Yes we did.
-            
-            // imageSearch.setRestriction(
-            //     google.search.ImageSearch.RESTRICT_IMAGESIZE, 
-            //     google.search.ImageSearch.IMAGESIZE_LARGE
-            // );
-            
-            // var searcher = new google.search.ImageSearch();
-            // searcher.setRestriction(google.search.ImageSearch.RESTRICT_RIGHTS,
-            //                         google.search.ImageSearch.RIGHTS_MODIFICATION
-            // );    // Remove comments to be Ethicial 
-            
-            imageSearch.setSearchCompleteCallback(this, boxSearch(boxnum), [imageSearch]);
-            imageSearch.execute('' + data.title + '');
+				/*// Get tweets using Twitter REST API            
+	            if(data.keywords.length > 0)
+	                $.ajax({type: "GET", url: "http://search.twitter.com/search.json?q="+data.keywords[0]+"&rpp=10&result_type=mixed", dataType: "jsonp", success: parseTweets(boxnum)});
+	            */
+			}, timeout);
+		}
+	}
 
-            /*// Get tweets using Twitter REST API            
-            if(data.keywords.length > 0)
-                $.ajax({type: "GET", url: "http://search.twitter.com/search.json?q="+data.keywords[0]+"&rpp=10&result_type=mixed", dataType: "jsonp", success: parseTweets(boxnum)});
-            */    
-            }, timeout);
-        }
-    }
+	/* Not used??
+	// format tweets then instert to box
+	function parseTweets(boxnum) {
+		return function(data) {
+			for(i = 0; i < data.results.length; i++) {
+				var box = "<p style='width:inherit;'><strong>" + data.results[i].from_user + ":</strong> " + data.results[i].text + "</p>"
+				$("#addtweet"+boxnum).append(box);
+			}
+			$('.scrollable').jScrollPane({});
+		}
+	}
+	*/
+	
+	function infinite_scroll(){
+		var scrolled = $(document).scrollTop();
+		var windowHeight = $(window).height(); 
+		var docHeight = $(document).height();
+		var distFromBottom = docHeight - windowHeight - scrolled;
+		if(distFromBottom < 150){
+			$.getJSON("api/news/before/" + bottomtimestamp, function(data) {
+				bottomtimestamp = data.bottomtimestamp;
+				if(verbose) console.log('toptimestamp = ' + toptimestamp + ', bottomtimestamp = ' + bottomtimestamp);
+				for(i = 0; i < data.news.length; i++) {
+					$.getJSON("api/story/"+data.news[i], populateBox(id, i*600, 'append'));
+					id++;
+					if(verbose)	console.log('current id = ' + id);
+				}
+			});
+		}
+	}
 
+	function update(){
+		if(verbose)	console.log(toptimestamp);
+		$.getJSON("api/news/" + toptimestamp, function(data) {
+			if(verbose)	console.log(data);
+			toptimestamp = data.toptimestamp;
+			if(verbose) console.log('toptimestamp = ' + toptimestamp + ', bottomtimestamp = ' + bottomtimestamp);
+			for(i = 0; i < data.news.length; i++) {
+				$.getJSON("api/story/"+data.news[i], populateBox(id, i*600, 'prepend'));
+				id++;
+				if(verbose)	console.log('current id = ' + id);
+			}
+		});
+	}
 
-    function update(){
-        console.log(timestamp);
-        $.getJSON("api/news/" + timestamp, function(data) {
-            console.log(data);
-            timestamp = data.timestamp;
-            for(i = 0; i < data.news.length; i++) {
-                $.getJSON("api/story/"+data.news[i], changeBox(id, i*600));
-                id++;
-                console.log(id);
-            }
-        });
-    }
-    
-    /* Not used anymore
-    function boxClick(boxnum) {
-        if(verbose) console.log("Clicked box"+boxnum);
-        // $('#box' + boxnum + ' .details').toggle();
-        var target = $('#box' + boxnum);
-        target.addClass('box-hover');
-        if(verbose) console.log('moving box' + boxnum + ' to the front');
-        // $('#box' + boxnum).children(' .mask-1 ,  .mask-2').css('background', 'rgba(123,0,0,0.5)');
-        $('#box' + boxnum).css('border', 'solid red 1px');
-        $('#container').prepend(target).masonry('reload');
-    }
-    */
+	//For the manual refresh
+	function timer(){
+		update();
+		buttonFilledHeight = 0;
+		refresherTimer = setTimeout(timer, updateIntervalInSec*1000);
+	}
+	
+	//Fills the update button
+	function updateButton(){
+	    var top = buttonFilledHeight ;
+	    var bottom = buttonFilledHeight - 15;
+		switch(browserType){
+			case 'webkit': 
+			    $('#refresh').css('background','-webkit-linear-gradient(right , rgb(222,222,55) '+bottom+'%, rgb(255,255,255) '+ top +'%)');
+				break;
+			case 'mozilla':
+				$('#refresh').css('background','-moz-linear-gradient(right , rgb(222,222,55) '+bottom+'%, rgb(255,255,255) '+ top +'%)');
+				break;
+			case 'opera':
+				$('#refresh').css('background','-o-linear-gradient(right , rgb(222,222,55) '+bottom+'%, rgb(255,255,255) '+ top +'%)');
+				break;
+			case 'ie':
+				$('#refresh').css('background','-ms-linear-gradient(right , rgb(222,222,55) '+bottom+'%, rgb(255,255,255) '+ top +'%)');
+			default:
+				$('#refresh').css('background', 'linear-gradient(right , rgb(222,222,55) '+bottom+'%, rgb(255,255,255) '+ top +'%)');
 
-    $(document).ready(function() {
-        $('#container').masonry({
-            // options
-            itemSelector : '.box',
-            isAnimated: true,
-            isFitWidth: true
-        });
+		}
+	    // if(verbose) console.log('buttonFilledHeight = ' + bottom + ', top = ' + top);
+	    buttonFilledHeight += 100/(updateIntervalInSec*30);
+	    // buttonFilledHeight += 100/(updateIntervalInSec*2);
+	}
+	
+	$(document).ready(function() {
+		// when ready, fetch news, use append
+		$('#container').masonry({
+			// options
+			itemSelector : '.box',
+			isAnimated: true,
+			isFitWidth: true
+		});
 
-        $.getJSON("api/news", function(data) {
-            timestamp = data.timestamp;
-            for(i = 0; i < data.news.length; i++) {
-                $.getJSON("api/story/"+data.news[i], changeBox(id, i*600));
-                id++;
-                console.log(id);
-            }
-        });
-        
-        // Infinite scroll
-        //Note: To prevent infinite scroll from firing at the beginning, we do a set time out for 10 seconds
-        setTimeout(function(){
-        
-        // usage:
-        // $(elem).infinitescroll(options,[callback]);
-
-        // infinitescroll() is called on the element that surrounds 
-        // the items you will be loading more of
-        
-        $('#container').infinitescroll({
-navSelector  : '#page-nav',    // selector for the paged navigation      
-nextSelector : '#page-nav a',  // selector for the NEXT link (to page 2)      
-itemSelector : '.box',     // selector for all items you'll retrieve
-            // navSelector  : "#page-nav",            
-            //                // selector for the paged navigation (it will be hidden)
-            // nextSelector : "#page-nav a:first",    
-            //                // selector for the NEXT link (to page 2)
-            // itemSelector : ".boxhead",
-
-          debug        : true,                        
-                         // enable debug messaging ( to console.log )
-
-          loadingImg   : "static/images/ajax-loader-infinite-scroll.gif",          
-                         // loading image.
-                         // default: "http://www.infinite-scroll.com/loading.gif"
-
-          loadingText  : "Calling Journalists on Mechanical Turk...",      
-                         // text accompanying loading image
-                         // default: "<em>Loading the next set of posts...</em>"
-
-          animate      : true,      
-                         // boolean, if the page will do an animated scroll when new content loads
-                         // default: false
-
-          extraScrollPx: 50,      
-                         // number of additonal pixels that the page will scroll 
-                         // (in addition to the height of the loading div)
-                         // animate must be true for this to matter
-                         // default: 150
-
-          donetext     : "OK, we have run out. You've got a lot of RAM." ,
-                         // text displayed when all items have been retrieved
-                         // default: "<em>Congratulations, you've reached the end of the internet.</em>"
-
-          bufferPx     : 40,
-                         // increase this number if you want infscroll to fire quicker
-                         // (a high number means a user will not see the loading message)
-                         // new in 1.2
-                         // default: 40
-
-          errorCallback: function(){},
-                         // called when a requested page 404's or when there is no more content
-                         // new in 1.2                   
-
-          localMode    : true
-                         // enable an overflow:auto box to have the same functionality
-                         // demo: http://paulirish.com/demo/infscr
-                         // instead of watching the entire window scrolling the element this plugin
-                         //   was called on will be watched
-                         // new in 1.2
-                         // default: false
-
-
-            },function(arrayOfNewElems){
-                    $('#container').masonry('appended', $(arrayOfNewElems), true);
-             // optional callback when new content is successfully loaded in.
-
-             // keyword `this` will refer to the new DOM content that was just added.
-             // as of 1.5, `this` matches the element you called the plugin on (e.g. #content)
-             //                   all the new elements that were found are passed in as an array
-
-        });
-        
-        //Close the settimeout
-        }, 10*1000);
-        // End infinite scroll
-        
-        
-        $('#refresh').click(function(){clearTimeout(refresherTimer); timer();});
-        refresherTimer = setTimeout(timer, 2*60*1000);
-        
-    
-    });
-    function timer(){
-        update();
-        refresherTimer = setTimeout(timer, 2*60*1000);
-    }
-    </script>
+		$.getJSON("api/news", function(data) {
+			toptimestamp = data.toptimestamp;
+			bottomtimestamp = data.bottomtimestamp;
+			if(verbose) console.log('toptimestamp = ' + toptimestamp + ', bottomtimestamp = ' + bottomtimestamp);
+			for(i = 0; i < data.news.length; i++) {
+				$.getJSON("api/story/"+data.news[i], populateBox(id, i*600, 'append'));
+				id++;
+				if(verbose)	console.log('current id = ' + id);
+			}
+		});
+		
+		// Infinite scroll
+		//Note: To prevent infinite scroll from firing at the beginning, we do a set time out for 10 seconds
+		setTimeout(function(){
+			setInterval('infinite_scroll();', 250);
+		}, 10*1000);
+		// End infinite scroll
+		
+		if($.browser.webkit){
+			browserType = 'webkit';
+		}else if($.browser.mozilla){
+			browserType = 'mozilla';
+		}else if($.browser.opera){
+			browserType = 'opera';
+		}else if($.browser.msie){
+			browserType = 'ie';
+		}
+	    buttonFilledHeight = 0;
+	    $('#refresh').click(function() {
+	        clearTimeout(refresherTimer);
+	        timer();
+	    });
+		
+		refresherTimer = setTimeout(timer, updateIntervalInSec * 1000);
+	    fillingButton = setInterval(updateButton, 30);
+		
+	
+	});
+	
+	</script>
 
 </head>
 <body>
-    <button id='refresh' style='font-size: 2em;
-    position: fixed;
-    right: -90px;
-    top: 50%;
-    bottom: 50%;
-    -webkit-transform: rotate(90deg);  /* Saf3.1+, Chrome */
-       -moz-transform: rotate(90deg);  /* FF3.5+ */
-        -ms-transform: rotate(90deg);  /* IE9 */
-         -o-transform: rotate(90deg);  /* Opera 10.5 */
-            transform: rotate(90deg);
-    z-index: 9999;
-    height: 50px;'>Check for new stories</button>
-    <div id="container" class="centered"></div>
-    <nav id="page-nav">
-      <a href="infiniteScroll/200/0"></a>
-    </nav>
+	<button id='refresh' style='font-size: 2em;
+	position: fixed;
+	right: -90px;
+	top: 50%;
+	bottom: 50%;
+	-webkit-transform: rotate(90deg);  /* Saf3.1+, Chrome */
+	   -moz-transform: rotate(90deg);  /* FF3.5+ */
+	    -ms-transform: rotate(90deg);  /* IE9 */
+	     -o-transform: rotate(90deg);  /* Opera 10.5 */
+	        transform: rotate(90deg);
+	z-index: 9999;
+	height: 50px;'>Check for new stories</button>
+	<div id="container" class="centered"></div>
+	<nav id="page-nav">
+	  <a href="infiniteScroll/200/0"></a>
+	</nav>
 
 </body>
 </html>
