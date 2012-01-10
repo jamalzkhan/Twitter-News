@@ -39,7 +39,7 @@ body{
 	padding: 5px;
 /*	background: #D8D5D2;*/
 	border: solid 1px #D8D5D2;
-	background-image: url(http://localhost/~wongsam/twitter_news/static/images/ajax-loader.gif);
+	background-image: url(static/images/ajax-loader.gif);
     background-size:cover;
     background-repeat: no-repeat;
     background-position: center center;
