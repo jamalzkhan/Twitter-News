@@ -197,7 +197,7 @@
                                                               + "background: -moz-linear-gradient(left, #FF1A01 " + neg + "%, #02f058 " + neg + "%);'></div>"
                                                               + "<div style='margin-bottom: 5px;'><h1>"
                                                               + data.title + "</h1></div>");
-				$("#article"+boxnum).html("<h2>" + data.title + "</h2><p>" + data.summary + "</p>");
+				$("#article"+boxnum).html("<h2><a onclick='javascript:window.location.href = " + '"' + data.link + '"'  + ";'>" + data.title + "</a></h2><p>" + data.summary + "</p>");
 
 				//wordcloud
 				var cloud = new Array();
