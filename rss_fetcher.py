@@ -7,7 +7,7 @@ import shared
 import helpers
 
 class RssFetcher(threading.Thread):
-  def __init__(self, log=None, rss="http://news.google.com/?output=rss", sleeptime=500):
+  def __init__(self, log=None, rss="http://news.google.co.uk/news?pz=1&cf=all&ned=uk&hl=en&topic=w&output=rss", sleeptime=500):
     threading.Thread.__init__(self)
     self.extractor = keyword_extractor.KeywordExtractor(log)
     self.rss_link = rss
