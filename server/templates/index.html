@@ -190,7 +190,12 @@
                     $("#spos"+boxnum).css('width', pos + '%');
                                 //end sentiment bar
 
-				
+				var kwds = "";
+				for(var i = 0; i < data.keywords.length; i++) { 
+					kwds += data.keywords[i]; 
+					if(i < data.keywords.length-1) kwds += ", ";
+				}
+
 				$("#description"+boxnum).html("<div style='height: 3px;"
                                                               + "background:  #a6a6a6;"
                                                               + "background: -webkit-gradient(linear, left top, right top, color-stop(" + (neg/100) + ", #FF1A01), color-stop(" + (neg/100) + ", #02f058));"
@@ -210,6 +215,10 @@
 				$("#wordcloudcanvas"+boxnum).wordCloud({wordList: cloud});
 				//end wordcloud
 				
+				//list of keywords for maciek
+				var tbox = "<p style='width:inherit;'><strong>Keywords: </strong>" + kwds + "</p>";
+				$("#addtweet"+boxnum).append(tbox);
+
 				//tweets
 				for(i = 0; i < data.tweets.length; i++) {
 	                var tbox = "<p style='width:inherit;'><strong>" + data.tweets[i].user + ": </strong>" + data.tweets[i].text + "</p>";
@@ -402,7 +411,7 @@
 	<div id="container" class="centered">
 		<div id='boxhelp' class='box col'>
 			<div id='descriptionhelp' class='titlecard'>
-				<h1 style='font-size: 28px;'>Twitter Augmented News Reader</h1>
+				<h1 style='font-size: 28px; margin-bottom: 12px;'>Twitter Augmented News Reader</h1>
 			</div>
 			<div class='mask mask-1' style='background: rgba(216, 213, 210, 0.5);'></div>        <div class='mask mask-2' style='background: rgba(216, 213, 210, 0.5);'></div>
 			<div class='details' style=''>
@@ -410,15 +419,16 @@
 					<div class='boxw' style='margin-bottom: 10px;height:203px'>
 						<div id='articlehelp' class='scrollable'>
 							<h2 style='font-size:30px'><a onclick='javascript:location.reload(true);'>BIG NEWS!</a></h2>
-							<p style='height:100px;font-size: 16px;line-height: 20px;'>This is a short summary, for more info, click on the title. It will take you to the main page.</p>
+							<p style='height:100px;font-size: 16px;line-height: 20px;'>This is a short summary. For more info, click on the title: it will take you to the story's main page.</p>
 						</div>
 					</div>      
 					<div id='wordcloudhelp' class='boxw' style='height:165px'></div>
 				</div>      
 				<div class='right' style='width:199px; height:403px; float:left;'>
 					<div id='tweetshelp' class='boxw scrollable' style='height:368px'>
-						<span id='addtweethelp' style='font-size: 2em;line-height: 1.2em;'>
-							<p style='width:inherit;'><strong>Author: </strong> Relevant tweets from the world are presented here.</p>
+						<span id='addtweethelp' style='font-size: 16px;line-height: 20px;'>
+							<p style='width:inherit;'><strong>Tweeter: </strong>Here you can see a list of tweets that are relevant to the story to get an idea of what people are saying about it around the world.</p>
+<p style='position:absolute; top: 240px'>Down here you can see how tweeters feel about the story. Red means negative sentiment while green means positive (in case that wasn't obvious).</p>
 						<span>
 					</div>
 					<div id='sentimenthelp' class='boxw' style='width: 189px; height: 15px'>
