@@ -2,12 +2,12 @@
 <html>
 <head>
 	<title>Tweets Augmented News Reader</title>
-	<link rel="stylesheet" href="static/css/original.css"/>
-	<link rel="stylesheet" href="static/css/sam.css"/>
+	<link rel="stylesheet" href="http://localhost/~wongsam/twitter_news/static/css/original.css"/>
+	<link rel="stylesheet" href="http://localhost/~wongsam/twitter_news/static/css/sam.css"/>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
-	<script type="text/javascript" src="static/js/jquery.masonry.min.js"></script>
-	<script type="text/javascript" src="static/js/jquery.wordcloud.js"></script>
-	<script type="text/javascript" src="static/js/jquery.easing.1.3.js"></script>	
+	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.masonry.min.js"></script>
+	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.wordcloud.js"></script>
+	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.easing.1.3.js"></script>	
 	<!--	<script src="https://www.google.com/jsapi?key=ABQIAAAAVq_ezpCP6r9ct3n9o8VV4hRqSHJGvvNPApRNCRW5oia_vxvJeRS6Bcd_ACwcm1qSmZcU7cSDOrqt6Q" type="text/javascript"></script>	-->
 
 	<!--This key is registered to twitter.rafal.io-->
@@ -15,9 +15,9 @@
 	
 	
 	<!-- Scrolling -->
-	<link type="text/css" href="static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
-	<script type="text/javascript" src="static/js/jquery.mousewheel.min.js"></script>
-	<script type="text/javascript" src="static/js/jquery.jscrollpane.min.js"></script>		
+	<link type="text/css" href="http://localhost/~wongsam/twitter_news/static/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.mousewheel.min.js"></script>
+	<script type="text/javascript" src="http://localhost/~wongsam/twitter_news/static/js/jquery.jscrollpane.min.js"></script>		
 	<!-- endScrolling -->
 	
 	<script type="text/javascript">
@@ -404,7 +404,7 @@
 			<div id='descriptionhelp' class='titlecard'>
 				<h1 style='font-size: 28px;'>Twitter Augmented News Reader</h1>
 			</div>
-			<div class='mask mask-1'></div>        <div class='mask mask-2'></div>
+			<div class='mask mask-1' style='background: rgba(216, 213, 210, 0.5);'></div>        <div class='mask mask-2' style='background: rgba(216, 213, 210, 0.5);'></div>
 			<div class='details' style=''>
 				<div class='left' style='width:199px; height:403px; float:left'>
 					<div class='boxw' style='margin-bottom: 10px;height:203px'>
@@ -433,23 +433,21 @@
 		
 	</div>
 	<script>
+			$("#boxhelp").css('background-image', 'url("http://localhost/~wongsam/twitter_news/static/images/tanr-logo.png")');
+	
 		$('#boxhelp').toggle(function() {
 			//First time clicked
 			if(verbose) console.log("fixing box"+id);
 			var target = $('#boxhelp');
 			target.addClass('box-hover');
 			$('#boxhelp').css('border', 'solid red 1px');
-			$("#boxhelp").css('background-image', 'url("static/images/tanr-logo-gray.png")');
 		}, function() {
 		 	//Revert
 			if(verbose) console.log("unfixing box"+id);
 			var target = $('#boxhelp');
 			target.removeClass('box-hover');
 			$('#boxhelp').css('border', '');
-			$("#boxhelp").css('background-image', 'url("static/images/tanr-logo.png")');
 		});
-		
-		$("#boxhelp").hover(function(){$("#boxhelp").css('background-image', 'url("static/images/tanr-logo-gray.png")');}, function(){$("#boxhelp").css('background-image', 'url("static/images/tanr-logo.png")');})
 		
 		var canvasDivWidth = $("#wordcloudhelp").width();
 		var canvasDivHeight = $("#wordcloudhelp").height();
