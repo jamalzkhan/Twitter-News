@@ -202,6 +202,14 @@
 				}
 				$("#wordcloudcanvas"+boxnum).wordCloud({wordList: cloud});
 				//end wordcloud
+				
+				//tweets
+				for(i = 0; i < data.tweets.length; i++) {
+	                var tbox = "<p style='width:inherit;'><strong>" + data.tweets[i].user + ": </strong>" + data.tweets[i].text + "</p>";
+	                $("#addtweet"+boxnum).append(tbox);
+	            }
+	            $('.scrollable').jScrollPane({});
+				//end tweets
 
 				var imageSearch = new google.search.ImageSearch();
 				imageSeachers[boxnum] = imageSearch;
