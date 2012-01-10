@@ -191,10 +191,11 @@
                                 //end sentiment bar
 
 				
-				$("#description"+boxnum).html("<div style='height: 2px;"
+				$("#description"+boxnum).html("<div style='height: 3px;"
                                                               + "background:  #a6a6a6;"
-                                                              + "background: -webkit-gradient(linear, left top, right top, color-stop(0, #A30006), color-stop(" + (neg/100) + ", #A30006), color-stop(" + (neg/100) + ", #02f058), to(#02f058));"
-                                                              + "'background: -moz-linear-gradient(top, #A30006 0%, #A30006 " + neg + "%, #02f058 " + neg + "%, #02f058 100%);'></div><div><h1>"
+                                                              + "background: -webkit-gradient(linear, left top, right top, color-stop(" + (neg/100) + ", #FF1A01), color-stop(" + (neg/100) + ", #02f058));"
+                                                              + "background: -moz-linear-gradient(left, #FF1A01 " + neg + "%, #02f058 " + neg + "%);'></div>"
+                                                              + "<div style='margin-bottom: 5px;'><h1>"
                                                               + data.title + "</h1></div>");
 				$("#article"+boxnum).html("<h2>" + data.title + "</h2><p>" + data.summary + "</p>");
 
