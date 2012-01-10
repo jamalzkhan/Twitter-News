@@ -24,11 +24,12 @@
 	var toptimestamp;
 	var bottomtimestamp;
 	var refresherTimer;
+	var infinitescrollTimer;
+	var infiniteScrollWait = 5000;
 	var fillingButton;
 	var buttonFilledHeight;
 	var updateIntervalInSec = 120;
 	var browserType;
-	var lastInfinitescroll;
 	var id=0;
 	var box_images = new Array();	//saves the array of images for each box
 	var best_match_tb = new Array(); //saves the array of best match thumbnail
@@ -228,7 +229,7 @@
 		}
 	}
 
-	/* Not used??
+	// Not used??
 	// format tweets then instert to box
 	function parseTweets(boxnum) {
 		return function(data) {
@@ -239,21 +240,19 @@
 			$('.scrollable').jScrollPane({});
 		}
 	}
-	*/
+	//*/
+	
+	function initiateInfiniteScroll(){
+		infinitescrollTimer = setInterval('infinite_scroll();', 250);
+	}
 	
 	function infinite_scroll(){
-		
-		if(new Date().getTime() - lastInfinitescroll < 5000){
-			if(verbose){
-				console.log("wait 5 sec before infinite scroll is active again.")
-				return; //Only fetch once every 5 sec
-			}
-		} 
 		var scrolled = $(document).scrollTop();
 		var windowHeight = $(window).height(); 
 		var docHeight = $(document).height();
 		var distFromBottom = docHeight - windowHeight - scrolled;
 		if(distFromBottom < 150){
+			clearInterval(infinitescrollTimer);	//Prevent it from being fired again
 			$.getJSON("api/news/before/" + bottomtimestamp, function(data) {
 				if(data.bottomtimestamp){
 					bottomtimestamp = data.bottomtimestamp;
@@ -267,8 +266,8 @@
 					if(verbose)	console.log('current id = ' + id);
 				}
 			});
+			setTimeout(initiateInfiniteScroll, infiniteScrollWait);
 		}
-		lastInfinitescroll = +new Date();
 	}
 
 	function update(){
@@ -347,8 +346,7 @@
 		}, 10*1000);
 		 */
 		// Use timestamp now, fetch at most once every 5 seconds
-		lastInfinitescroll = +new Date();
-		setInterval('infinite_scroll();', 250);
+		setTimeout(initiateInfiniteScroll, infiniteScrollWait);
 		
 		// End infinite scroll
 		
