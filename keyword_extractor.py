@@ -36,14 +36,14 @@ class KeywordExtractor:
             keywords.append(keyword)
         return keywords
       else:
-        self.logger.error("Error while parsing the response from Alchemy API. Response: {}".format(data))
+        self.logger.error(unicode("Error while parsing the response from Alchemy API. Response: {}").format(data))
         return []
 
     except ValueError as strerror:
-      self.logger.error("Error while parsing keywords: {}".format(strerror))
+      self.logger.error(unicode("Error while parsing keywords: {}").format(strerror))
       return []
     except KeyError as strerror:
-      self.logger.error("Problem with key: {}".format(strerror))
+      self.logger.error(unicode("Problem with key: {}").format(strerror))
       return []
 
 if __name__ == "__main__":
