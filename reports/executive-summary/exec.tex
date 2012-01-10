@@ -52,7 +52,7 @@
   	 \item[Analysis] uses tweets gathered by \emph{Tweet Fetcher} and info gathered by \emph{News Fetcher} to calculate Twitter's reaction to news stories
   	\end{description}
 	 
-	 API provides a very thin layer between the \emph{UI} and the data stored in the database. It's written in Python using Flask and provides the calls returning results in JSON.
+	 The API provides a very thin layer between the \emph{UI} and the data stored in the database. It's written in Python using Flask and provides the calls returning results in JSON.
 	 
 	 The UI connects to the server's API and displays the information in a tiled layout. These tiles dynamically rearrange themselves and adjust to the size of the users' window or screen. Each tile displays an image related to the article and title of the article. On hover/click of a tile, the image folds away revealing a short summary, a word cloud made from common words found in relevant tweets, a list of relevant tweets and the overall sentiment.
   
@@ -66,12 +66,11 @@
   
   \section{Validation and Conclusions}
   
-  
 	From time to time we asked for feedback on the user facing products. This was done so that we could make design and functionality choices. We talked to our supervisor Jeremy Bradley, and he liked our user interface but wanted us to add pictures for each news story.
 	
 	We used Pylint4 to validate the Python code which we wrote. This was done to check for errors such as incorrect indentation, bad naming conventions for class names and functions, among others. Checking for errors and validating the UI side of the project was done using the W3 Validator.
 	
-	  We conclude that this project was a good exercise in learning software development techniques, and exposing problems related to working in a group.
+	We conclude that this project was a good exercise in learning software development techniques, and exposing problems related to working in a group.
   
 
 \end{document}
