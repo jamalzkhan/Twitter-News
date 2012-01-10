@@ -52,13 +52,11 @@
   	 \item[Analysis] uses tweets gathered by \emph{Tweet Fetcher} and info gathered by \emph{News Fetcher} to calculate Twitter's reaction to news stories
   	\end{description}
 	 
-	 The API provides a very thin layer between the \emph{UI} and the data stored in the database. It's written in Python using Flask and provides the calls returning results in JSON.
+	 The API provides a very thin layer between the \emph{UI} and the data stored in the database. It's written in Python using Flask and the API calls return results in JSON.
 	 
 	 The UI connects to the server's API and displays the information in a tiled layout. These tiles dynamically rearrange themselves and adjust to the size of the users' window or screen. Each tile displays an image related to the article and title of the article. On hover/click of a tile, the image folds away, revealing the details: a short summary, a word cloud made from common words found in relevant tweets, a list of relevant tweets and the overall sentiment.
   
   \section{Software Engineering Issues}
-  
-  We opted to use Python as our primary language of development. This was dangerous considering the magnitude of the project however we learned a new language and related python technologies including Flask.
   
   We also had issues with Twitter API limitations as we were only allowed a particular amount of API calls per hour to create user networks, this consequently caused us to steer the direction of the project to augmenting news with reaction from Twitter commenters.
   
