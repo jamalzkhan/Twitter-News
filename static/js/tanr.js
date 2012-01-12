@@ -150,7 +150,8 @@ function populateBox(boxnum, timeout, _pend) {
             
             if (!document.getElementById("box" + boxnum)) { 
                 insert_box_skeleton(boxnum, _pend);
-                setTimeout(function(){                $('#container').masonry('reload');    }, 50);
+				$('#container').masonry('reload'); 
+                setTimeout(function(){                $('#container').masonry('reload');    }, 0);
             }
             
             //sentiment bar
