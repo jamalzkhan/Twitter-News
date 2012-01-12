@@ -30,6 +30,12 @@ def index():
   #For testing purposes, stub
   return render_template('index.html')
 
+@app.route("/specialedition")
+# This is where we need to setup the main UI
+def index():
+  #For testing purposes, stub
+  return render_template('special.html')
+
 @app.route("/story/<int:story_id>")
 # This is where we need to setup the story UI. It doesn't have to be an ID, maybe we can use story name.
 # But for now I'll leave it as an ID.
