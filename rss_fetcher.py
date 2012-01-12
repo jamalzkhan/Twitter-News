@@ -64,7 +64,8 @@ class RssFetcher(threading.Thread):
       news_story["date"] = parser.parse(entry["updated"])
       news_story["date_added"] = time.time()
       news_story["keywords"] = self.extractor.getKeywords(news_story)
-      self.news_stories.append(news_story)
+      if news_story["keywords"]:
+        self.news_stories.append(news_story)
     
     self.log.info(unicode("Putting a new set of stories into the shared list."))
     shared.stories = self.news_stories
