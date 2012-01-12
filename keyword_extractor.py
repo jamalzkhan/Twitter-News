@@ -12,7 +12,8 @@ class KeywordExtractor:
     self.request_data["maxRetrieve"] = limit
     self.request_data["sourceText"] = 'cleaned_or_raw'
     self.logger = logger
-    self.blacklist = [line.strip() for line in open('keyword_filter_list.txt')]
+    self.keyword_blacklist = [line.strip() for line in open('keyword_blacklistlist.txt')]
+    self.title_blacklist = [line.strip() for line in open('keyword_title_filter_list.txt')]
 
   def getKeywords(self, story):
     """Gets Keywords given a particular story in JSON format which is then put into a list"""
@@ -31,7 +32,7 @@ class KeywordExtractor:
           if (float(keyword_entry["relevance"]) >= 0.7):
             keyword = keyword_entry['text'].lower()
             keyword_words = keyword.split()
-            keyword_words = itertools.ifilterfalse(lambda x: x in self.blacklist,keyword_words)
+            keyword_words = itertools.ifilterfalse(lambda x: x in self.title_blacklist,keyword_words)
             keyword = unicode(" ").join(keyword_words)
             keywords.append(keyword)
         return keywords
