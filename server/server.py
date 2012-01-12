@@ -31,9 +31,8 @@ def index():
   return render_template('index.html')
 
 @app.route("/specialedition")
-# This is where we need to setup the main UI
-def index():
-  #For testing purposes, stub
+# This is the special edition!
+def special();
   return render_template('special.html')
 
 @app.route("/story/<int:story_id>")
