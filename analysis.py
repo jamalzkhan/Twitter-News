@@ -78,7 +78,13 @@ class Analysis(threading.Thread):
             continue;
           exists = True
           for keyword_word in keyword_words:
-            exists = exists and (tweet["text"].find(keyword_word) != -1)
+            pos = tweet["text"].find(keyword_word)
+            if pos == -1:
+              exists = False
+            else:
+              left = pos == 0 or not tweet["text"][pos-1].isalnum()
+              right = pos + len(keyword_word) >= len(tweet["text"]) or not tweet["text"][pos + len(keyword_word)].isalnum()
+              exists = exists and (left and right)
           if exists:
             story["curr_period"]["tweets"].append( { 'id': tweet["_id"], 'score': tweet["retweet_count"], 'text' : tweet["text"], 'user' : tweet["user"]["screen_name"] } )
             break;
