@@ -7,7 +7,7 @@ class WordStatistics:
     self.max_len = max_len
     self.word_limit = limit
     self.tweet_collection = tweet_collection
-    self.blacklist = [line.strip() for line in open('word_blacklist.txt')]
+    self.blacklist = [line.strip() for line in open('word_statistics_blacklist.txt')]
   
   def get_word_statistics_for_tweets(self, tweets):
     """Returns word statistics for the array of tweet ids supplied"""
