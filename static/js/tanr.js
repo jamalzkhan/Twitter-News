@@ -118,7 +118,7 @@ function insert_box_skeleton(id, _pend) {
     + "</div>");
     if(verbose) console.log("box" + id + " should now be " + _pend + "ed");
     if(_pend == 'prepend'){
-        $("#container").prepend($box);
+        $("#container").children().first().after($box);
     }else{
         $('#container').append($box).masonry( 'appended', $box, true );
         // $("#container").append($box);
