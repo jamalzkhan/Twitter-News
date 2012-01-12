@@ -32,7 +32,7 @@ def index():
 
 @app.route("/specialedition")
 # This is the special edition!
-def special();
+def special():
   return render_template('special.html')
 
 @app.route("/story/<int:story_id>")
