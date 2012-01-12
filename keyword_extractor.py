@@ -12,7 +12,7 @@ class KeywordExtractor:
     self.request_data["maxRetrieve"] = limit
     self.request_data["sourceText"] = 'cleaned_or_raw'
     self.logger = logger
-    self.keyword_blacklist = [line.strip() for line in open('keyword_blacklistlist.txt')]
+    self.keyword_blacklist = [line.strip() for line in open('keyword_blacklist.txt')]
     self.title_blacklist = [line.strip() for line in open('keyword_title_filter_list.txt')]
 
   def getKeywords(self, story):
