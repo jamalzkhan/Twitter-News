@@ -1,5 +1,4 @@
-import datetime, json, time
-from pymongo import Connection
+import datetime, json, time, pymongo
 from pymongo import objectid
 
 class Database:
@@ -13,30 +12,31 @@ class Database:
     self.story_collection_name = "stories"
     
     # Connection to the database and collections
-    self.connection = Connection(self.MONGODB_HOST, self.MONGODB_PORT)
+    self.connection = pymongo.Connection(self.MONGODB_HOST, self.MONGODB_PORT)
     self.database = self.connection[self.database_name]
     self.stories = self.database[self.story_collection_name]
   
 
-  def getStoriesAddedAfterTimeStamp(self, time_stamp, no_of_stories=10):
+  def getStoriesAddedAfterTimestamp(self, time_stamp):
     """Used to get the most recent stories since the given timestamp"""
     stories_array = []
-    for story in self.stories.find({'date_added' : { '$gt': time_stamp }}).sort('date_added', -1).limit(no_of_stories):
+    for story in self.stories.find({'date_added' : { '$gt': time_stamp }}).sort('date_added', -1):
       stories_array.append(str(story["_id"]))
-    stories = {'news': stories_array, 'requesttime' : time.time()}
+    stories = {'news': stories_array, 'requesttime' : time.time(), }
     return stories
   
-  def getStoriesAddedBeforeTimeStamp(self, time_stamp, no_of_stories=10):
+  def getStoriesAddedBeforeTimestamp(self, time_stamp, no_of_stories=10):
     stories_array = []
     before_timestamp = 0
     timestamp_set = False
-    for story in self.stories.find({'date_added' : { '$lt': time_stamp }}).sort('date_added', 1).limit(no_of_stories).sort('date_added', -1):
+    for story in self.stories.find({'date_added' : { '$lt': time_stamp }}).sort('date_added', direction=pymongo.DESCENDING).limit(no_of_stories):
       if (not timestamp_set):
         before_timestamp = story["date_added"]
         timestamp_set = True
       elif (before_timestamp > story["date_added"]):
         before_timestamp = story["date_added"]
       stories_array.append(str(story["_id"]))
+    stories_array.reverse()
     stories = {'news': stories_array, 'requesttime': time.time(), 'bottomtimestamp': before_timestamp}
     return stories
   
@@ -46,7 +46,7 @@ class Database:
     bottom_timestamp = 0
     top_timestamp = 0
     timestamps_set = False
-    for story in self.stories.find().sort('date_added', -1).limit(no_of_stories):
+    for story in self.stories.find().sort('date_added', direction=pymongo.DESCENDING).limit(no_of_stories):
       if (not timestamps_set):
         bottom_timestamp = story["date_added"]
         top_timestamp = story["date_added"]
@@ -56,6 +56,7 @@ class Database:
       elif (top_timestamp < story["date_added"]):
         top_timestamp = story["date_added"]
       stories_array.append(str(story["_id"]))
+    stories_array.reverse()
     stories = {'news': stories_array, 'requesttime' : time.time(), 'bottomtimestamp': bottom_timestamp, 'toptimestamp': top_timestamp}
     return stories
     
@@ -72,8 +73,8 @@ class Database:
         'summary': story["summary"], 
         'link': story["link_main_story"], 
         'keywords': story["keywords"], 
-        'wordcloud': story["periods"][-1]["wordstats"],
-        'sentiment' : story["periods"][-1]["sentiment"],
+        'wordcloud': Database.combineWordclouds(story["periods"]),
+        'sentiment' : Database.combineSentiment(story["periods"]),
         'tweets': map(lambda x: {"user": x["user"], "text" : x["text"], "score" : x["score"]}, story["periods"][-1]["tweets"] ) }
     else:
       return {'error' : 'Story does not exist'}
@@ -84,6 +85,31 @@ class Database:
     for story in self.stories.find():
       stories.append(story["title"])
     return stories
+    
+  
+  @staticmethod
+  def combineWordclouds(periods):
+    res = {}
+    for period in periods:
+      for word,val in period["wordstats"].iteritems():
+        if word in res:
+          res[word] = res[word] + val
+        else:
+          res[word] = val
+    return res
+        
+  
+  @staticmethod
+  def combineSentiment(periods):
+    res = {}
+    for period in periods:
+      for word,val in period["sentiment"].iteritems():
+        if word in res:
+          res[word] = res[word] + val
+        else:
+          res[word] = val
+    return res
+  
 
 if __name__ == "__main__":
   d = Database()

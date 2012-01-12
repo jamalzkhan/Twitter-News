@@ -48,10 +48,10 @@ def api_main_news():
 @app.route("/api/news/before/<timestamp>")
 def api_main_news_until(timestamp):
   time = float(timestamp)
-  return jsonify(database.getStoriesAddedBeforeTimeStamp(time))
+  return jsonify(database.getStoriesAddedBeforeTimestamp(time))
 
 @app.route("/api/news/after/<timestamp>")
-def api_main_news_sinc(timestamp):
+def api_main_news_since(timestamp):
   time = float(timestamp)
   return jsonify(database.getStoriesAddedAfterTimestamp(time))
 
