@@ -28,6 +28,26 @@ body{
 	border-bottom-right-radius: 15px;
 }
 
+.titlecardt{  
+    position:absolute; /* absolute position (so we can position it where we want)*/  
+    top:0px; /* position will be on bottom */  
+    left:0px;  
+    width:100%;  
+    /* styling bellow */  
+    background-color: rgba(0,0,0,0.6);
+    color:white;  
+    /* opacity:0.6;  transparency */  
+    filter:alpha(opacity=60); /* IE transparency */  
+	-webkit-border-top-left-radius: 15px;
+	-moz-border-top-left-radius: 15px;
+	border-top-left-radius: 15px;
+	-webkit-border-top-right-radius: 15px;
+	-moz-border-top-right-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+
+
 .titlecard h1{
 	margin: 0px 15px 0px 15px;
     font-size: 30px;  
@@ -125,6 +145,11 @@ width: 100%;
 
 .box:hover .titlecard,
 .box-hover .titlecard{
+	display:none;
+}
+
+.box:hover .titlecardt,
+.box-hover .titlecardt{
 	display:none;
 }
 

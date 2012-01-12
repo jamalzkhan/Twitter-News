@@ -192,9 +192,11 @@ function populateBox(boxnum, timeout, _pend) {
             $("#wordcloudcanvas"+boxnum).wordCloud({wordList: cloud});
             //end wordcloud
             
-            //list of keywords for maciek
-            var tbox = "<p style='width:inherit;'><strong>Keywords: </strong>" + kwds + "</p>";
-            $("#addtweet"+boxnum).append(tbox);
+            if(verbose) {
+                //list of keywords for maciek
+                var tbox = "<p style='width:inherit;'><strong>Keywords: </strong>" + kwds + "</p>";
+                $("#addtweet"+boxnum).append(tbox);
+            }
 
             //tweets
             for(i = 0; i < data.tweets.length; i++) {
