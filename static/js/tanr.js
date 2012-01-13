@@ -14,7 +14,7 @@ var box_images = [];    //saves the array of images for each box
 var best_match_tb = []; //saves the array of best match thumbnail
 var imageSeachers = [];
 var imageSeachersPage = [];
-var verbose = 1;
+var verbose = 0;
 google.load("search", "1");
 
 function assign_image_to_box(boxnum) {
